@@ -106,7 +106,7 @@ When scaled to multiple concurrent users, the application can crash entirely.
 
 ## The Pagination Solution
 
-To work around this fundamental issue, we use `Pageable` to only fetch what we need:
+To solve this fundamental issue, we use `Pageable` to only fetch what we need:
 
 ```java
 @RestController
@@ -131,7 +131,7 @@ Pagination solves the problem by:
 2. But only fetching a specific slice of data
 3. Only loading intended records into memory
 
-While this helps, it's essentially a solution for a problem created by loading everything at once. It adds complexity, but it solves issues that wouldn't exist with pagination from the start.
+Pagination solves the problem by fetching only the data needed, avoiding memory exhaustion and improving performance.
 
 ## Under the Hood: How Pagination Works
 
