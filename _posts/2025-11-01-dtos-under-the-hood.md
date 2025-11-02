@@ -17,13 +17,27 @@ permalink: /blog/2025/11/01/dtos-under-the-hood.html
 
 <div class="post-content">
 
-Hey there! Então, eu tenho mergulhado em padrões arquiteturais ultimamente, e tem sido uma jornada interessante. Queria compartilhar algumas reflexões sobre como as decisões de design que fazemos podem ter efeitos cascata em nossas aplicações – especialmente quando se trata de segurança e performance.
+Hey there! So I've been diving into architectural patterns lately, and it's been quite the journey. I wanted to share some thoughts on how the design decisions we make can have these ripple effects throughout our applications – especially when it comes to security and performance.
 
-Recentemente, enquanto construía o [User-Profile-Service](https://github.com/adelmonsouza/user-profile-service), me deparei com uma situação que muitos desenvolvedores Spring Boot já viveram: a tentação de expor entidades JPA diretamente nas APIs REST.
+**Disclaimer**: This article is not a critique of Spring Boot or JPA – both are excellent tools. Rather, this is an analysis of how architectural decisions influence security and performance over time, using DTOs as a case study. My goal is to examine the relationship between design principles and practical outcomes, and extract lessons that apply to any architecture we might create or adopt.
 
-## Por Que Estou Olhando Para Isso?
+## Why I'm Looking at This
 
-**Full disclosure:** Eu já cometi esse erro mais vezes do que gostaria de admitir. Quando você está começando com Spring Boot, é tentador fazer código assim:
+**Full disclosure**: I haven't always used DTOs in my Spring Boot projects, and honestly, I've made the mistake of exposing entities directly more times than I'd like to admit. But that's not because DTOs are complex – it's just that the benefits aren't always obvious when you're starting out.
+
+That said, this pattern makes for a fascinating case study. After building several production Spring Boot applications, I've learned that **security and performance aren't things that just happen automatically. You really have to work for them,** _right?_ And architectural choices can either make that easier or… well, much harder.
+
+So I thought it would be interesting to look at what happens when you expose entities directly, see where developers struggle, and connect those struggles back to the core architectural decisions. Not to criticize an approach, but to learn from it – because these lessons apply to any architecture we might design or adopt.
+
+During a security audit on one of my projects, I discovered that exposing JPA entities directly allowed attackers to manipulate fields that shouldn't be modifiable. A single `@RequestBody User user` in a controller created a **Mass Assignment vulnerability** that could have led to privilege escalation. That's… not great.
+
+It's worth noting that this isn't just theoretical – the OWASP Top 10 lists Mass Assignment as a common vulnerability, and Spring Boot applications are particularly susceptible when entities are exposed directly.
+
+But why is that happening? Let's break down how exposing entities directly translates to security and performance challenges:
+
+### The Foundation: Exposing JPA Entities Directly
+
+First, let's understand what happens when you expose an entity directly. In Spring Boot, it's tempting to do this:
 
 ```java
 @RestController
@@ -45,147 +59,167 @@ public class UserController {
 }
 ```
 
-**Parece simples, certo?** Funciona. Os testes passam. O código é limpo. Mas aqui está o problema: essa abordagem cria vulnerabilidades de segurança, problemas de performance e acoplamento que só aparecem quando você escala a aplicação.
+This code works. It's simple. It's clean. But here's the problem: **the JPA entity represents your database model, not your API contract**.
 
-Este artigo não é uma crítica ao Spring Boot ou JPA – ambos são excelentes ferramentas. Em vez disso, é uma análise de **como decisões arquiteturais influenciam segurança e performance ao longo do tempo**, usando DTOs como estudo de caso. Meu objetivo é examinar a relação entre princípios de design e resultados práticos.
+### The Critical Rule: Entities Contain Everything
 
-## O Problema Fundamental: Expondo Entidades JPA
+When you expose an entity directly, you're exposing everything – all fields, relationships, metadata, everything. This is a fundamental architectural decision that creates cascading problems.
 
-Quando você expõe uma entidade JPA diretamente na API, você está criando uma ponte direta entre seu modelo de banco de dados e o mundo externo. Isso pode parecer inofensivo, mas tem implicações profundas.
+In practice, it looks like this:
 
-### O Que Acontece "Under the Hood"
-
-Quando o Spring Boot recebe um `@RequestBody User user`, ele usa Jackson para deserializar o JSON. Aqui está o que acontece internamente:
-
+```java
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String email;
+    
+    private String password;  // ← Should NEVER be exposed!
+    
+    private String fullName;
+    
+    @Enumerated(EnumType.STRING)
+    private Role role;  // ← Should be controlled by the system!
+    
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Order> orders;  // ← Can cause N+1 queries!
+    
+    // ... more fields
+}
 ```
-1. Cliente envia JSON:
-   {
-     "email": "user@example.com",
-     "password": "123456",
-     "role": "ADMIN",  ← Campo que não deveria ser modificável!
-     "id": 999         ← Manipulação de ID!
-   }
 
-2. Jackson usa reflection para preencher a entidade User
-3. O Spring valida anotações (@NotNull, @Email, etc.)
-4. O Controller recebe um objeto User completo
-5. O Repository salva diretamente no banco
-```
+Every field in this entity becomes part of your API contract. This is by design when you expose the entity directly – it ensures everything is accessible.
 
-**O problema?** Se a entidade `User` tem um campo `role`, o Jackson vai tentar popular esse campo, mesmo que você não queira que ele seja modificável pelo cliente.
+### Why This Causes Security Problems
 
-Isso é conhecido como **Mass Assignment Attack** e está listado no [OWASP Top 10](https://owasp.org/www-project-top-ten/).
+This approach directly conflicts with security best practices. The OWASP Foundation explicitly warns against Mass Assignment vulnerabilities. They emphasize that we should "only expose fields that the API really needs" to prevent unauthorized modifications.
 
-### A Vulnerabilidade em Ação
+When you accept `@RequestBody User user`, the Spring Framework:
 
-Um atacante pode fazer:
+1. **Uses Jackson to deserialize the JSON**: Jackson uses reflection to populate the entity
+2. **Validates annotations**: Spring validates `@NotNull`, `@Email`, etc.
+3. **Populates ALL matching fields**: If the JSON contains a field, Jackson tries to set it
+4. **Saves directly**: The repository saves the entity with all populated fields
+
+In a production application where:
+
+* The entity might contain sensitive fields (`password`, `role`)
+* The entity might have fields that shouldn't be modifiable (`id`, `createdAt`)
+* Multiple clients consume the API with different permissions
+
+…this creates a **_perfect storm of security vulnerabilities_**. When a single field is exposed incorrectly, potentially millions of users' data could be compromised.
+
+### The Mass Assignment Attack
+
+An attacker can easily exploit this:
 
 ```bash
 POST /api/users
 {
   "email": "attacker@evil.com",
   "password": "weakpassword",
-  "role": "ADMIN",  # ← Escalação de privilégios!
-  "id": 1           # ← Pode sobrescrever usuário existente!
+  "role": "ADMIN",  # ← Privilege escalation!
+  "id": 999         # ← Can overwrite existing user!
 }
 ```
 
-Se o Controller aceita `@RequestBody User user` sem validação adequada, o Spring pode popular campos que você não queria que fossem modificáveis.
+If the Controller accepts `@RequestBody User user`, Jackson will populate the `role` field, even though you never intended that to be modifiable. The system might save a user with `ADMIN` role, even though only the backend should assign roles.
 
-## A Solução: DTOs (Data Transfer Objects)
+## The DTO Solution
 
-DTO é um padrão de design que cria objetos simples usados exclusivamente para transferir dados entre camadas. No contexto de APIs REST, DTOs são a **interface** entre o mundo externo e nossa aplicação.
-
-### Por Que DTOs Resolvem o Problema?
-
-Vamos ver o que acontece "under the hood" quando usamos DTOs:
-
-```
-1. Cliente envia JSON:
-   {
-     "email": "user@example.com",
-     "password": "123456",
-     "fullName": "John Doe"
-     // Note: role e id NÃO EXISTEM neste DTO!
-   }
-
-2. Jackson deserializa para UserCreateDTO (um record simples)
-3. O Controller valida o DTO (@Valid)
-4. O Service recebe o DTO e faz a conversão explícita
-5. O Service cria a entidade User com apenas os campos permitidos
-6. O Repository salva no banco
-```
-
-**Com DTOs, apenas os campos que existem no DTO podem ser enviados.** `role` e `id` não existem no `UserCreateDTO`, então não podem ser manipulados, mesmo que alguém tente.
-
-### Implementação Prática
+To work around this fundamental issue, we use DTOs (Data Transfer Objects) that only expose specific fields:
 
 ```java
-// DTO para CRIAR usuário (input)
+// DTO for creating a user
 public record UserCreateDTO(
     @NotBlank String email,
     @NotBlank @Size(min = 8) String password,
     @NotBlank String fullName
-    // Note: role e id não estão aqui!
+    // Note: role and id don't exist here!
 ) {}
 
-// DTO para RESPONDER ao cliente (output)
+// DTO for responding to clients
 public record UserResponseDTO(
     Long id,
     String email,
     String fullName,
     Role role,
     LocalDateTime createdAt
-    // Note: password nunca é exposto!
+    // Note: password is never exposed!
 ) {}
 ```
 
-## O Padrão Arquitetural: Controller Magro, Service Musculoso
+DTOs try to solve the problem by:
 
-Esta é uma das decisões arquiteturais mais importantes que você pode fazer em uma aplicação Spring Boot. Vamos ver como ela funciona na prática.
+1. Still receiving the request (following REST principles)
+2. But only exposing specific, controlled fields
+3. Only allowing modifications to intended fields
 
-### A Estrutura Correta
+While this helps, it's essentially a solution for a problem created by exposing entities directly. It adds classes and conversions, but it solves issues that wouldn't exist with DTOs from the start.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│ Requisição HTTP (JSON)                                   │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│ Controller (Thin)                                        │
-│ - Recebe DTO                                            │
-│ - Valida entrada básica (@Valid)                     │
-│ - Delega para Service                                 │
-│ - Retorna DTO                                         │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│ Service (Fat)                                            │
-│ - Valida regras de negócio                              │
-│ - Converte DTO → Entidade                               │
-│ - Executa lógica de negócio                             │
-│ - Interage com Repository                               │
-│ - Converte Entidade → DTO                               │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│ Repository                                               │
-│ - Acesso a dados                                        │
-│ - Retorna Entidade                                      │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│ Resposta HTTP (JSON)                                     │
-└─────────────────────────────────────────────────────────┘
+## Why This Also Causes Performance Problems
+
+You might be thinking: "But why does this affect performance?" Great question. Let's see what happens when you expose entities directly.
+
+### The Lazy Loading Problem
+
+JPA entities can have relationships with `FetchType.LAZY`:
+
+```java
+@Entity
+public class User {
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Order> orders;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Address address;
+}
 ```
 
-### O Controller: Mantendo-o Magro
+When you return the entity directly from a controller, Hibernate needs to resolve these relationships. This can cause:
 
-O Controller deve ser a camada mais simples da aplicação. Ele só deve fazer 4 coisas:
+1. **LazyInitializationException**: If the JPA session is already closed
+2. **N+1 Query Problem**: Multiple queries to the database
+
+```java
+// ❌ Problem: N+1 queries
+@GetMapping("/{id}")
+public User getUser(@PathVariable Long id) {
+    User user = repository.findById(id).orElseThrow();
+    // When Jackson tries to serialize user.getOrders(),
+    // Hibernate makes a query for each order!
+    return user;  // LazyInitializationException or N+1
+}
+
+// ✅ Solution: DTOs control exactly what's serialized
+@GetMapping("/{id}")
+public UserResponseDTO getUser(@PathVariable Long id) {
+    User user = repository.findById(id).orElseThrow();
+    // Convert to DTO BEFORE returning
+    return toResponseDTO(user);  // No lazy relationships
+}
+```
+
+### The Serialization Overhead
+
+When you return an entity directly, Jackson needs to:
+
+1. Use reflection to access all fields
+2. Check lazy relationships
+3. Serialize fields you may not want to expose
+
+With DTOs, you control exactly what's serialized, reducing overhead.
+
+## The Elegant Solution: Controller Magro, Service Musculoso
+
+This is where we make a critical architectural decision: **the Controller should be thin, and the Service should be fat**.
+
+### The Controller: Keeping It Thin
+
+The Controller should be the simplest layer. It only does four things:
 
 ```java
 @RestController
@@ -213,22 +247,22 @@ public class UserController {
 }
 ```
 
-**O Controller faz:**
-- ✅ Recebe o DTO da requisição
-- ✅ Valida entrada básica (`@Valid`)
-- ✅ Delega para o Service
-- ✅ Retorna o DTO da resposta
-- ✅ Trata status HTTP
+**The Controller does:**
+- ✅ Receives the DTO from the request
+- ✅ Validates basic input (`@Valid`)
+- ✅ Delegates to the Service
+- ✅ Returns the DTO response
+- ✅ Handles HTTP status
 
-**O Controller NÃO faz:**
-- ❌ Validação de negócio complexa
-- ❌ Conversão de Entidade para DTO
-- ❌ Acesso direto ao Repository
-- ❌ Lógica de negócio
+**The Controller does NOT:**
+- ❌ Complex business validation
+- ❌ Entity to DTO conversion
+- ❌ Direct repository access
+- ❌ Business logic
 
-### O Service: Onde a Mágica Acontece
+### The Service: Where the Magic Happens
 
-O Service é onde toda a lógica de negócio vive. É aqui que você faz validações complexas, conversões e regras de negócio:
+The Service is where all business logic lives. This is where you do validations, conversions, and business rules:
 
 ```java
 @Service
@@ -244,17 +278,17 @@ public class UserService {
     }
     
     public UserResponseDTO create(UserCreateDTO dto) {
-        // Validação de negócio: email único
+        // Business validation: unique email
         if (userRepository.existsByEmail(dto.email())) {
             throw new EmailAlreadyExistsException(dto.email());
         }
         
-        // Conversão DTO → Entidade (explícita e controlada)
+        // Convert DTO → Entity (explicit and controlled)
         User user = new User();
         user.setEmail(dto.email());
         user.setPassword(passwordEncoder.encode(dto.password()));
         user.setFullName(dto.fullName());
-        user.setRole(Role.USER); // Default - NÃO vem do DTO!
+        user.setRole(Role.USER);  // Default - NOT from DTO!
         
         User saved = userRepository.save(user);
         return toResponseDTO(saved);
@@ -267,192 +301,61 @@ public class UserService {
             user.getFullName(),
             user.getRole(),
             user.getCreatedAt()
-            // Note: password nunca é exposto!
+            // Note: password is NEVER exposed!
         );
     }
 }
 ```
 
-**O Service faz:**
-- ✅ Validação de regras de negócio
-- ✅ Conversão DTO → Entidade (input)
-- ✅ Conversão Entidade → DTO (output)
-- ✅ Lógica de negócio
-- ✅ Interação com Repository
+**The Service does:**
+- ✅ Business rule validation
+- ✅ DTO → Entity conversion (input)
+- ✅ Entity → DTO conversion (output)
+- ✅ Business logic
+- ✅ Repository interaction
 
-## Por Que Isso Causa Problemas de Performance?
+## What Can We Learn From This?
 
-Você pode estar pensando: "Mas por que isso afeta performance?" Boa pergunta. Vamos ver o que acontece quando você expõe entidades diretamente.
-
-### O Problema do Lazy Loading
-
-Entidades JPA podem ter relacionamentos com `FetchType.LAZY`:
-
-```java
-@Entity
-public class User {
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Order> orders;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Address address;
-}
-```
-
-Quando você retorna a entidade diretamente no Controller, o Hibernate precisa resolver esses relacionamentos. Isso pode causar:
-
-1. **LazyInitializationException**: Se a sessão JPA já foi fechada
-2. **N+1 Query Problem**: Múltiplas queries ao banco de dados
-
-```java
-// ❌ Problema: N+1 queries
-@GetMapping("/{id}")
-public User getUser(@PathVariable Long id) {
-    User user = repository.findById(id).orElseThrow();
-    // Quando Jackson tenta serializar user.getOrders(),
-    // o Hibernate faz uma query por cada pedido!
-    return user; // LazyInitializationException ou N+1
-}
-
-// ✅ Solução: DTOs controlam exatamente o que é serializado
-@GetMapping("/{id}")
-public UserResponseDTO getUser(@PathVariable Long id) {
-    User user = repository.findById(id).orElseThrow();
-    // Converter para DTO ANTES de retornar
-    return toResponseDTO(user); // Sem relacionamentos lazy
-}
-```
-
-### O Custo de Serialização
-
-Quando você retorna uma entidade diretamente, o Jackson precisa:
-
-1. Usar reflection para acessar todos os campos
-2. Verificar relacionamentos lazy
-3. Serializar campos que você pode não querer expor
-
-Com DTOs, você controla exatamente o que é serializado, reduzindo overhead.
-
-## Segurança: A Análise Crítica
-
-DTOs são essenciais para segurança. Vamos ver por quê:
-
-### DTOs Diferentes para Operações Diferentes
-
-Você deve ter DTOs específicos para cada operação:
-
-```java
-// DTO para CRIAR usuário (input)
-public record UserCreateDTO(
-    @NotBlank String email,
-    @NotBlank @Size(min = 8) String password,
-    @NotBlank String fullName
-) {}
-
-// DTO para ATUALIZAR usuário (input)
-public record UserUpdateDTO(
-    String fullName,  // Opcional
-    String password   // Opcional
-    // Note: email não pode ser alterado!
-) {}
-
-// DTO para RESPONDER ao cliente (output)
-public record UserResponseDTO(
-    Long id,
-    String email,
-    String fullName,
-    Role role,
-    LocalDateTime createdAt
-    // Note: password nunca é exposto!
-) {}
-```
-
-**Por que DTOs diferentes?**
-
-1. **UserCreateDTO**: Campos obrigatórios para criar
-2. **UserUpdateDTO**: Campos opcionais para atualizar (PATCH)
-3. **UserResponseDTO**: Não expõe `password`, adiciona campos calculados
-
-### Evitando Mass Assignment
-
-Com DTOs, você garante que apenas campos específicos podem ser modificados:
-
-```java
-// ❌ Sem DTO: vulnerável
-@PostMapping
-public User createUser(@RequestBody User user) {
-    // Atacante pode enviar role="ADMIN"
-    return repository.save(user);
-}
-
-// ✅ Com DTO: seguro
-@PostMapping
-public UserResponseDTO createUser(@Valid @RequestBody UserCreateDTO dto) {
-    // role não existe no DTO, então não pode ser enviado
-    User user = new User();
-    user.setRole(Role.USER); // Sempre USER, não importa o que o cliente envie
-    return toResponseDTO(repository.save(user));
-}
-```
-
-## O Que Podemos Aprender Com Isso?
-
-Esta análise não é sobre criticar uma abordagem específica – é sobre entender os trade-offs nas decisões arquiteturais.
+This analysis shows how simple architectural decisions – like exposing entities directly vs using DTOs – have dramatic impacts on security and performance.
 
 ### Trade-offs
 
-| Abordagem | Vantagens | Desvantagens |
-|-----------|-----------|--------------|
-| **Entidades Diretamente** | Código rápido de escrever, menos classes | Vulnerabilidades de segurança, problemas de performance, acoplamento |
-| **DTOs** | Segurança, performance, desacoplamento | Mais código, mais classes, conversões manuais |
+| Approach | Advantages | Disadvantages |
+|-----------|-----------|---------------|
+| **Entities Directly** | Quick to write, fewer classes | Security vulnerabilities, performance issues, tight coupling |
+| **DTOs** | Security, performance, loose coupling | More code, more classes, manual conversions |
 
-### Quando Usar Cada Abordagem?
+### When to Use Each Approach?
 
-**Use DTOs quando:**
-- ✅ Aplicações públicas (APIs REST)
-- ✅ Múltiplos clientes consomem a API
-- ✅ Segurança é crítica
-- ✅ Performance é importante
-- ✅ O modelo de dados muda frequentemente
+**Use DTOs when:**
+- ✅ Public APIs (REST APIs)
+- ✅ Multiple clients consume the API
+- ✅ Security is critical
+- ✅ Performance is important
+- ✅ The data model changes frequently
 
-**Entidades diretamente pode funcionar quando:**
-- Aplicações internas simples
-- Protótipos rápidos
-- APIs privadas com confiança total
+**Entities directly might work when:**
+- Internal applications only
+- Quick prototypes
+- Private APIs with full trust
 
-## Lições Aprendidas
+## Final Thoughts
 
-### 1. Sempre Use DTOs para APIs Públicas
+DTOs are not just "nice to have" – they're **essential** for security, performance, and maintainability. The Controller should be thin, the Service should be fat, and the JPA entity should be invisible to the outside world.
 
-**Regra de ouro:** Se a API será consumida por clientes externos, use DTOs. Sem exceções.
+**Key takeaways:**
+1. DTOs prevent Mass Assignment Attacks
+2. DTOs improve performance (avoid N+1 queries and lazy loading)
+3. DTOs decouple the data model from the API contract
+4. Thin Controllers + Fat Services = scalable architecture
 
-### 2. Controllers Devem Ser Magros
-
-O Controller é a camada mais simples. Ele só recebe e delega. Toda a lógica vai no Service.
-
-### 3. Services Contêm a Lógica
-
-O Service é onde você faz validações, conversões e regras de negócio. É o "cérebro" da aplicação.
-
-### 4. Entidades Nunca Saem da Camada de Repository
-
-A entidade JPA deve ser invisível para o mundo externo. Ela só existe dentro da aplicação.
-
-## Conclusão
-
-DTOs não são apenas "nice to have" – são **essenciais** para segurança, desacoplamento e manutenibilidade. O Controller deve ser magro, o Service deve ser musculoso, e a entidade JPA deve ser invisível para o mundo externo.
-
-**Principais takeaways:**
-1. DTOs previnem Mass Assignment Attacks
-2. DTOs melhoram performance (evitam N+1 queries e lazy loading)
-3. DTOs desacoplam o modelo de dados da API
-4. Controller magro + Service musculoso = arquitetura escalável
+The decision to use DTOs isn't just about following best practices – it's about understanding how architectural choices ripple through your application. Every decision has trade-offs, and understanding those trade-offs is what separates good developers from great ones.
 
 ---
 
-**Código completo:** [User-Profile-Service no GitHub](https://github.com/adelmonsouza/30DiasJava-Day01-UserProfileService)
+**Full project:** [User-Profile-Service on GitHub](https://github.com/adelmonsouza/30DiasJava-Day01-UserProfileService)
 
-**Próximo artigo:** Paginação Eficiente no Spring Boot: Como Evitar OutOfMemoryError (Dia 2)
+**Next article:** Efficient Pagination in Spring Boot: How to Avoid OutOfMemoryError (Day 2)
 
 ---
 
