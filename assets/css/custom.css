@@ -1,0 +1,513 @@
+/* The Java Place - Custom Styles
+   Inspirado no SwiftyPlace: Clean, Modern, Professional, Minimalista
+*/
+
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #64748b;
+    --text-color: #0f172a;
+    --text-light: #475569;
+    --bg-color: #ffffff;
+    --bg-light: #f8fafc;
+    --bg-code: #f1f5f9;
+    --border-color: #e2e8f0;
+    --accent: #8b5cf6;
+    --success: #10b981;
+    --code-border: #cbd5e1;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset & Base */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.75;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container Principal */
+.wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+main {
+    padding: 2rem 0;
+    min-height: calc(100vh - 200px);
+}
+
+/* Header - Estilo SwiftyPlace */
+.site-header {
+    background: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 2rem 0;
+    margin-bottom: 3rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.site-header .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.site-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.site-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.site-title a:hover {
+    color: var(--primary-color);
+    transition: color 0.2s;
+}
+
+.site-description {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin: 0;
+    text-align: center;
+    max-width: 600px;
+}
+
+/* Navigation - Clean & Minimal */
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-menu a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.nav-menu a:hover {
+    color: var(--primary-color);
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s;
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section - Moderna */
+.hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent) 100%);
+    color: white;
+    padding: 4rem 2rem;
+    border-radius: 12px;
+    margin: 2rem 0 3rem 0;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+}
+
+.hero p {
+    font-size: 1.125rem;
+    margin: 0.5rem 0;
+    opacity: 0.95;
+    line-height: 1.6;
+}
+
+.hero p strong {
+    font-weight: 600;
+    opacity: 1;
+}
+
+/* Typography - Legível e Hierárquica */
+h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+}
+
+h3 {
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    margin: 1rem 0;
+    color: var(--text-color);
+}
+
+strong {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Links */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s;
+    border-bottom: 1px solid transparent;
+}
+
+a:hover {
+    color: var(--primary-hover);
+    border-bottom-color: var(--primary-hover);
+}
+
+/* Articles List - Cards Modernos */
+.articles-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+}
+
+.articles-list li {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.articles-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.articles-list a {
+    display: block;
+    color: var(--text-color);
+    border-bottom: none;
+}
+
+.articles-list a:hover {
+    border-bottom: none;
+    color: var(--primary-color);
+}
+
+.articles-list strong {
+    font-size: 1.125rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.articles-list small {
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+/* Code Blocks - Estilo Moderno */
+pre {
+    background: var(--bg-code);
+    border: 1px solid var(--code-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 1.5rem 0;
+    box-shadow: var(--shadow-sm);
+}
+
+code {
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    font-size: 0.875em;
+}
+
+pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: var(--text-color);
+}
+
+code:not(pre code) {
+    background: var(--bg-code);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid var(--code-border);
+    color: #e11d48;
+    font-weight: 500;
+}
+
+/* Lists */
+ul, ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+li {
+    margin: 0.5rem 0;
+    color: var(--text-color);
+}
+
+/* Blockquotes */
+blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    font-weight: 600;
+    color: var(--text-color);
+    background: var(--bg-light);
+}
+
+/* Footer - Minimalista */
+.site-footer {
+    border-top: 1px solid var(--border-color);
+    padding: 3rem 0 2rem;
+    margin-top: 4rem;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.site-footer p {
+    margin: 0.5rem 0;
+}
+
+.site-footer a {
+    color: var(--primary-color);
+    margin: 0 0.5rem;
+}
+
+.site-footer i {
+    margin-right: 0.25rem;
+}
+
+/* Post Layout - Artigo */
+.post-header {
+    margin-bottom: 2rem;
+}
+
+.post-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.post-meta {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.post-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    box-shadow: var(--shadow-md);
+}
+
+/* HR */
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-success {
+    background: var(--success);
+    color: white;
+}
+
+.badge-info {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .wrapper {
+        padding: 0 16px;
+    }
+    
+    .site-header {
+        padding: 1.5rem 0;
+    }
+    
+    .site-title {
+        font-size: 1.5rem;
+    }
+    
+    .nav-menu {
+        gap: 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .hero {
+        padding: 2.5rem 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.875rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .post-title {
+        font-size: 2rem;
+    }
+    
+    .articles-list li {
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.75rem;
+    }
+    
+    .site-title {
+        font-size: 1.25rem;
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+}
+
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Focus States */
+a:focus,
+button:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
