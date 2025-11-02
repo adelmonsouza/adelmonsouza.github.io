@@ -1,0 +1,141 @@
+<!-- Comments Section - Utterances (GitHub Issues) -->
+{% if page.comments != false %}
+<div class="comments-section">
+    <hr class="comments-divider">
+    <h2>Comments</h2>
+    <p class="comments-intro">
+        Want to share your thoughts or ask a question? Comments are powered by GitHub Discussions. 
+        <a href="https://github.com/{{ site.github_username }}/{{ site.github_username }}.github.io/discussions" target="_blank" rel="noopener">
+            Join the discussion →
+        </a>
+    </p>
+    
+    <script src="https://utterances.dev/client.js"
+            repo="{{ site.github_username }}/{{ site.github_username }}.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+</div>
+{% endif %}
+
+<!-- Reaction Buttons -->
+<div class="reactions-section">
+    <div class="reactions-container">
+        <p class="reactions-question">Did you find this article useful?</p>
+        <div class="reactions-buttons">
+            <button class="reaction-btn reaction-like" data-reaction="like" aria-label="Like this article">
+                <span class="reaction-icon">👍</span>
+                <span class="reaction-count" id="like-count">0</span>
+                <span class="reaction-label">Useful</span>
+            </button>
+            <button class="reaction-btn reaction-love" data-reaction="love" aria-label="Love this article">
+                <span class="reaction-icon">❤️</span>
+                <span class="reaction-count" id="love-count">0</span>
+                <span class="reaction-label">Loved it</span>
+            </button>
+            <button class="reaction-btn reaction-learned" data-reaction="learned" aria-label="Learned something">
+                <span class="reaction-icon">🎓</span>
+                <span class="reaction-count" id="learned-count">0</span>
+                <span class="reaction-label">Learned</span>
+            </button>
+            <button class="reaction-btn reaction-applied" data-reaction="applied" aria-label="Applied this">
+                <span class="reaction-icon">✅</span>
+                <span class="reaction-count" id="applied-count">0</span>
+                <span class="reaction-label">Applied</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+    
+    // Get unique identifier for this post
+    const postId = window.location.pathname;
+    
+    // Load reactions from localStorage
+    function loadReactions() {
+        const stored = localStorage.getItem(`reactions_${postId}`);
+        if (stored) {
+            try {
+                const reactions = JSON.parse(stored);
+                updateReactionCounts(reactions);
+                return reactions;
+            } catch (e) {
+                console.error('Error loading reactions:', e);
+            }
+        }
+        return { like: 0, love: 0, learned: 0, applied: 0 };
+    }
+    
+    // Save reactions to localStorage
+    function saveReactions(reactions) {
+        localStorage.setItem(`reactions_${postId}`, JSON.stringify(reactions));
+    }
+    
+    // Update reaction counts in UI
+    function updateReactionCounts(reactions) {
+        document.getElementById('like-count').textContent = reactions.like || 0;
+        document.getElementById('love-count').textContent = reactions.love || 0;
+        document.getElementById('learned-count').textContent = reactions.learned || 0;
+        document.getElementById('applied-count').textContent = reactions.applied || 0;
+    }
+    
+    // Handle reaction button clicks
+    function handleReaction(type) {
+        let reactions = loadReactions();
+        
+        // Check if user already reacted (simple - no tracking per user)
+        const userReactions = localStorage.getItem(`user_reacted_${postId}`);
+        if (userReactions && userReactions.includes(type)) {
+            // Already reacted - remove reaction
+            reactions[type] = Math.max(0, (reactions[type] || 0) - 1);
+            const newUserReactions = userReactions.replace(type, '').replace(/,,/g, ',').replace(/^,|,$/g, '');
+            localStorage.setItem(`user_reacted_${postId}`, newUserReactions);
+        } else {
+            // New reaction - add
+            reactions[type] = (reactions[type] || 0) + 1;
+            const currentReactions = userReactions ? userReactions.split(',').filter(Boolean) : [];
+            currentReactions.push(type);
+            localStorage.setItem(`user_reacted_${postId}`, currentReactions.join(','));
+        }
+        
+        saveReactions(reactions);
+        updateReactionCounts(reactions);
+        updateButtonStates();
+    }
+    
+    // Update button active states
+    function updateButtonStates() {
+        const userReactions = localStorage.getItem(`user_reacted_${postId}`);
+        const reactions = userReactions ? userReactions.split(',').filter(Boolean) : [];
+        
+        document.querySelectorAll('.reaction-btn').forEach(btn => {
+            const type = btn.getAttribute('data-reaction');
+            if (reactions.includes(type)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        loadReactions();
+        updateButtonStates();
+        
+        // Add click handlers
+        document.querySelectorAll('.reaction-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const type = this.getAttribute('data-reaction');
+                handleReaction(type);
+            });
+        });
+    });
+})();
+</script>
+

@@ -283,11 +283,9 @@ LIMIT 20;
 
 **Advantage:** Constant performance, regardless of page. The query always fetches the next 20 records after the last seen ID.
 
-## The ViewStore Overhead
+## DTO Conversion Overhead
 
-Wait, that's a SwiftUI concept. Let me refocus on Spring Boot...
-
-Actually, the equivalent concept here is **DTO conversion overhead**. When you use pagination with DTOs, there's a conversion step:
+When you use pagination with DTOs, there's a conversion step:
 
 ```java
 Page<Content> contentPage = repository.findAll(pageable);
@@ -296,9 +294,9 @@ Page<ContentResponseDTO> dtoPage = contentPage.map(this::toDTO);
 
 This `map()` operation creates new DTO objects for each entity. With 20 records per page, this is negligible. But it's worth noting that there's still overhead.
 
-## The Action Processing Bottleneck
+## Query Processing Overhead
 
-In pagination, the "action" equivalent is the **query processing**. Each page request:
+In pagination, each page request involves processing overhead:
 
 1. Processes the `Pageable` object
 2. Generates SQL with `LIMIT` and `OFFSET`
@@ -308,9 +306,9 @@ In pagination, the "action" equivalent is the **query processing**. Each page re
 
 This is fast for small pages, but can become a bottleneck at scale.
 
-## The Struct Copying Overhead
+## Object Creation Overhead
 
-Wait, that's also a SwiftUI concept. In Spring Boot, the equivalent is **object creation**. Each paginated request creates:
+In Spring Boot, each paginated request creates:
 
 - A `Page` object
 - Multiple `Content` objects (20 per page)

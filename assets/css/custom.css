@@ -850,3 +850,127 @@ body:not(.post-page) main {
         justify-content: center;
     }
 }
+
+/* Comments Section */
+.comments-section {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.comments-divider {
+    margin: 3rem 0 2rem;
+    border: none;
+    border-top: 2px solid var(--border-color);
+}
+
+.comments-intro {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+.comments-intro a {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* Reactions Section */
+.reactions-section {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+
+.reactions-container {
+    text-align: center;
+}
+
+.reactions-question {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.reactions-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.reaction-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 100px;
+}
+
+.reaction-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.reaction-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.reaction-btn.active .reaction-count {
+    color: white;
+}
+
+.reaction-icon {
+    font-size: 1.5rem;
+}
+
+.reaction-count {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.reaction-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+.reaction-btn.active .reaction-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 768px) {
+    .reactions-buttons {
+        gap: 0.75rem;
+    }
+    
+    .reaction-btn {
+        min-width: 80px;
+        padding: 0.75rem 1rem;
+    }
+    
+    .reaction-icon {
+        font-size: 1.25rem;
+    }
+    
+    .reaction-count {
+        font-size: 1rem;
+    }
+    
+    .reaction-label {
+        font-size: 0.75rem;
+    }
+}

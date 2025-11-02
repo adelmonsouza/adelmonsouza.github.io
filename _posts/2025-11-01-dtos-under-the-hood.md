@@ -119,7 +119,7 @@ If the Controller accepts `@RequestBody User user`, Jackson will populate the `r
 
 ## The DTO Solution
 
-To work around this fundamental issue, we use DTOs (Data Transfer Objects) that only expose specific fields:
+To solve this fundamental issue, we use DTOs (Data Transfer Objects) that only expose specific fields:
 
 ```java
 // DTO for creating a user
