@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Paginação Eficiente no Spring Boot: Como Decisões de Design Previnem OutOfMemoryError"
+title: "Efficient Pagination in Spring Boot: How Design Decisions Prevent OutOfMemoryError"
 date: 2025-11-02 00:00:00 +0000
 categories: Performance Spring Boot
 permalink: /blog/2025/11/02/pagination-under-the-hood.html

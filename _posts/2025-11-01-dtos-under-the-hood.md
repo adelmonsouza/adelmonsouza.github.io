@@ -1,8 +1,8 @@
 ---
-layout: default
-title: "DTOs, Entidades e O Segredo do Controller Magro: Como Decisões Arquiteturais Impactam Segurança e Performance"
+layout: post
+title: "DTOs, Entities, and The Secret of Thin Controllers: How Architectural Decisions Impact Security and Performance"
 date: 2025-11-01 00:00:00 +0000
-categories: Arquitetura Spring Boot
+categories: Architecture Spring Boot
 permalink: /blog/2025/11/01/dtos-under-the-hood.html
 ---
 
@@ -141,13 +141,14 @@ public record UserResponseDTO(
 ) {}
 ```
 
-DTOs try to solve the problem by:
+DTOs solve the problem by:
 
-1. Still receiving the request (following REST principles)
-2. But only exposing specific, controlled fields
+1. Receiving the request (following REST principles)
+2. Only exposing specific, controlled fields
 3. Only allowing modifications to intended fields
+4. Providing clear API contracts separate from database models
 
-While this helps, it's essentially a solution for a problem created by exposing entities directly. It adds classes and conversions, but it solves issues that wouldn't exist with DTOs from the start.
+DTOs create a clean boundary between your database model and your API contract, preventing unauthorized access and ensuring only intended fields can be modified.
 
 ## Why This Also Causes Performance Problems
 
