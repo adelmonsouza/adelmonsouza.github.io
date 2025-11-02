@@ -70,7 +70,7 @@ Cada projeto terá:
 
 ## 📚 Quem sou eu
 
-Sou **Adelmo Souza**, um Engenheiro de Software que acredita que a excelência técnica é inseparável da visão de negócio. Minha paixão é simplificar sistemas complexos e compartilhar as lições aprendidas no campo de batalha.
+Sou **Adelmon Souza**, um Engenheiro de Software que acredita que a excelência técnica é inseparável da visão de negócio. Minha paixão é simplificar sistemas complexos e compartilhar as lições aprendidas no campo de batalha.
 
 Eu aprendi Java e Spring Boot para construir minhas próprias APIs, e agora vou compartilhar as lições que aprendi e as que ainda estou descobrindo.
 
