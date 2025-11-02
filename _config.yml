@@ -1,7 +1,7 @@
 # Jekyll Configuration for The Java Place
 # Based on GitHub Pages Quickstart: https://docs.github.com/en/pages/quickstart
 
-theme: jekyll-theme-minimal
+# theme: jekyll-theme-minimal  # Desabilitado para usar layout customizado
 title: The Java Place
 description: Deep-Dives em Java e Spring Boot. Sem fluff — apenas conteúdo inteligente para desenvolvedores que buscam o próximo nível.
 author: Adelmo Souza
