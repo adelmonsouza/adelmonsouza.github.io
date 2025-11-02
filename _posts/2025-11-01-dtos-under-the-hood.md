@@ -281,5 +281,3 @@ Na próxima semana, vamos explorar "Spring Security + JWT Under the Hood": como 
 ---
 
 **#Java #SpringBoot #CleanCode #Architecture #DTO #Security**
-
-</div>
