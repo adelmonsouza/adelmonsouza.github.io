@@ -6,17 +6,6 @@ categories: Arquitetura Spring Boot
 permalink: /blog/2025/11/01/dtos-under-the-hood.html
 ---
 
-<div class="post-header">
-    <h1 class="post-title">DTOs, Entidades e O Segredo do Controller Magro: Como Decisões Arquiteturais Impactam Segurança e Performance</h1>
-    <div class="post-meta">
-        <span><i class="fas fa-calendar"></i> 01/11/2025</span>
-        <span><i class="fas fa-user"></i> Adelmo Souza</span>
-        <span><i class="fas fa-tag"></i> Arquitetura, Spring Boot</span>
-    </div>
-</div>
-
-<div class="post-content">
-
 Hey there! So I've been diving into architectural patterns lately, and it's been quite the journey. I wanted to share some thoughts on how the design decisions we make can have these ripple effects throughout our applications – especially when it comes to security and performance.
 
 **Disclaimer**: This article is not a critique of Spring Boot or JPA – both are excellent tools. Rather, this is an analysis of how architectural decisions influence security and performance over time, using DTOs as a case study. My goal is to examine the relationship between design principles and practical outcomes, and extract lessons that apply to any architecture we might create or adopt.
@@ -360,5 +349,3 @@ The decision to use DTOs isn't just about following best practices – it's abou
 ---
 
 **#30DiasJava | #SpringBoot | #Architecture | #DTO | #Security | #Performance**
-
-</div>

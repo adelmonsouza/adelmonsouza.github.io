@@ -1,21 +1,10 @@
 ---
-layout: default
+layout: post
 title: "Paginação Eficiente no Spring Boot: Como Decisões de Design Previnem OutOfMemoryError"
 date: 2025-11-02 00:00:00 +0000
 categories: Performance Spring Boot
 permalink: /blog/2025/11/02/pagination-under-the-hood.html
 ---
-
-<div class="post-header">
-    <h1 class="post-title">Paginação Eficiente no Spring Boot: Como Decisões de Design Previnem OutOfMemoryError</h1>
-    <div class="post-meta">
-        <span><i class="fas fa-calendar"></i> 02/11/2025</span>
-        <span><i class="fas fa-user"></i> Adelmo Souza</span>
-        <span><i class="fas fa-tag"></i> Performance, Spring Boot</span>
-    </div>
-</div>
-
-<div class="post-content">
 
 Hey there! So I've been diving into performance optimization lately, and it's been quite the journey. I wanted to share some thoughts on how the design decisions we make can have these ripple effects throughout our applications – especially when it comes to memory management and scalability.
 
@@ -390,5 +379,3 @@ The decision to use pagination isn't just about following best practices – it'
 ---
 
 **#30DiasJava | #SpringBoot | #Performance | #Pagination | #Scalability**
-
-</div>
