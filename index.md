@@ -3,87 +3,119 @@ layout: default
 title: The Java Place
 ---
 
-<div class="hero">
-    <h1>🚀 The Java Place</h1>
-    <p>Deep-Dives em Java e Spring Boot que ajudam você a construir arquiteturas resilientes, escaláveis e prontas para produção.</p>
-    <p><strong>Sem fluff — apenas conteúdo inteligente e aplicável.</strong></p>
+<div class="home-hero">
+    <h1 class="hero-title">The Java Place</h1>
+    <p class="hero-subtitle">Deep-Dives in Java and Spring Boot that help you build resilient, scalable, and production-ready architectures.</p>
+    <p class="hero-tagline"><strong>No fluff — just intelligent, applicable content.</strong></p>
 </div>
 
-## 🎯 O que você encontrará aqui:
+---
 
-### Spring Boot 'Under the Hood'
-Entendendo o ciclo de vida, a auto-configuração e as decisões de design que fazem o Spring funcionar.
+## Welcome to The Java Place
 
-### Estratégias de Resiliência
-Microsserviços, Design Patterns (Clean Code, Hexagonal) e como evitar falhas em cascata com Filas (Kafka/RabbitMQ).
+The Java Place is the go-to website for everything Java and Spring Boot development.
 
-### Performance & Testes
-Cobertura de testes de alto valor (JUnit, Testcontainers) e otimizações de latência e escalabilidade com Java 21+ (Virtual Threads).
-
-### DevOps e Cloud Prático
-Docker, Kubernetes e CI/CD com GitHub Actions, garantindo que seu projeto nasça pronto para o mercado.
+I share deep-dives and technical insights to help you take your Java development to the next level. With my passion for understanding how things work under the hood, I love exploring architecture, performance, and best practices – which I share on The Java Place. Whether you're just starting out with Spring Boot or looking to architect production-ready systems, I've got you covered.
 
 ---
 
-## 📅 Desafio #30DiasJava
+## What You'll Find Here
 
-**Começando em 01/11/2025!**
+**📚 Technical Deep-Dives**
+- How DTOs prevent security vulnerabilities
+- Why pagination prevents OutOfMemoryError
+- How collaborative filtering algorithms work
+- Event-driven architecture patterns
 
-Todos os dias vou criar um novo projeto Java/Spring focado em conceitos de BigTechs (Netflix, Spotify, Google, X) aplicando as melhores práticas profissionais do mercado.
+**🏗️ Architecture & Design**
+- Thin Controller, Fat Service pattern
+- Microservices communication strategies
+- Performance optimization techniques
+- Testing strategies for production code
 
-Cada projeto terá:
-1. **Código funcional** pronto para produção
-2. **Deep-Dive** explicando o "porquê"
-3. **Testes** com alta cobertura
-4. **Deploy** documentado
-5. **Business Case** mostrando valor real
-
-[Ver todos os projetos no GitHub →](https://github.com/adelmonsouza/30DiasJava)
-
----
-
-## 📚 Últimos Artigos
-
-<ul class="articles-list">
-    <li>
-        <a href="/blog/2025/11/02/pagination-under-the-hood.html">
-            <strong>Paginação Eficiente no Spring Boot: Como Evitar OutOfMemoryError</strong>
-        </a>
-        <br>
-        <small style="color: #6c757d;">02/11/2025 - Performance, Spring Boot</small>
-    </li>
-    <li>
-        <a href="/blog/2025/11/01/dtos-under-the-hood.html">
-            <strong>Deep-Dive: DTOs, Entidades e Controller Magro no Spring Boot</strong>
-        </a>
-        <br>
-        <small style="color: #6c757d;">01/11/2025 - Arquitetura, Spring Boot</small>
-    </li>
-    <li>
-        <a href="/blog/">
-            <strong>Ver todos os artigos →</strong>
-        </a>
-    </li>
-</ul>
+**🛠️ Tools & Practices**
+- Docker & containerization
+- CI/CD with GitHub Actions
+- Spring Boot best practices
+- Clean Code principles
 
 ---
 
-## 📚 Quem sou eu
+## The #30DiasJava Challenge
 
-Sou **Adelmon Souza**, um Engenheiro de Software que acredita que a excelência técnica é inseparável da visão de negócio. Minha paixão é simplificar sistemas complexos e compartilhar as lições aprendidas no campo de batalha.
+**Starting November 1, 2025**
 
-Eu aprendi Java e Spring Boot para construir minhas próprias APIs, e agora vou compartilhar as lições que aprendi e as que ainda estou descobrindo.
+Every day for 30 days, I'm building one new Java/Spring Boot project, each focusing on concepts used by BigTechs:
+
+- **Day 1**: User-Profile-Service (Facebook/X concept) - DTOs, Spring Security, JWT
+- **Day 2**: Content-Catalog-API (Netflix/Spotify concept) - Pagination, Performance
+- **Day 3**: Recommendation-Engine (Amazon/Netflix concept) - Algorithms, Data Structures
+- **Day 4-5**: Notification-Service (Event-Driven Architecture) - RabbitMQ, Async Communication
+- **And 25 more projects...**
+
+Each project includes:
+1. ✅ Full production-ready code
+2. ✅ Comprehensive tests (JUnit, Testcontainers)
+3. ✅ CI/CD pipeline (GitHub Actions)
+4. ✅ Docker containerization
+5. ✅ Detailed Business Plan (explaining the "why")
+6. ✅ Deep-dive blog post (explaining "under the hood")
+
+**🔗 Follow the journey:** [30DiasJava on GitHub](https://github.com/adelmonsouza/30DiasJava)
 
 ---
 
-## 🔗 Links
+## Latest Articles
 
-- **GitHub:** [@adelmonsouza](https://github.com/adelmonsouza)
-- **LinkedIn:** [adelmonsouza](https://www.linkedin.com/in/adelmonsouza/)
+<div class="articles-grid">
+    <article class="article-card">
+        <h3><a href="/blog/2025/11/02/pagination-under-the-hood.html">Efficient Pagination in Spring Boot: How Design Decisions Prevent OutOfMemoryError</a></h3>
+        <p class="article-meta">November 2, 2025 · Performance, Spring Boot</p>
+        <p class="article-excerpt">Understanding how simple architectural decisions – like using pagination – have dramatic impacts on performance and scalability. Learn what happens under the hood when you call `repository.findAll()` vs `findAll(Pageable)`.</p>
+        <a href="/blog/2025/11/02/pagination-under-the-hood.html" class="article-link">Read more →</a>
+    </article>
+    
+    <article class="article-card">
+        <h3><a href="/blog/2025/11/01/dtos-under-the-hood.html">DTOs, Entities, and The Secret of Thin Controllers: How Architectural Decisions Impact Security and Performance</a></h3>
+        <p class="article-meta">November 1, 2025 · Architecture, Spring Boot</p>
+        <p class="article-excerpt">During a security audit, I discovered that exposing JPA entities directly allowed attackers to manipulate fields that shouldn't be modifiable. This deep-dive explains how DTOs solve security and performance problems.</p>
+        <a href="/blog/2025/11/01/dtos-under-the-hood.html" class="article-link">Read more →</a>
+    </article>
+</div>
+
+<p style="text-align: center; margin-top: 2rem;">
+    <a href="/blog/" class="btn-primary">View All Articles →</a>
+</p>
 
 ---
 
-**Se isso parece algo que pode ajudá-lo a crescer como desenvolvedor Java, então certifique-se de me acompanhar!**
+## Who Am I?
 
-**Acompanhe esta jornada de aprendizado e crescimento profissional! 🚀**
+I'm **Adelmon Souza**, an Application Developer specialized in Java and Spring Boot, building scalable microservices and resilient architectures for the Cloud.
+
+**I have a passion for teaching and sharing knowledge** which drives me to create content that goes beyond simple tutorials. I want to provide you with the tools and knowledge to successfully build and publish production-ready Java applications.
+
+I want you to build the best possible applications that your users love and you can be proud of.
+
+**Let's be real: There is no perfect application without challenges.** But we have to raise our standards from simple demo projects to build something amazing ⭐️.
+
+Most online teachers in the development space talk about simple and easy demo apps. I want to go further and teach you the tools and strategies for **full production-ready applications**. _I will show you all the implementation details that I find important and necessary so that you can speed up your development process without sacrificing your application's quality and performance._
+
+I want to help you navigate the ever-changing and evolving development world.
+
+Stay ahead of the curve and boost your developer career. 😁
+
+---
+
+## Connect With Me
+
+Want to follow my journey and get updates on new projects and articles?
+
+- **GitHub:** [@adelmonsouza](https://github.com/adelmonsouza) - Check out the #30DiasJava projects
+- **LinkedIn:** [adelmonsouza](https://www.linkedin.com/in/adelmonsouza/) - Professional updates and insights
+- **Blog:** [The Java Place](https://enouveau.io) - Latest deep-dive articles
+
+---
+
+**Let's build amazing Java applications together! 🚀**
 
