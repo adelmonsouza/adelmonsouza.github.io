@@ -3,15 +3,11 @@ layout: default
 title: The Java Place
 ---
 
-# 🚀 The Java Place
-
-**Por Adelmo Souza**
-
-Eu crio Deep-Dives (Análises de Profundidade) em Java e Spring Boot que ajudam você a construir arquiteturas mais resilientes, escaláveis e prontas para a Cloud. Aqui, o foco é a prática profissional e o código que vai para produção.
-
-**Sem fluff — apenas conteúdo inteligente e aplicável para desenvolvedores Java que buscam o próximo nível.**
-
----
+<div class="hero">
+    <h1>🚀 The Java Place</h1>
+    <p>Deep-Dives em Java e Spring Boot que ajudam você a construir arquiteturas resilientes, escaláveis e prontas para produção.</p>
+    <p><strong>Sem fluff — apenas conteúdo inteligente e aplicável.</strong></p>
+</div>
 
 ## 🎯 O que você encontrará aqui:
 
@@ -48,8 +44,27 @@ Cada projeto terá:
 
 ## 📚 Últimos Artigos
 
-- [Deep-Dive: DTOs, Entidades e Controller Magro no Spring Boot](/blog/2025/11/01/dtos-under-the-hood.html)
-- [Ver todos os artigos →](/blog/)
+<ul class="articles-list">
+    <li>
+        <a href="/blog/2025/11/02/pagination-under-the-hood.html">
+            <strong>Paginação Eficiente no Spring Boot: Como Evitar OutOfMemoryError</strong>
+        </a>
+        <br>
+        <small style="color: #6c757d;">02/11/2025 - Performance, Spring Boot</small>
+    </li>
+    <li>
+        <a href="/blog/2025/11/01/dtos-under-the-hood.html">
+            <strong>Deep-Dive: DTOs, Entidades e Controller Magro no Spring Boot</strong>
+        </a>
+        <br>
+        <small style="color: #6c757d;">01/11/2025 - Arquitetura, Spring Boot</small>
+    </li>
+    <li>
+        <a href="/blog/">
+            <strong>Ver todos os artigos →</strong>
+        </a>
+    </li>
+</ul>
 
 ---
 
