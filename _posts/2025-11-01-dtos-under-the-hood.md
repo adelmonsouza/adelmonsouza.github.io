@@ -1,20 +1,21 @@
 ---
-layout: post
+layout: default
 title: "Deep-Dive: DTOs, Entidades e O Segredo do Controller Magro no Spring Boot"
 date: 2025-11-01 00:00:00 +0000
 categories: Arquitetura Spring Boot
 permalink: /blog/2025/11/01/dtos-under-the-hood.html
 ---
 
-# Deep-Dive: DTOs, Entidades e O Segredo do Controller Magro no Spring Boot
+<div class="post-header">
+    <h1 class="post-title">Deep-Dive: DTOs, Entidades e O Segredo do Controller Magro no Spring Boot</h1>
+    <div class="post-meta">
+        <span><i class="fas fa-calendar"></i> 01/11/2025</span>
+        <span><i class="fas fa-user"></i> Adelmo Souza</span>
+        <span><i class="fas fa-tag"></i> Arquitetura, Spring Boot</span>
+    </div>
+</div>
 
-## Uma Análise Under The Hood
-
-**Data:** 01/11/2025  
-**Autor:** Adelmo Souza  
-**Categoria:** Arquitetura, Spring Boot
-
----
+<div class="post-content">
 
 ## Introdução: O Mito do 'Controller Gordo'
 
@@ -280,5 +281,3 @@ Na próxima semana, vamos explorar "Spring Security + JWT Under the Hood": como 
 ---
 
 **#Java #SpringBoot #CleanCode #Architecture #DTO #Security**
-
-</div>

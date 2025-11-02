@@ -1,20 +1,21 @@
 ---
-layout: post
+layout: default
 title: "Paginação Eficiente no Spring Boot: Como Evitar OutOfMemoryError"
 date: 2025-11-02 00:00:00 +0000
 categories: Performance Spring Boot
 permalink: /blog/2025/11/02/pagination-under-the-hood.html
 ---
 
-# Paginação Eficiente no Spring Boot: Como Evitar OutOfMemoryError
+<div class="post-header">
+    <h1 class="post-title">Paginação Eficiente no Spring Boot: Como Evitar OutOfMemoryError</h1>
+    <div class="post-meta">
+        <span><i class="fas fa-calendar"></i> 02/11/2025</span>
+        <span><i class="fas fa-user"></i> Adelmo Souza</span>
+        <span><i class="fas fa-tag"></i> Performance, Spring Boot</span>
+    </div>
+</div>
 
-## Uma Análise Under The Hood
-
-**Data:** 02/11/2025  
-**Autor:** Adelmo Souza  
-**Categoria:** Performance, Spring Boot
-
----
+<div class="post-content">
 
 ## Introdução: O Problema dos Milhões de Registros
 
@@ -424,6 +425,4 @@ Paginação não é apenas "bom ter" — é **essencial** para aplicações esca
 ---
 
 **#30DiasJava | #SpringBoot | #Performance | #Pagination | #Scalability**
-
-</div>
 
