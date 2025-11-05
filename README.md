@@ -36,8 +36,7 @@ Minha jornada começou explorando [seu background], mas descobri que adoro progr
 
 - **GitHub:** [@adelmonsouza](https://github.com/adelmonsouza)
 - **LinkedIn:** [adelmonsouza](https://www.linkedin.com/in/adelmonsouza/)
-- **Blog:** [The Java Place](https://javaplace.com) (em breve)
-
+- **Blog:** [The Java Place](https://enouveau.io/) 
 ---
 
 ## 📅 Desafio #30DiasJava
