@@ -75,7 +75,7 @@ Prometheus persists metrics with timestamped samples, enabling both real-time al
 
 ## Alert Rules That Matter
 
-### SLO-Based Latency Alert
+### SLO-Oriented Latency Alert
 
 ```yaml
 - alert: HighCheckoutLatency
@@ -88,7 +88,7 @@ Prometheus persists metrics with timestamped samples, enabling both real-time al
     description: "Investigate upstream payment latency or database contention."
 ```
 
-### Business-Failure Alert
+### Domain Failure Alert
 
 ```yaml
 - alert: CheckoutFailuresSpiking
@@ -121,7 +121,7 @@ Grouping and repeat intervals prevent alert storms while keeping on-call informe
 
 ## Dashboards as Incident Maps
 
-In Grafana, I built panels for:
+In Grafana, I built a dashboard with panels for:
 
 - `p95 latency` per endpoint.
 - `checkout_failed_total` (domain health).
@@ -151,7 +151,13 @@ Observability is an architectural decision. It’s part of the product, not just
 
 **Full project:** [Observability Stack (Day 08)](https://github.com/adelmonsouza/30DiasJava-Day08-Observability)
 
-**Next article:** Coming soon — Feature Flags and Progressive Delivery in Spring Boot (Day 09)
+**Docs referenced:**
+- Spring Boot Actuator: https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
+- Prometheus Alerting: https://prometheus.io/docs/alerting/latest/overview/
+- Alertmanager Configuration: https://prometheus.io/docs/alerting/latest/configuration/
+- Grafana Dashboard Guide: https://grafana.com/docs/grafana/latest/dashboards/
+
+**Next article:** Coming soon — exploring feature flags and progressive delivery (Day 09)
 
 ---
 

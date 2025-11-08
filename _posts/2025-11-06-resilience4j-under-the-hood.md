@@ -99,7 +99,7 @@ Now, even if the downstream misbehaves, only a bounded pool of threads is affect
 
 ### 4. Fallbacks That Tell the Truth
 
-Fallbacks should degrade gracefully, not lie. Return cached data, a default response, or a "temporarily unavailable" message. Transparency prevents silent data corruption.
+Fallbacks should degrade gracefully, not lie. Return cached data, a default response, or a "temporarily unavailable" message. Transparency prevents silent data corruption. When designing these fallbacks, follow the guidance in the official [Resilience4j documentation](https://resilience4j.readme.io/docs/getting-started) — especially around idempotent side effects and circuit-breaker event listeners — so that security-sensitive operations (payments, PII updates) are never executed twice.
 
 ## Observability: Seeing the Breaker Work
 
@@ -124,6 +124,10 @@ Resilience patterns are not accessories. They are architectural commitments that
 ---
 
 **Full project:** [Resilience4j Playground (Day 06)](https://github.com/adelmonsouza/30DiasJava-Day06-Resilience4j)
+
+**Docs referenced:**
+- Resilience4j: https://resilience4j.readme.io/docs/getting-started
+- Spring Boot Actuator: https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
 
 **Next article:** Centralized Configuration in Spring Boot: How Spring Cloud Config Keeps Microservices Aligned (Day 07)
 
