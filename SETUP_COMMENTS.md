@@ -107,3 +107,4 @@ Por enquanto, as reações ficam no localStorage (prático e sem backend).
 
 **Pronto! Sistema de comentários e reações implementado! 🎉**
 
+
