@@ -1,0 +1,12 @@
+# Build artifacts
+_site/
+.sass-cache/
+.jekyll-cache/
+
+# Ruby / Bundler
+.bundle/
+vendor/
+Gemfile.lock
+
+# macOS
+.DS_Store
