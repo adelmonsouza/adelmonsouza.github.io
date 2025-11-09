@@ -18,6 +18,8 @@ navigation:
     url: /about
   - title: Blog
     url: /blog
+  - title: Resources
+    url: /resources
   - title: #30DiasJava
     url: https://github.com/adelmonsouza/30DiasJava
 

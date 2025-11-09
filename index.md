@@ -1,121 +1,180 @@
 ---
 layout: default
 title: The Java Place
+current_day: 8
+total_days: 30
 ---
 
-<div class="home-hero">
-    <h1 class="hero-title">The Java Place</h1>
-    <p class="hero-subtitle">Deep-Dives in Java and Spring Boot that help you build resilient, scalable, and production-ready architectures.</p>
-    <p class="hero-tagline"><strong>No fluff — just intelligent, applicable content.</strong></p>
+{% assign total_days = page.total_days | default: 30 %}
+{% assign current_day = page.current_day | default: 1 %}
+{% assign progress = current_day | times: 100 %}
+{% assign progress = progress | divided_by: total_days %}
+
+<section class="home-hero">
+  <div class="home-hero-inner">
+    <p class="hero-badge">#30DiasJava Challenge</p>
+    <h1 class="hero-title">Day {{ current_day }} of {{ total_days }}</h1>
+    <p class="hero-subtitle">Deep dives that turn Spring Boot projects into production-grade systems. Real architecture, testing, CI/CD, observability — delivered daily.</p>
+    <div class="hero-progress">
+      <div class="hero-progress-bar" style="width: {{ progress }}%"></div>
+    </div>
+    <div class="hero-progress-meta">
+      <span>{{ progress }}% complete</span>
+      <span>Latest project: <a href="https://github.com/adelmonsouza/30DiasJava-Day08-Observability">Day 08 · Observability Stack</a></span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn-primary" href="/blog/">Read Today’s Deep Dive →</a>
+      <a class="btn-secondary" href="https://github.com/adelmonsouza/30DiasJava">Explore the Code on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<div class="home-layout">
+  <aside class="home-sidebar">
+    {% include quick-actions.html %}
+
+    <div class="persona-cards">
+      <h3 class="persona-title">Choose Your Path</h3>
+      <div class="persona-card">
+        <h4>Backend Engineer</h4>
+        <p>Looking for clean DTOs, pagination, and resilient APIs? Start with Day 01–03 articles.</p>
+        <a href="/blog/2025/11/01/dtos-under-the-hood.html">Boost controller design →</a>
+      </div>
+      <div class="persona-card">
+        <h4>DevOps Engineer</h4>
+        <p>Need production checks and automation? Review the <code>pre-golive.sh</code> playbook and Day 08 observability stack.</p>
+        <a href="https://github.com/adelmonsouza/30DiasJava/blob/main/pre-golive.sh">Open the script →</a>
+      </div>
+      <div class="persona-card">
+        <h4>Tech Lead</h4>
+        <p>Want architecture trade-offs and business context? Read the Business Plans and deep dives for each project.</p>
+        <a href="/resources/">View resource hub →</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="home-main">
+    <section class="home-section">
+      <h2>Welcome to The Java Place</h2>
+      <p>The Java Place is the go-to website for everything Java and Spring Boot development. Every article breaks down the architectural decisions, testing strategies, and DevOps tooling that keep enterprise systems healthy in production.</p>
+      <p>Whether you are just starting out or leading a microservices migration, you will find detailed walkthroughs, diagrams, and scripts you can apply immediately.</p>
+    </section>
+
+    <section class="home-section">
+      <h2>What You'll Find Here</h2>
+      <div class="features-grid">
+        <article>
+          <h3>📚 Technical Deep Dives</h3>
+          <ul>
+            <li>How DTOs prevent mass assignment attacks</li>
+            <li>Why pagination protects JVM memory</li>
+            <li>Collaborative filtering with Jaccard similarity</li>
+            <li>Event-driven architecture with resilient messaging</li>
+          </ul>
+        </article>
+        <article>
+          <h3>🏗️ Architecture & Design</h3>
+          <ul>
+            <li>Thin controllers, fat services, and API contracts</li>
+            <li>Microservice communication strategies</li>
+            <li>Performance audits with concrete metrics</li>
+            <li>Structured testing strategies (JUnit + Testcontainers)</li>
+          </ul>
+        </article>
+        <article>
+          <h3>🛠️ Automation & Ops</h3>
+          <ul>
+            <li>Docker and Compose for reproducible environments</li>
+            <li>GitHub Actions pipelines with coverage gates</li>
+            <li>pre-golive validation across all services</li>
+            <li>Observability dashboards and alerting rules</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-section">
+      <h2>The #30DiasJava Roadmap</h2>
+      <p>Starting on November 1, 2025, one new Java/Spring Boot project ships every day. Each project includes production-ready code, automated tests, CI/CD, Docker, business context, and a deep-dive explaining the decisions under the hood.</p>
+      <ul class="roadmap-list">
+        <li><strong>Day 1:</strong> User-Profile-Service — DTOs, JWT, Spring Security</li>
+        <li><strong>Day 2:</strong> Content-Catalog-API — Efficient pagination and performance audits</li>
+        <li><strong>Day 3:</strong> Recommendation-Engine — Collaborative filtering with JPA + data structures</li>
+        <li><strong>Day 6:</strong> Resilience4j Playground — Circuit breakers, bulkheads, time limiter</li>
+        <li><strong>Day 7:</strong> Config Service — Spring Cloud Config, @RefreshScope, Docker secrets</li>
+        <li><strong>Day 8:</strong> Observability Stack — Prometheus, Alertmanager, Grafana dashboards</li>
+        <li><strong>…and 22 more production-themed projects.</strong></li>
+      </ul>
+      <a class="btn-text" href="https://github.com/adelmonsouza/30DiasJava">Follow the challenge on GitHub →</a>
+    </section>
+
+    <section class="home-section">
+      <h2>Resources Hub Preview</h2>
+      <div class="resources-preview">
+        <article class="resource-card">
+          <h3>DTO Security Cheatsheet</h3>
+          <p>Audit requests, prevent mass assignment, and lock down your API contracts.</p>
+          <div class="resource-links">
+            <a href="/blog/2025/11/01/dtos-under-the-hood.html">Read deep dive</a>
+            <a href="/resources/#dto-security">View cheatsheet</a>
+          </div>
+        </article>
+        <article class="resource-card">
+          <h3>Resilience Playbook</h3>
+          <p>Resilience4j circuit breaker, bulkhead, and metrics templates ready to copy.</p>
+          <div class="resource-links">
+            <a href="/blog/2025/11/06/resilience4j-under-the-hood.html">Explore article</a>
+            <a href="/resources/#resilience4j">Open playbook</a>
+          </div>
+        </article>
+        <article class="resource-card">
+          <h3>Observability & Alerts</h3>
+          <p>Prometheus rules, Alertmanager routing, and Grafana panel queries for Day 08.</p>
+          <div class="resource-links">
+            <a href="/blog/2025/11/08/observability-under-the-hood.html">Inspect setup</a>
+            <a href="/resources/#observability">Go to dashboard tips</a>
+          </div>
+        </article>
+      </div>
+      <a class="btn-secondary" href="/resources/">Browse the full Resources Hub</a>
+    </section>
+
+    <section class="home-section">
+      <h2>Latest Articles</h2>
+      <div class="articles-grid">
+        <article class="article-card">
+          <h3><a href="/blog/2025/11/02/pagination-under-the-hood.html">Efficient Pagination in Spring Boot: How Design Decisions Prevent OutOfMemoryError</a></h3>
+          <p class="article-meta">November 2, 2025 · Performance, Spring Boot</p>
+          <p class="article-excerpt">Understand what really happens when you load millions of records into memory and how `Pageable` keeps your JVM stable.</p>
+          <a href="/blog/2025/11/02/pagination-under-the-hood.html" class="article-link">Read more →</a>
+        </article>
+        <article class="article-card">
+          <h3><a href="/blog/2025/11/01/dtos-under-the-hood.html">DTOs, Entities, and Thin Controllers: How Architectural Decisions Impact Security and Performance</a></h3>
+          <p class="article-meta">November 1, 2025 · Architecture, Spring Boot</p>
+          <p class="article-excerpt">Learn how separating entities and DTOs guards your application from mass assignment and keeps responses optimized.</p>
+          <a href="/blog/2025/11/01/dtos-under-the-hood.html" class="article-link">Read more →</a>
+        </article>
+      </div>
+      <p class="centered">
+        <a href="/blog/" class="btn-primary">View All Articles →</a>
+      </p>
+    </section>
+
+    <section class="home-section">
+      <h2>Connect With Me</h2>
+      <p>Stay ahead of the curve and get notified as soon as a new project ships.</p>
+      <ul class="connect-list">
+        <li><strong>GitHub:</strong> <a href="https://github.com/adelmonsouza">@adelmonsouza</a> — track the repositories and follow the challenge.</li>
+        <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/adelmonsouza/">adelmonsouza</a> — professional updates, lessons learned, and open discussions.</li>
+        <li><strong>Blog:</strong> <a href="https://enouveau.io">The Java Place</a> — all deep dives, cheatsheets, and playbooks.</li>
+      </ul>
+    </section>
+  </main>
 </div>
 
----
-
-## Welcome to The Java Place
-
-The Java Place is the go-to website for everything Java and Spring Boot development.
-
-I share deep-dives and technical insights to help you take your Java development to the next level. With my passion for understanding how things work under the hood, I love exploring architecture, performance, and best practices – which I share on The Java Place. Whether you're just starting out with Spring Boot or looking to architect production-ready systems, I've got you covered.
-
----
-
-## What You'll Find Here
-
-**📚 Technical Deep-Dives**
-- How DTOs prevent security vulnerabilities
-- Why pagination prevents OutOfMemoryError
-- How collaborative filtering algorithms work
-- Event-driven architecture patterns
-
-**🏗️ Architecture & Design**
-- Thin Controller, Fat Service pattern
-- Microservices communication strategies
-- Performance optimization techniques
-- Testing strategies for production code
-
-**🛠️ Tools & Practices**
-- Docker & containerization
-- CI/CD with GitHub Actions
-- Spring Boot best practices
-- Clean Code principles
-
----
-
-## The #30DiasJava Challenge
-
-**Starting November 1, 2025**
-
-Every day for 30 days, I'm building one new Java/Spring Boot project, each focusing on concepts used by BigTechs:
-
-- **Day 1**: User-Profile-Service (Facebook/X concept) - DTOs, Spring Security, JWT
-- **Day 2**: Content-Catalog-API (Netflix/Spotify concept) - Pagination, Performance
-- **Day 3**: Recommendation-Engine (Amazon/Netflix concept) - Algorithms, Data Structures
-- **Day 4-5**: Notification-Service (Event-Driven Architecture) - RabbitMQ, Async Communication
-- **And 25 more projects...**
-
-Each project includes:
-1. ✅ Full production-ready code
-2. ✅ Comprehensive tests (JUnit, Testcontainers)
-3. ✅ CI/CD pipeline (GitHub Actions)
-4. ✅ Docker containerization
-5. ✅ Detailed Business Plan (explaining the "why")
-6. ✅ Deep-dive blog post (explaining "under the hood")
-
-**🔗 Follow the journey:** [30DiasJava on GitHub](https://github.com/adelmonsouza/30DiasJava)
-
----
-
-## Latest Articles
-
-<div class="articles-grid">
-    <article class="article-card">
-        <h3><a href="/blog/2025/11/02/pagination-under-the-hood.html">Efficient Pagination in Spring Boot: How Design Decisions Prevent OutOfMemoryError</a></h3>
-        <p class="article-meta">November 2, 2025 · Performance, Spring Boot</p>
-        <p class="article-excerpt">Understanding how simple architectural decisions – like using pagination – have dramatic impacts on performance and scalability. Learn what happens under the hood when you call `repository.findAll()` vs `findAll(Pageable)`.</p>
-        <a href="/blog/2025/11/02/pagination-under-the-hood.html" class="article-link">Read more →</a>
-    </article>
-    
-    <article class="article-card">
-        <h3><a href="/blog/2025/11/01/dtos-under-the-hood.html">DTOs, Entities, and The Secret of Thin Controllers: How Architectural Decisions Impact Security and Performance</a></h3>
-        <p class="article-meta">November 1, 2025 · Architecture, Spring Boot</p>
-        <p class="article-excerpt">During a security audit, I discovered that exposing JPA entities directly allowed attackers to manipulate fields that shouldn't be modifiable. This deep-dive explains how DTOs solve security and performance problems.</p>
-        <a href="/blog/2025/11/01/dtos-under-the-hood.html" class="article-link">Read more →</a>
-    </article>
-</div>
-
-<p style="text-align: center; margin-top: 2rem;">
-    <a href="/blog/" class="btn-primary">View All Articles →</a>
-</p>
-
----
-
-## Who Am I?
-
-I'm **Adelmon Souza**, an Application Developer specialized in Java and Spring Boot, building scalable microservices and resilient architectures for the Cloud.
-
-**I have a passion for teaching and sharing knowledge** which drives me to create content that goes beyond simple tutorials. I want to provide you with the tools and knowledge to successfully build and publish production-ready Java applications.
-
-I want you to build the best possible applications that your users love and you can be proud of.
-
-**Let's be real: There is no perfect application without challenges.** But we have to raise our standards from simple demo projects to build something amazing ⭐️.
-
-Most online teachers in the development space talk about simple and easy demo apps. I want to go further and teach you the tools and strategies for **full production-ready applications**. _I will show you all the implementation details that I find important and necessary so that you can speed up your development process without sacrificing your application's quality and performance._
-
-I want to help you navigate the ever-changing and evolving development world.
-
-Stay ahead of the curve and boost your developer career. 😁
-
----
-
-## Connect With Me
-
-Want to follow my journey and get updates on new projects and articles?
-
-- **GitHub:** [@adelmonsouza](https://github.com/adelmonsouza) - Check out the #30DiasJava projects
-- **LinkedIn:** [adelmonsouza](https://www.linkedin.com/in/adelmonsouza/) - Professional updates and insights
-- **Blog:** [The Java Place](https://enouveau.io) - Latest deep-dive articles
-
----
-
-**Let's build amazing Java applications together! 🚀**
+<section class="home-section last-section">
+  <h2>Let’s Build Production-Grade Java Apps</h2>
+  <p>Ship features quickly without sacrificing reliability. Use the resources, scripts, and templates here to raise the quality bar for every service you deploy.</p>
+  <a class="btn-primary" href="/resources/">Start with the Resources Hub →</a>
+</section>
 
