@@ -3,13 +3,13 @@ layout: default
 title: The Java Place
 ---
 
-{% assign total_days = site.challenge.total_days | default: 30 %}
-{% assign current_day = site.challenge.current_day | default: 1 %}
-{% assign progress = current_day | times: 100 %}
-{% assign progress = progress | divided_by: total_days %}
-{% assign latest_project_name = site.challenge.latest_project.name | default: "Observability Stack" %}
-{% assign latest_project_url = site.challenge.latest_project.url | default: "https://github.com/adelmonsouza/30DiasJava-Day08-Observability" %}
+{% assign progress_data = site.data.progress %}
+{% assign total_days = progress_data.total | default: site.challenge.total_days | default: 30 %}
+{% assign current_day = progress_data.day | default: site.challenge.current_day | default: 1 %}
+{% assign progress = current_day | times: 100 | divided_by: total_days %}
 {% assign progress_display = progress | round %}
+{% assign latest_project_name = progress_data.latest_project.name | default: site.challenge.latest_project.name | default: "Observability Stack" %}
+{% assign latest_project_url = progress_data.latest_project.url | default: site.challenge.latest_project.url | default: "https://github.com/adelmonsouza/30DiasJava-Day08-Observability" %}
 
 <section class="home-hero">
   <div class="home-hero-inner">
@@ -21,7 +21,7 @@ title: The Java Place
     </div>
     <div class="hero-progress-meta">
       <span>{{ progress_display }}% complete</span>
-      <span>Latest project: <a href="{{ latest_project_url }}">Day {{ current_day }} · {{ latest_project_name }}</a></span>
+      <span>Latest project: <a href="{{ latest_project_url }}">Day {{ "%02d" | format: current_day }} · {{ latest_project_name }}</a></span>
     </div>
     <div class="hero-cta">
       <a class="btn-primary" href="/blog/">Read Today’s Deep Dive →</a>
@@ -138,6 +138,27 @@ title: The Java Place
         </article>
       </div>
       <a class="btn-secondary" href="/resources/">Browse the full Resources Hub</a>
+    </section>
+
+    <section class="home-section java-news">
+      <h2>Java Universe — Latest News</h2>
+      <p class="subtitle">Curated headlines from Inside Java, Adoptium, InfoQ, and more.</p>
+      <ul class="news-list">
+        {% assign news_items = site.data.java_news | default: [] %}
+        {% if news_items.size > 0 %}
+          {% for item in news_items %}
+          <li class="news-item">
+            <div class="news-meta">
+              <time>{{ item.date }}</time>
+              <span class="source">{{ item.source }}</span>
+            </div>
+            <a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a>
+          </li>
+          {% endfor %}
+        {% else %}
+          <li class="news-item">Stay tuned — curated Java news drops soon.</li>
+        {% endif %}
+      </ul>
     </section>
 
     <section class="home-section">

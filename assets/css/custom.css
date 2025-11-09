@@ -1142,6 +1142,7 @@ body:not(.post-page) main {
     border-radius: inherit;
     background: linear-gradient(90deg, #22c55e, #3b82f6);
     transition: width 0.4s ease;
+    min-width: 6%;
 }
 
 .hero-progress-meta {
@@ -1409,6 +1410,51 @@ body:not(.post-page) main {
 
 .resources-grid.long .resource-links {
     justify-content: flex-start;
+}
+
+.java-news .subtitle {
+    color: var(--text-light);
+}
+
+.news-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.news-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.news-item a {
+    color: var(--text-color);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.news-item a:hover {
+    color: var(--primary-color);
+}
+
+.news-meta {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.news-meta time {
+    font-variant-numeric: tabular-nums;
+}
+
+.news-meta .source {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 @media (max-width: 1024px) {
