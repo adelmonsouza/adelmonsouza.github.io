@@ -239,50 +239,6 @@ In a large application where:
 
 …this creates a **_compound performance impact_**. Every page request triggers a `COUNT(*)` query, which can become a bottleneck.
 
-## When OFFSET Gets Slow
-
-Here's something important that many developers don't know: **OFFSET doesn't scale well for giant datasets**.
-
-### The OFFSET Problem
-
-The deeper the page, the slower it gets:
-
-```sql
--- Page 1 (fast)
-SELECT * FROM content LIMIT 20 OFFSET 0;
--- PostgreSQL only needs to order and return 20 records
-
--- Page 10,000 (slow!)
-SELECT * FROM content LIMIT 20 OFFSET 200000;
--- PostgreSQL needs to:
--- 1. Order all records
--- 2. "Skip" the first 200,000 records
--- 3. Return the next 20
-```
-
-**Why?** PostgreSQL needs to order and "skip" records, which gets exponentially slower as you go deeper into pages.
-
-### The Solution: Cursor-Based Pagination
-
-For billions of records, use **cursor-based pagination** (also known as keyset pagination):
-
-```java
-// Instead of OFFSET, use a cursor (last seen ID)
-Page<Content> findByContentTypeAndIdGreaterThan(
-    ContentType contentType,
-    Long lastId,
-    Pageable pageable
-);
-
-// Generated SQL:
-SELECT * FROM content 
-WHERE contentType = 'MOVIE' AND id > 12345
-ORDER BY id
-LIMIT 20;
-```
-
-**Advantage:** Constant performance, regardless of page. The query always fetches the next 20 records after the last seen ID.
-
 ## DTO Conversion Overhead
 
 When you use pagination with DTOs, there's a conversion step:
@@ -340,20 +296,14 @@ This analysis shows how simple architectural decisions – like using pagination
 | Approach | Advantages | Disadvantages |
 |-----------|-----------|---------------|
 | **No Pagination** | Simple code, one query | OutOfMemoryError, slow |
-| **Pagination with OFFSET** | Easy to implement, works well for few pages | Gets slow on deep pages |
-| **Cursor-Based Pagination** | Constant performance, scales infinitely | More complex, can't "jump" pages |
+| **Pagination with OFFSET** | Fácil de implementar, fornece metadados completos | Pode gerar segundo COUNT(*) e ficar pesado em páginas muito profundas |
 
 ### When to Use Each Approach?
 
 **Use pagination with OFFSET when:**
-- ✅ Users navigate sequential pages (1, 2, 3...)
-- ✅ Don't need to go very deep (less than 10,000 pages)
-- ✅ You want simplicity
-
-**Use cursor-based pagination when:**
-- ✅ Datasets of billions of records
-- ✅ Constant performance is critical
-- ✅ You can accept not being able to "jump" pages
+- ✅ Usuários navegam páginas sequenciais (1, 2, 3...)
+- ✅ Precisa de metadados (total, páginas) por página
+- ✅ Busca simplicidade na implementação
 
 ## Final Thoughts
 
@@ -363,8 +313,8 @@ Pagination isn't just "nice to have" – it's **essential** for scalable applica
 1. Pagination prevents OutOfMemoryError with millions of records
 2. `Pageable` generates `LIMIT/OFFSET` SQL automatically
 3. Indexes are crucial for performance with filters
-4. For giant datasets, consider cursor-based pagination
-5. Simple architectural decisions have dramatic performance impacts
+4. Evite `COUNT(*)` pesados em endpoints muito acessados (cache ou estimativas podem ajudar)
+5. Simples decisões arquiteturais têm impactos enormes em performance
 
 The decision to use pagination isn't just about following best practices – it's about understanding how architectural choices ripple through your application. Every decision has trade-offs, and understanding those trade-offs is what separates good developers from great ones.
 
