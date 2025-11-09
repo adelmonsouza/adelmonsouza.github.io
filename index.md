@@ -1,14 +1,15 @@
 ---
 layout: default
 title: The Java Place
-current_day: 8
-total_days: 30
 ---
 
-{% assign total_days = page.total_days | default: 30 %}
-{% assign current_day = page.current_day | default: 1 %}
+{% assign total_days = site.challenge.total_days | default: 30 %}
+{% assign current_day = site.challenge.current_day | default: 1 %}
 {% assign progress = current_day | times: 100 %}
 {% assign progress = progress | divided_by: total_days %}
+{% assign latest_project_name = site.challenge.latest_project.name | default: "Observability Stack" %}
+{% assign latest_project_url = site.challenge.latest_project.url | default: "https://github.com/adelmonsouza/30DiasJava-Day08-Observability" %}
+{% assign progress_display = progress | round %}
 
 <section class="home-hero">
   <div class="home-hero-inner">
@@ -19,8 +20,8 @@ total_days: 30
       <div class="hero-progress-bar" style="width: {{ progress }}%"></div>
     </div>
     <div class="hero-progress-meta">
-      <span>{{ progress }}% complete</span>
-      <span>Latest project: <a href="https://github.com/adelmonsouza/30DiasJava-Day08-Observability">Day 08 · Observability Stack</a></span>
+      <span>{{ progress_display }}% complete</span>
+      <span>Latest project: <a href="{{ latest_project_url }}">Day {{ current_day }} · {{ latest_project_name }}</a></span>
     </div>
     <div class="hero-cta">
       <a class="btn-primary" href="/blog/">Read Today’s Deep Dive →</a>

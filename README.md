@@ -1,5 +1,9 @@
 # 🚀 The Java Place
 
+[![Pre-golive Checks](https://github.com/adelmonsouza/30DiasJava/actions/workflows/pre-golive.yml/badge.svg)](https://github.com/adelmonsouza/30DiasJava/actions/workflows/pre-golive.yml)
+[![Site status](https://img.shields.io/website?url=https%3A%2F%2Fenouveau.io)](https://enouveau.io)
+[![GitHub Pages Deploy](https://img.shields.io/github/deployments/adelmonsouza/adelmonsouza.github.io/github-pages?label=pages%20deploy)](https://github.com/adelmonsouza/adelmonsouza.github.io/deployments/activity_log?environment=github-pages)
+
 **Por Adelmo Souza**
 
 Eu crio Deep-Dives (Análises de Profundidade) em Java e Spring que ajudam você a construir arquiteturas mais resilientes, escaláveis e prontas para a Cloud. Aqui, o foco é a prática profissional e o código que vai para produção.

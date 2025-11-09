@@ -28,6 +28,13 @@ github_username: adelmonsouza
 linkedin_username: adelmonsouza
 twitter_username: # adicione se tiver
 
+challenge:
+  current_day: 8
+  total_days: 30
+  latest_project:
+    name: "Observability Stack"
+    url: "https://github.com/adelmonsouza/30DiasJava-Day08-Observability"
+
 # Plugins (suportados no GitHub Pages)
 plugins:
   - jekyll-feed

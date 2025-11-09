@@ -84,13 +84,55 @@ permalink: /resources/
     <h2>pre-golive Validation Checklist</h2>
     <p>Automated checks before every deploy: secrets, tests, coverage, and dependency scans.</p>
     <ul>
-      <li>Run `./pre-golive.sh project-name --no-cache`</li>
+      <li>Run <code>./pre-golive.sh project-name --no-cache</code></li>
       <li>Integrate with pre-push hook & GitHub Actions</li>
       <li>Extend with security scanners and custom rules</li>
     </ul>
     <div class="resource-links">
       <a href="https://github.com/adelmonsouza/30DiasJava/blob/main/pre-golive.sh">Open script</a>
       <a href="https://github.com/adelmonsouza/30DiasJava/blob/main/scripts/PRE_GOLIVE_GUIDE.md">Read guide</a>
+    </div>
+  </article>
+
+  <article id="testcontainers" class="resource-card">
+    <h2>Testcontainers Lab</h2>
+    <p>Spin up Docker-backed integration tests with confidence and high coverage.</p>
+    <ul>
+      <li>Reusable base test class and lifecycle management</li>
+      <li>Strategies for seeding data and verifying side effects</li>
+      <li>CI considerations for containers-at-test-time</li>
+    </ul>
+    <div class="resource-links">
+      <a href="https://github.com/adelmonsouza/30DiasJava-Day05-Testcontainers">Repository</a>
+      <a href="https://github.com/adelmonsouza/30DiasJava-Day05-Testcontainers/blob/main/README.md">Implementation notes</a>
+    </div>
+  </article>
+
+  <article id="linkedin-templates" class="resource-card">
+    <h2>LinkedIn Templates</h2>
+    <p>Ready-to-send posts and engagement prompts for amplifying each day of the challenge.</p>
+    <ul>
+      <li>English + Portuguese versions</li>
+      <li>Hooks, CTAs, and community questions</li>
+      <li>Links auto-populated for GitHub and blog</li>
+    </ul>
+    <div class="resource-links">
+      <a href="https://github.com/adelmonsouza/30DiasJava/blob/main/TEMPLATES/LinkedIn_Post_Template_English.md">English template</a>
+      <a href="https://github.com/adelmonsouza/30DiasJava/tree/main/LINKEDIN_POSTS">Published drafts</a>
+    </div>
+  </article>
+
+  <article id="microservices" class="resource-card">
+    <h2>Microservices Playbook</h2>
+    <p>Guidelines for service boundaries, communication patterns, and deployment strategies.</p>
+    <ul>
+      <li>DDD-inspired service slicing and API contracts</li>
+      <li>Sync vs async communication matrix</li>
+      <li>Deployment topology notes from #30DiasJava projects</li>
+    </ul>
+    <div class="resource-links">
+      <a href="/blog/2025/11/06/resilience4j-under-the-hood.html">Resilience reference</a>
+      <a href="https://github.com/adelmonsouza/30DiasJava">All services</a>
     </div>
   </article>
 </div>
