@@ -1457,41 +1457,201 @@ body:not(.post-page) main {
     letter-spacing: 0.08em;
 }
 
-@media (max-width: 1024px) {
-    .home-layout {
-        flex-direction: column;
-    }
+/* Blog page */
+.blog-hero {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));
+    padding: 4rem 1.5rem;
+    margin-bottom: 2.5rem;
+}
 
-    .home-sidebar {
-        width: 100%;
-        position: static;
-    }
+.blog-hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
 
-    .home-sidebar .quick-actions,
-    .home-sidebar .persona-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-    }
+.blog-label {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-light);
+    margin-bottom: 0.75rem;
+}
 
-    .quick-action {
-        justify-content: center;
-    }
+.blog-hero h1 {
+    font-size: 2.75rem;
+    margin-bottom: 0.75rem;
+}
 
-    .hero-progress-meta {
-        flex-direction: column;
-        gap: 0.35rem;
-        text-align: center;
-    }
+.blog-lead {
+    font-size: 1.15rem;
+    color: var(--text-light);
+}
+
+.blog-navigation {
+    margin-bottom: 2.5rem;
+}
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+}
+
+.nav-card {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    padding: 1.2rem 1.4rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-light);
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.nav-icon {
+    font-size: 1.5rem;
+}
+
+.nav-card h3 {
+    margin: 0 0 0.25rem 0;
+}
+
+.nav-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+
+.section-title {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+.blog-listing {
+    margin-bottom: 2.5rem;
+}
+
+.blog-heading h2 {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+}
+
+.blog-heading p {
+    color: var(--text-light);
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.posts-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.posts-table th,
+.posts-table td {
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.posts-table th {
+    background: var(--bg-light);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.posts-table tbody tr:hover {
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.posts-table .col-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.blog-social ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.blog-social li {
+    padding: 0.4rem 0;
+}
+
+.blog-philosophy blockquote {
+    font-size: 1.2rem;
+    font-style: italic;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+    margin: 1rem 0;
+}
+
+.blog-structure pre {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+    overflow-x: auto;
+}
+
+.blog-next ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    color: var(--text-light);
+}
+
+.blog-next li {
+    margin-bottom: 0.6rem;
+}
+
+.blog-footer-cta {
+    text-align: center;
+    margin: 3rem auto 0 auto;
+    max-width: 720px;
+}
+
+.blog-footer-cta p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-bottom: 1.25rem;
 }
 
 @media (max-width: 640px) {
-    .resources-hero h1 {
-        font-size: 2rem;
+    .posts-table {
+        min-width: 100%;
     }
 
-    .resources-grid.long {
-        grid-template-columns: 1fr;
+    .posts-table th:nth-child(3),
+    .posts-table td:nth-child(3) {
+        text-align: right;
+    }
+
+    .blog-hero h1 {
+        font-size: 2.1rem;
+    }
+
+    .blog-lead {
+        font-size: 1rem;
     }
 }
 
