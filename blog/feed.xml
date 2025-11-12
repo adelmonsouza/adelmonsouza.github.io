@@ -5,6 +5,62 @@
     <description>Deep-dives semanais em Java e Spring Boot</description>
     <link>https://enouveau.io/blog/</link>
     <item>
+  <title>Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-12-monitoring-service.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-12-monitoring-service.html</guid>
+  <pubDate>Wed, 12 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Prometheus, Grafana, Alertmanager e runbooks padronizados dão observabilidade operacional ao ecossistema Spring Boot no Day 12.</description>
+</item>
+<item>
+  <title>Day 11/30 — Logging Service in Spring Boot</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-11-logging-service.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-11-logging-service.html</guid>
+  <pubDate>Tue, 11 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Logback + SLF4J, correlação distribuída, mascaramento de dados sensíveis e centralização ELK. Day 11 coloca observabilidade textual em ordem.</description>
+</item>
+<item>
+  <title>Day 10/30 — Reporting Service em Spring Boot</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-streaming.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-streaming.html</guid>
+  <pubDate>Mon, 10 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Dia 10 do #30DiasJava: construí um Reporting Service em Spring Boot que transforma eventos brutos em métricas confiáveis com snapshots diários, APIs aceleradas e exports self-service.</description>
+</item>
+<item>
+  <title>Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-under-the-hood.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-under-the-hood.html</guid>
+  <pubDate>Mon, 10 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Snapshots diários via Spring Batch, caches Redis, exports self-service e observabilidade proativa. Day 10 do #30DaysOfJava transforma eventos em métricas executivas.</description>
+</item>
+<item>
+  <title>Day 9/30 — Payment Service, Ledgers, and Idempotent Webhooks</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-09-payment-service-ledger.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-09-payment-service-ledger.html</guid>
+  <pubDate>Sun, 09 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 9 do #30DiasJava: Payment Service com ledger imutável, integrações Stripe/MBWay, webhooks idempotentes, reconciliação e observabilidade financeira.</description>
+</item>
+<item>
+  <title>Day 8/30 — Search Service with Vector Ops and Observability</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-08-search-service-vector-ops.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-08-search-service-vector-ops.html</guid>
+  <pubDate>Sat, 08 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 8 do #30DiasJava blueprint: busca textual com PostgreSQL + trigramas, vetores pgvector, indexação incremental, rate limiting e observabilidade completa.</description>
+</item>
+<item>
+  <title>Day 7/30 — Intelligent Assistants Powered by Real-Time Events</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-07-intelligent-assistants-real-time.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-07-intelligent-assistants-real-time.html</guid>
+  <pubDate>Fri, 07 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 7 do #30DiasJava conectou assistentes, bots e dashboards à mesma malha de eventos — com segurança, governança de payload e monitoramento completo.</description>
+</item>
+<item>
+  <title>Day 6/30 — Docker Professional Stack in 7 Steps</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html</guid>
+  <pubDate>Thu, 06 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção.</description>
+</item>
+<item>
   <title>Day 5/30 — Notification Service with Event-Driven Architecture</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html</guid>

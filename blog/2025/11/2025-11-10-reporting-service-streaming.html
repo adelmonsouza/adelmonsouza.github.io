@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 10/30 — Reporting Service em Spring Boot · The Java Place</title>
+  <meta name="description" content="Dia 10 do #30DiasJava: construí um Reporting Service em Spring Boot que transforma eventos brutos em métricas confiáveis com snapshots diários, APIs aceleradas e exports self-service." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-streaming.html" />
+  <meta property="og:title" content="Day 10/30 — Reporting Service em Spring Boot" />
+  <meta property="og:description" content="Dia 10 do #30DiasJava: construí um Reporting Service em Spring Boot que transforma eventos brutos em métricas confiáveis com snapshots diários, APIs aceleradas e exports self-service." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-streaming.html" />
+  <meta property="article:published_time" content="2025-11-10T00:00:00.000Z" />
+  <meta property="article:tag" content="Java" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Analytics" />
+  <meta property="article:tag" content="Data Engineering" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 10/30 — Reporting Service em Spring Boot</h1>
+          <p>Dia 10 do #30DiasJava: construí um Reporting Service em Spring Boot que transforma eventos brutos em métricas confiáveis com snapshots diários, APIs aceleradas e exports self-service.</p>
+          <div class="meta-line">
+            <span>📅 10 de novembro de 2025</span>
+            <span>⏱️ 2 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>“Dashboards confiáveis só existem quando snapshots, APIs e exports falam a mesma língua.” — <em>#30DiasJava Field Notes</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 10</h2>
+<p>Cheguei à metade da primeira quinzena do #30DiasJava e era hora de transformar os eventos financeiros do desafio em métricas que um board executivo possa confiar. O foco do dia foi entregar um <strong>Reporting Service</strong> que roda isolado do OLTP, gera snapshots diários e expõe dados em formatos que escalam do dashboard ao Excel.</p>
+<h2>🛠️ O que saiu do forno</h2>
+<ul>
+<li><strong>Snapshots Spring Batch</strong>: jobs particionados escrevem em <code>reporting_*</code> usando <code>INSERT ... ON CONFLICT</code> para manter histórico sem recálculos.</li>
+<li><strong>Insight APIs + Redis</strong>: consultas agregadas servidas por projections JPA e cache com TTL curto — respostas em milissegundos.</li>
+<li><strong>Exports self-service</strong>: geração PDF/CSV com Thymeleaf + OpenPDF, publicação em S3/MinIO e e-mail automático para as áreas interessadas.</li>
+<li><strong>RBAC/OAuth2</strong>: escopos dedicados (<code>reporting:finance</code>, <code>reporting:leadership</code>) controlam o que cada papel enxerga.</li>
+<li><strong>Observabilidade ponta a ponta</strong>: métricas como <code>reporting.batch.duration</code> e <code>reporting.export.count</code>, traces distribuídos e dashboards Grafana opinativos.</li>
+</ul>
+<h2>🧪 Decisões de arquitetura</h2>
+<ul>
+<li><strong>Batch isolado</strong>: jobs executam em um worker dedicado para não competir com o tráfego online.</li>
+<li><strong>Projeções dedicadas</strong>: queries pré-otimizadas evitam n+1 e trazem apenas o necessário para os gráficos.</li>
+<li><strong>Fila de exports</strong>: pedidos são persistidos, processados idempotentemente e versionados para auditoria.</li>
+<li><strong>Governança de dados</strong>: cada snapshot recebe <code>datasetVersion</code>, authoring metadata e é rastreável até o evento bruto.</li>
+</ul>
+<h2>📈 Por que importa</h2>
+<ul>
+<li>Disponibiliza métricas repetíveis sem planilhas paralelas.</li>
+<li>Libera o time de engenharia das requisições ad hoc diárias.</li>
+<li>Mantém o banco transacional saudável: leitura pesada e exports rodam longe do OLTP.</li>
+<li>Garante alertas pró-ativos: qualquer batch acima de 10 minutos ou falha de export dispara incident response.</li>
+</ul>
+<h2>🔗 Recursos</h2>
+<ul>
+<li>Deep dive: <a href="https://enouveau.io/blog/2025/11/10/reporting-service-under-the-hood.html">Reporting Service — Under the Hood</a></li>
+<li>Código: <a href="https://github.com/adelmonsouza/30DiasJava-Day10-ReportingService">adelmonsouza/30DiasJava-Day10-ReportingService</a></li>
+</ul>
+<hr>
+<p><strong>Next episode</strong> → <a href="../2025-11-11-logging-service.html">Day 11/30 — Logging Service in Spring Boot</a></p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Day10-ReportingService" target="_blank" rel="noopener">Código no GitHub</a>
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>

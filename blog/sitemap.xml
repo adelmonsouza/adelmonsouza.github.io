@@ -17,6 +17,46 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-12-monitoring-service.html</loc>
+    <lastmod>2025-11-12T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-11-logging-service.html</loc>
+    <lastmod>2025-11-11T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-streaming.html</loc>
+    <lastmod>2025-11-10T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-under-the-hood.html</loc>
+    <lastmod>2025-11-10T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-09-payment-service-ledger.html</loc>
+    <lastmod>2025-11-09T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-08-search-service-vector-ops.html</loc>
+    <lastmod>2025-11-08T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-07-intelligent-assistants-real-time.html</loc>
+    <lastmod>2025-11-07T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html</loc>
+    <lastmod>2025-11-06T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
     <loc>https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html</loc>
     <lastmod>2025-11-05T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>

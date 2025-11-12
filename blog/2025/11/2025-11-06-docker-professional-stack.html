@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 6/30 — Docker Professional Stack in 7 Steps · The Java Place</title>
+  <meta name="description" content="Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html" />
+  <meta property="og:title" content="Day 6/30 — Docker Professional Stack in 7 Steps" />
+  <meta property="og:description" content="Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html" />
+  <meta property="article:published_time" content="2025-11-06T00:00:00.000Z" />
+  <meta property="article:tag" content="DevOps" />
+  <meta property="article:tag" content="Docker" />
+  <meta property="article:tag" content="SRE" />
+  <meta property="article:tag" content="Observability" />
+  <meta property="article:tag" content="Remote Workspace" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 6/30 — Docker Professional Stack in 7 Steps</h1>
+          <p>Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção.</p>
+          <div class="meta-line">
+            <span>📅 06 de novembro de 2025</span>
+            <span>⏱️ 1 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>“Infra só escala quando ser previsível vira cultura.” — <em>#30DiasJava Runbook</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 6</h2>
+<p>Com o Notification Service online, o foco passou a ser infraestrutura. O Day 6 do #30DiasJava consolidou o stack Docker para que qualquer serviço — atual ou futuro — rode com a mesma segurança, performance e experiência de onboarding.</p>
+<h2>🛠️ Destaques da implementação</h2>
+<ul>
+<li><strong>Naming convention</strong>: todas as imagens seguem <code>adelmo/{servico}:{tag}</code>. A padronização ajuda no cache de CI/CD e na leitura dos registries.</li>
+<li><strong>Compose profissional</strong>: arquivo <code>docker-compose.professional.yml</code> com limites de CPU/RAM, <code>no-new-privileges</code>, mounts <code>read_only</code> e health checks autenticados.</li>
+<li><strong>Workspace remoto</strong>: container dedicado com SSH (<code>ssh -p 2222 challenge@localhost</code>) e scripts de manutenção (<code>scripts/maintenance.sh</code>, <code>cleanup-and-organize.sh</code>).</li>
+<li><strong>Observabilidade embutida</strong>: Prometheus e Grafana sobem com dashboards base, logs rotacionados e alertas mínimos prontos.</li>
+<li><strong>Documentação viva</strong>: hardening, secrets e fluxo de backup documentados diretamente no repositório.</li>
+</ul>
+<h2>💡 Lições do dia</h2>
+<ul>
+<li>O custo de um padrão só aparece quando outra pessoa tenta executar o mesmo stack — por isso scripts e doc vêm antes de “rodar manualmente”.</li>
+<li>Health checks sem autenticação são portas abertas; ajustar cada serviço para responder com tokens/headers foi decisivo.</li>
+<li>Ter um workspace remoto evita “works on my machine” e ainda facilita pair programming com quem acompanha o desafio.</li>
+</ul>
+<h2>🔗 Recursos</h2>
+<ul>
+<li>Artigo completo: <a href="https://enouveau.io/blog/2025/11/06/docker-professional-stack.html">https://enouveau.io/blog/2025/11/06/docker-professional-stack.html</a></li>
+<li>Próximo ajuste: integrar scanners de segurança (Trivy/Grype) ao pipeline padrão.</li>
+</ul>
+<hr>
+<p><strong>Next episode</strong> → <a href="../2025-11-07-intelligent-assistants-real-time.html">Day 7/30 — Intelligent Assistants Powered by Real-Time Events</a></p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>
