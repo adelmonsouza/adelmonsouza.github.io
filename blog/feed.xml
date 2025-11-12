@@ -19,11 +19,11 @@
   <description>Logback + SLF4J, correlação distribuída, mascaramento de dados sensíveis e centralização ELK. Day 11 coloca observabilidade textual em ordem.</description>
 </item>
 <item>
-  <title>Desafio das Águias — Dia 10: Reporting Service em Spring Boot</title>
+  <title>Day 10/30 — Reporting Service em Spring Boot</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-streaming.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-streaming.html</guid>
   <pubDate>Mon, 10 Nov 2025 00:00:00 GMT</pubDate>
-  <description>Dia 10 no Desafio das Águias: criámos um Reporting Service que transforma eventos brutos em métricas confiáveis, com snapshots diários, APIs aceleradas e exports self-service — tudo com segurança e observabilidade.</description>
+  <description>Dia 10 do #30DiasJava: construí um Reporting Service em Spring Boot que transforma eventos brutos em métricas confiáveis com snapshots diários, APIs aceleradas e exports self-service.</description>
 </item>
 <item>
   <title>Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics</title>
@@ -33,39 +33,39 @@
   <description>Snapshots diários via Spring Batch, caches Redis, exports self-service e observabilidade proativa. Day 10 do #30DaysOfJava transforma eventos em métricas executivas.</description>
 </item>
 <item>
-  <title>30 Days of Java — Day 9: Payment Service, Ledgers, and Idempotent Webhooks</title>
+  <title>Day 9/30 — Payment Service, Ledgers, and Idempotent Webhooks</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-09-payment-service-ledger.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-09-payment-service-ledger.html</guid>
   <pubDate>Sun, 09 Nov 2025 00:00:00 GMT</pubDate>
-  <description>Desenhando o Payment Service com ledger imutável, integração Stripe/MBWay, idempotência de webhooks, reconciliação e observabilidade financeira.</description>
+  <description>Day 9 do #30DiasJava: Payment Service com ledger imutável, integrações Stripe/MBWay, webhooks idempotentes, reconciliação e observabilidade financeira.</description>
 </item>
 <item>
-  <title>30 Days of Java — Day 8: Search Service with Vector Ops and Observability</title>
+  <title>Day 8/30 — Search Service with Vector Ops and Observability</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-08-search-service-vector-ops.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-08-search-service-vector-ops.html</guid>
   <pubDate>Sat, 08 Nov 2025 00:00:00 GMT</pubDate>
-  <description>Blueprint do Search Service: combina busca textual (PostgreSQL + trigramas) com vetores (pgvector), indexação incremental, rate limiting, segurança e monitoring.</description>
+  <description>Day 8 do #30DiasJava blueprint: busca textual com PostgreSQL + trigramas, vetores pgvector, indexação incremental, rate limiting e observabilidade completa.</description>
 </item>
 <item>
-  <title>30 Days of Java — Day 7: Intelligent Assistants Powered by Real-Time Events</title>
+  <title>Day 7/30 — Intelligent Assistants Powered by Real-Time Events</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-07-intelligent-assistants-real-time.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-07-intelligent-assistants-real-time.html</guid>
   <pubDate>Fri, 07 Nov 2025 00:00:00 GMT</pubDate>
-  <description>Como conectamos a assistente Nova, bots de chat e painéis analíticos à mesma malha de eventos em tempo real — com segurança, governança de payload e monitoramento completo.</description>
+  <description>Day 7 do #30DiasJava conectou assistentes, bots e dashboards à mesma malha de eventos — com segurança, governança de payload e monitoramento completo.</description>
 </item>
 <item>
-  <title>30 Days of Java — Day 6: Docker Professional Stack in 7 Steps</title>
+  <title>Day 6/30 — Docker Professional Stack in 7 Steps</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html</guid>
   <pubDate>Thu, 06 Nov 2025 00:00:00 GMT</pubDate>
-  <description>Como levamos o stack Docker do desafio #30DiasJava do modo experimental a um padrão corporativo com imagens nomeadas, healthchecks reais, hardening de segurança e um workspace acessível por SSH.</description>
+  <description>Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção.</description>
 </item>
 <item>
-  <title>30 Days of Java — Day 5: Notification Service with Event-Driven Architecture</title>
+  <title>Day 5/30 — Notification Service with Event-Driven Architecture</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html</guid>
   <pubDate>Wed, 05 Nov 2025 00:00:00 GMT</pubDate>
-  <description>Como construímos um Notification Service com Spring Events, WebSockets/SSE, idempotência e preparação para Kafka/RabbitMQ no desafio #30DiasJava.</description>
+  <description>Day 5 do #30DiasJava: um Notification Service orientado a eventos, com WebSockets/SSE, idempotência e pronto para evoluir de Spring Events para Kafka ou RabbitMQ.</description>
 </item>
   </channel>
 </rss>

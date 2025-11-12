@@ -46,7 +46,7 @@
           </div>
         </header>
         <div class="article-body">
-          <p>Depois do Reporting Service, a cobrança foi clara: “quero seguir um request do app mobile ao backend em segundos”.<br>No <strong>Day 11</strong> construímos o <strong>Logging Service</strong>, um starter padrão que entrega logs estruturados, correlação distribuída e ingestão centralizada com governança.</p>
+          <p>Depois de fechar o Reporting Service, o desafio no Day 11 do #30DiasJava foi garantir rastreabilidade ponta a ponta. O resultado é um <strong>Logging Service</strong> que empacota correlação distribuída, mascaramento de PII e ingestão centralizada em um starter pronto para qualquer microserviço Spring Boot.</p>
 <h2>🧰 What went live</h2>
 <ul>
 <li><strong>Starter de logging</strong> (<code>logging-service-starter</code>) com SLF4J + Logback, layouts JSON e appenders STDOUT/FILE/GELF.</li>
@@ -57,9 +57,9 @@
 </ul>
 <h2>💡 Why it matters</h2>
 <ul>
-<li>Auditoria financeira consegue rastrear cada pagamento ponta a ponta em segundos.</li>
-<li>Resposta a incidentes reduziu drasticamente (buscar requestId → stacktrace → correção).</li>
-<li>Logs viraram insumo para analytics da Start Line (quais missões geram mais WARN/ERROR).</li>
+<li>Auditoria consegue seguir um request em segundos — do mobile ao banco.</li>
+<li>Times de incident response ganham um atalho: <code>requestId</code> → stacktrace → fix.</li>
+<li>Logs estruturados viram insumo para métricas, alertas e análise de produto.</li>
 </ul>
 <h2>📚 Deep dive (+ code)</h2>
 <ul>
@@ -82,7 +82,7 @@
 <li>Dashboards Kibana revisados com o time de suporte e SRE.</li>
 </ul>
 <hr>
-<p><strong>Next episode</strong> → Day 12/30 — Monitoring Service with Prometheus &amp; Grafana<br><strong>Start from zero</strong> → <a href="https://enouveau.io/start-line/season-1-becoming-developer.html">Start Line: Season 1</a></p>
+<p><strong>Next episode</strong> → <a href="../2025-11-12-monitoring-service.html">Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</a></p>
 
         </div>
         <footer class="meta-line">

@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>30 Days of Java — Day 5: Notification Service with Event-Driven Architecture · The Java Place</title>
-  <meta name="description" content="Como construímos um Notification Service com Spring Events, WebSockets/SSE, idempotência e preparação para Kafka/RabbitMQ no desafio #30DiasJava." />
+  <title>Day 5/30 — Notification Service with Event-Driven Architecture · The Java Place</title>
+  <meta name="description" content="Day 5 do #30DiasJava: um Notification Service orientado a eventos, com WebSockets/SSE, idempotência e pronto para evoluir de Spring Events para Kafka ou RabbitMQ." />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html" />
-  <meta property="og:title" content="30 Days of Java — Day 5: Notification Service with Event-Driven Architecture" />
-  <meta property="og:description" content="Como construímos um Notification Service com Spring Events, WebSockets/SSE, idempotência e preparação para Kafka/RabbitMQ no desafio #30DiasJava." />
+  <meta property="og:title" content="Day 5/30 — Notification Service with Event-Driven Architecture" />
+  <meta property="og:description" content="Day 5 do #30DiasJava: um Notification Service orientado a eventos, com WebSockets/SSE, idempotência e pronto para evoluir de Spring Events para Kafka ou RabbitMQ." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html" />
   <meta property="article:published_time" content="2025-11-05T00:00:00.000Z" />
@@ -38,34 +38,41 @@
       <article class="article">
         <header>
           <span class="pill">30DaysOfJava</span>
-          <h1>30 Days of Java — Day 5: Notification Service with Event-Driven Architecture</h1>
-          <p>Como construímos um Notification Service com Spring Events, WebSockets/SSE, idempotência e preparação para Kafka/RabbitMQ no desafio #30DiasJava.</p>
+          <h1>Day 5/30 — Notification Service with Event-Driven Architecture</h1>
+          <p>Day 5 do #30DiasJava: um Notification Service orientado a eventos, com WebSockets/SSE, idempotência e pronto para evoluir de Spring Events para Kafka ou RabbitMQ.</p>
           <div class="meta-line">
             <span>📅 05 de novembro de 2025</span>
-            <span>⏱️ 1 min read</span>
+            <span>⏱️ 2 min read</span>
             <span>🗂️ 30DaysOfJava</span>
           </div>
         </header>
         <div class="article-body">
-          <p>🚀 <strong>#30DaysOfJava Challenge — Day 5/30</strong></p>
-<p>💡 <strong>Project:</strong> Notification Service — Event-Driven Architecture</p>
-<p>Yesterday we focused on keeping inventory state consistent.<br>Today we moved into real-time communication — where responsiveness, observability, and scalability take center stage.</p>
-<p>🎯 <strong>Inside the article:</strong></p>
+          <blockquote>
+<p>“Every event is an opportunity to surprise the user — or to flood them with noise.” — <em>#30DiasJava Logbook</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 5</h2>
+<p>O quinto dia do #30DiasJava inaugurou o lado em tempo real da plataforma. A missão: construir um <strong>Notification Service</strong> capaz de tratar eventos de domínio, entregar mensagens em múltiplos canais e manter governança mesmo antes de subir para Kafka ou RabbitMQ.</p>
+<h2>🛠️ Destaques da implementação</h2>
 <ul>
-<li>Emitting domain events (<code>NotificationRequestedEvent</code>) and keeping producers decoupled from delivery channels  </li>
-<li>Building async listeners with <code>@EventListener</code>, outbox persistence, retries, and rate limiting  </li>
-<li>Choosing between WebSockets and Server-Sent Events (SSE) for different UX needs  </li>
-<li>Knowing when to graduate from in-memory Spring Events to Kafka or RabbitMQ — without rewriting the domain</li>
+<li><strong>Orquestração por eventos</strong>: <code>NotificationRequestedEvent</code> desacopla produtores dos canais (email, push, in-app). Cada listener roda de forma assíncrona com <code>@EventListener</code> + <code>@Async</code>.</li>
+<li><strong>Outbox + idempotência</strong>: registros pendentes vão para <code>notification_outbox</code> e só são marcados como <code>DELIVERED</code> quando o canal confirma. Duplicatas são bloqueadas com índices únicos.</li>
+<li><strong>WebSockets vs SSE</strong>: o serviço expõe ambos. SSE para streams leves e estáveis; WebSockets para experiências interativas. Em ambos, JWT + rate limiting em Redis.</li>
+<li><strong>Roteamento inteligente</strong>: regras de prioridade por público, janelas de silêncio e preferências por canal.</li>
+<li><strong>Observabilidade</strong>: métricas (<code>notification_delivery_seconds</code>, <code>notification_retry_total</code>), logs com <code>traceId</code>/<code>recipientId</code> e dashboards com heatmaps de erro.</li>
 </ul>
-<p>⚙️ <strong>Quick insight:</strong><br>Event-Driven Architecture turns your platform from reactive to proactive — every emitted event becomes a chance to delight the user, trigger automation, or feed analytics.</p>
-<p>🔗 <strong>Read the full article:</strong><br>👉 enouveau.io/blog/2025/11/05/notification-service-event-driven.html</p>
-<p>💬 <strong>Your turn:</strong>  </p>
+<h2>💡 Lições do dia</h2>
 <ul>
-<li>Have you used events in your Spring Boot projects?  </li>
-<li>What’s your go-to approach for scaling notifications — in-process listeners, queues, or external brokers?</li>
+<li>Dá para começar “pequeno” com Spring Events sem fechar a porta para brokers mais robustos — basta modelar tudo como mensagens imutáveis.</li>
+<li>Idempotência precisa ser tratada desde o primeiro webhook, mesmo que o tráfego ainda seja baixo.</li>
+<li>Métricas e tracing são tão importantes quanto o payload: sem visibilidade, é impossível saber se os usuários estão recebendo as mensagens certas.</li>
 </ul>
-<p>👇 Let’s discuss and share ideas!</p>
-<p>#Java #SpringBoot #EventDrivenArchitecture #Microservices #Asynchronous #Notifications #SoftwareEngineering #Scalability #CleanCode #TheJavaPlace #30DaysOfJava</p>
+<h2>🔗 Recursos</h2>
+<ul>
+<li>Artigo completo: <a href="https://enouveau.io/blog/2025/11/05/notification-service-event-driven.html">https://enouveau.io/blog/2025/11/05/notification-service-event-driven.html</a></li>
+<li>Próximo passo do código: extrair listeners para containers separados quando Kafka entrar em cena.</li>
+</ul>
+<hr>
+<p><strong>Next episode</strong> → <a href="../2025-11-06-docker-professional-stack.html">Day 6/30 — Docker Professional Stack in 7 Steps</a></p>
 
         </div>
         <footer class="meta-line">

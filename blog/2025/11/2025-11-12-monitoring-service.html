@@ -46,20 +46,20 @@
           </div>
         </header>
         <div class="article-body">
-          <p>Depois do logging estruturado, era hora de mostrar saúde em tempo real.<br>No <strong>Day 12</strong> construímos o <strong>Monitoring Service</strong>: métricas padronizadas, dashboards opinativos e alertas acionáveis.</p>
+          <p>Depois do logging estruturado, o Day 12/30 do #30DiasJava foi dedicado à saúde operacional. O resultado é um <strong>Monitoring Service</strong> com métricas padronizadas, dashboards versionados e alertas acionáveis para todo o ecossistema Spring Boot.</p>
 <h2>📡 What went live</h2>
 <ul>
 <li><strong>Prometheus Operator</strong> com scrape configs automáticos para todos os microsserviços (<code>/actuator/prometheus</code>).</li>
-<li><strong>Dashboards Grafana</strong> (Finance, Reporting, Start Line) versionados em <code>monitoring/dashboards/*.json</code>.</li>
-<li><strong>Alertmanager</strong> integrado ao Slack/Email com escalonamento por severidade (warning → squad, critical → SRE).</li>
-<li><strong>SLO Tracker</strong>: availability e latency objetivos definidos por serviço (ex.: 99.5% availability, P95 &lt; 200 ms).</li>
+<li><strong>Dashboards Grafana</strong> opinativos (Finance, Reporting, Observability) versionados em <code>monitoring/dashboards/*.json</code>.</li>
+<li><strong>Alertmanager</strong> integrado ao Slack/Email com escalonamento por severidade (warning → time responsável, critical → on-call).</li>
+<li><strong>SLO Tracker</strong>: availability e latency definidos por serviço (ex.: 99.5% availability, P95 &lt; 200 ms).</li>
 <li><strong>Runbooks</strong> linkados diretamente nas anotações de alerta.</li>
 </ul>
 <h2>💡 Why it matters</h2>
 <ul>
-<li>Visibilidade unificada: squads, product e SRE olham para os mesmos painéis.</li>
-<li>Alertas priorizados (sem ruidos) com contexto e passos de mitigação.</li>
-<li>Base para Start Line: monitorar progresso dos rookies em tempo real.</li>
+<li>Visibilidade unificada: engenharia, produto e operações olham para os mesmos painéis.</li>
+<li>Alertas priorizados (sem ruído) com contexto completo e passos de mitigação.</li>
+<li>Base para evolução: contratos de métricas permitem comparar serviços sem surpresa.</li>
 </ul>
 <h2>📚 Deep dive (+ code)</h2>
 <ul>
@@ -73,7 +73,7 @@
 <li><strong>Recording rules</strong> em <code>monitoring/prometheus/rules/</code> calculam SLOs e backlog (queue size, export duration).</li>
 <li><strong>Dashboard-as-code</strong>: JSON + <code>grafana-toolkit</code>/Terraform para importar/exportar versões.</li>
 <li><strong>Alert templates</strong> com labels (<code>team</code>, <code>runbook</code>, <code>severity</code>) e anotação com <code>grafana.com/d/&lt;dashboard-id&gt;</code>.</li>
-<li><strong>Synthetic probes</strong>: <code>monitoring-prober</code> chama endpoints críticos a cada 30 s (health check e flows Start Line).</li>
+<li><strong>Synthetic probes</strong>: <code>monitoring-prober</code> chama endpoints críticos a cada 30 s (health check e fluxos essenciais).</li>
 </ul>
 <h2>✅ Daily checklist</h2>
 <ul>
@@ -82,7 +82,7 @@
 <li>Painéis Grafana atualizados com notas de deploy e SLO compliance.</li>
 </ul>
 <hr>
-<p><strong>Next episode</strong> → Day 13/30 — Feature Flags &amp; Experimentation Platform<br><strong>Start from zero</strong> → <a href="https://enouveau.io/start-line/season-1-becoming-developer.html">Start Line: Season 1</a></p>
+<p><strong>Next episode</strong> → Day 13/30 — Feature Flags &amp; Experimentation Platform (em breve)</p>
 
         </div>
         <footer class="meta-line">
