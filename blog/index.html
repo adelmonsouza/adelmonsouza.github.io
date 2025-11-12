@@ -3,158 +3,149 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Java Place — Blog</title>
-  <meta name="description" content="Artigos técnicos, deep-dives e práticas de arquitetura moderna em Java e Spring Boot." />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="alternate" type="application/rss+xml" title="The Java Place" href="./feed.xml" />
+  <title>Blog — The Java Place</title>
+  <meta name="description" content="Deep-dives técnicos em Java e Spring Boot. Conteúdo executivo para squads que entregam sistemas resilientes, observáveis e prontos para produção." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="alternate" type="application/rss+xml" title="The Java Place" href="/blog/feed.xml" />
 </head>
 <body>
-  <div class="container">
-    <header class="site-header">
-      <h1>🚀 The Java Place</h1>
-      <p class="tagline">Deep-dives em Java e Spring Boot. Sem fluff — apenas conteúdo inteligente para desenvolvedores que buscam o próximo nível.</p>
-      <nav class="links">
-        <a href="https://enouveau.io">Home</a>
-        <a href="https://enouveau.io/about">About</a>
-        <a href="https://enouveau.io/resources">Resources</a>
-      </nav>
-    </header>
-
-    <main>
-      <section class="articles">
-        <h2>📚 Blog — The Java Place</h2>
-        <p class="section-subtitle">Artigos técnicos, deep-dives e práticas de arquitetura moderna em Java e Spring Boot.</p>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Título</th>
-                <th>Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-          <td data-label="Data"><time datetime="2025-11-12T00:00:00.000Z">12 de nov. de 2025</time></td>
-          <td data-label="Título">
-            <div class="title-cell">
-              <span class="series-badge">30DaysOfJava</span>
-              <strong>Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</strong>
-              <p>Prometheus, Grafana, Alertmanager e runbooks padronizados dão observabilidade operacional ao ecossistema Spring Boot no Day 12.</p>
-            </div>
-          </td>
-          <td data-label="Link"><a href="https://enouveau.io/blog/2025/11/2025-11-12-monitoring-service.html" aria-label="Ler Day 12/30 — Monitoring Service with Prometheus &amp; Grafana">Ler mais →</a></td>
-        </tr>
-<tr>
-          <td data-label="Data"><time datetime="2025-11-11T00:00:00.000Z">11 de nov. de 2025</time></td>
-          <td data-label="Título">
-            <div class="title-cell">
-              <span class="series-badge">30DaysOfJava</span>
-              <strong>Day 11/30 — Logging Service in Spring Boot</strong>
-              <p>Logback + SLF4J, correlação distribuída, mascaramento de dados sensíveis e centralização ELK. Day 11 coloca observabilidade textual em ordem.</p>
-            </div>
-          </td>
-          <td data-label="Link"><a href="https://enouveau.io/blog/2025/11/2025-11-11-logging-service.html" aria-label="Ler Day 11/30 — Logging Service in Spring Boot">Ler mais →</a></td>
-        </tr>
-<tr>
-          <td data-label="Data"><time datetime="2025-11-10T00:00:00.000Z">10 de nov. de 2025</time></td>
-          <td data-label="Título">
-            <div class="title-cell">
-              <span class="series-badge">DesafioDasAguias</span>
-              <strong>Desafio das Águias — Dia 10: Reporting Service em Spring Boot</strong>
-              <p>Dia 10 no Desafio das Águias: criámos um Reporting Service que transforma eventos brutos em métricas confiáveis, com snapshots diários, APIs aceleradas e exports self-service — tudo com segurança e observabilidade.</p>
-            </div>
-          </td>
-          <td data-label="Link"><a href="https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-streaming.html" aria-label="Ler Desafio das Águias — Dia 10: Reporting Service em Spring Boot">Ler mais →</a></td>
-        </tr>
-<tr>
-          <td data-label="Data"><time datetime="2025-11-10T00:00:00.000Z">10 de nov. de 2025</time></td>
-          <td data-label="Título">
-            <div class="title-cell">
-              <span class="series-badge">30DaysOfJava</span>
-              <strong>Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics</strong>
-              <p>Snapshots diários via Spring Batch, caches Redis, exports self-service e observabilidade proativa. Day 10 do #30DaysOfJava transforma eventos em métricas executivas.</p>
-            </div>
-          </td>
-          <td data-label="Link"><a href="https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-under-the-hood.html" aria-label="Ler Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics">Ler mais →</a></td>
-        </tr>
-<tr>
-          <td data-label="Data"><time datetime="2025-11-09T00:00:00.000Z">09 de nov. de 2025</time></td>
-          <td data-label="Título">
-            <div class="title-cell">
-              <span class="series-badge">30DaysOfJava</span>
-              <strong>30 Days of Java — Day 9: Payment Service, Ledgers, and Idempotent Webhooks</strong>
-              <p>Desenhando o Payment Service com ledger imutável, integração Stripe/MBWay, idempotência de webhooks, reconciliação e observabilidade financeira.</p>
-            </div>
-          </td>
-          <td data-label="Link"><a href="https://enouveau.io/blog/2025/11/2025-11-09-payment-service-ledger.html" aria-label="Ler 30 Days of Java — Day 9: Payment Service, Ledgers, and Idempotent Webhooks">Ler mais →</a></td>
-        </tr>
-<tr>
-          <td data-label="Data"><time datetime="2025-11-08T00:00:00.000Z">08 de nov. de 2025</time></td>
-          <td data-label="Título">
-            <div class="title-cell">
-              <span class="series-badge">30DaysOfJava</span>
-              <strong>30 Days of Java — Day 8: Search Service with Vector Ops and Observability</strong>
-              <p>Blueprint do Search Service: combina busca textual (PostgreSQL + trigramas) com vetores (pgvector), indexação incremental, rate limiting, segurança e monitoring.</p>
-            </div>
-          </td>
-          <td data-label="Link"><a href="https://enouveau.io/blog/2025/11/2025-11-08-search-service-vector-ops.html" aria-label="Ler 30 Days of Java — Day 8: Search Service with Vector Ops and Observability">Ler mais →</a></td>
-        </tr>
-<tr>
-          <td data-label="Data"><time datetime="2025-11-07T00:00:00.000Z">07 de nov. de 2025</time></td>
-          <td data-label="Título">
-            <div class="title-cell">
-              <span class="series-badge">30DaysOfJava</span>
-              <strong>30 Days of Java — Day 7: Intelligent Assistants Powered by Real-Time Events</strong>
-              <p>Como conectamos a assistente Nova, bots de chat e painéis analíticos à mesma malha de eventos em tempo real — com segurança, governança de payload e monitoramento completo.</p>
-            </div>
-          </td>
-          <td data-label="Link"><a href="https://enouveau.io/blog/2025/11/2025-11-07-intelligent-assistants-real-time.html" aria-label="Ler 30 Days of Java — Day 7: Intelligent Assistants Powered by Real-Time Events">Ler mais →</a></td>
-        </tr>
-<tr>
-          <td data-label="Data"><time datetime="2025-11-06T00:00:00.000Z">06 de nov. de 2025</time></td>
-          <td data-label="Título">
-            <div class="title-cell">
-              <span class="series-badge">30DaysOfJava</span>
-              <strong>30 Days of Java — Day 6: Docker Professional Stack in 7 Steps</strong>
-              <p>Como levamos o stack Docker do desafio #30DiasJava do modo experimental a um padrão corporativo com imagens nomeadas, healthchecks reais, hardening de segurança e um workspace acessível por SSH.</p>
-            </div>
-          </td>
-          <td data-label="Link"><a href="https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html" aria-label="Ler 30 Days of Java — Day 6: Docker Professional Stack in 7 Steps">Ler mais →</a></td>
-        </tr>
-<tr>
-          <td data-label="Data"><time datetime="2025-11-05T00:00:00.000Z">05 de nov. de 2025</time></td>
-          <td data-label="Título">
-            <div class="title-cell">
-              <span class="series-badge">30DaysOfJava</span>
-              <strong>30 Days of Java — Day 5: Notification Service with Event-Driven Architecture</strong>
-              <p>Como construímos um Notification Service com Spring Events, WebSockets/SSE, idempotência e preparação para Kafka/RabbitMQ no desafio #30DiasJava.</p>
-            </div>
-          </td>
-          <td data-label="Link"><a href="https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html" aria-label="Ler 30 Days of Java — Day 5: Notification Service with Event-Driven Architecture">Ler mais →</a></td>
-        </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="extras">
-        <div class="card social">
-          <h3>🔗 Social</h3>
-          <p><strong>GitHub:</strong> <a href="https://github.com/adelmonsouza">adelmonsouza</a></p>
-          <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/adelmon/">Perfil Profissional</a></p>
-        </div>
-        <div class="card philosophy">
-          <h3>🍃 Filosofia</h3>
-          <blockquote>“Build systems that teach you as much as they serve you.” — The Java Place · v25 Edition</blockquote>
-          <p>Inspirado no estilo editorial do AdoptOpen/OpenJDK 25, o foco é clareza visual, nomenclatura padrão e hierarquia modular.</p>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <p>© 2025 E-Nouveau — The Java Place.</p>
-    </footer>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
   </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+    <section class="hero hero--compact">
+      <div class="hero__eyebrow">Blog — The Java Place</div>
+      <h1>Deep dives em Java e Spring Boot, publicados diariamente.</h1>
+      <p>8/30 episódios do desafio #30DaysOfJava já estão no ar, com código, métricas e runbooks prontos para produção.</p>
+      <div class="progress-track">
+        <div class="progress-value" style="width: 27%"></div>
+      </div>
+      <div class="progress-meta">
+        <span>8 episódios publicados</span>
+        <span>Último drop: <a href="/blog/2025/11/2025-11-12-monitoring-service.html">Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</a></span>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Entradas mais recentes</h2>
+      <p class="section-subtitle">Arquitetura, observabilidade e resiliência com Spring Boot. Cada artigo acompanha métricas, testes e playbooks de produção.</p>
+      <ul class="post-list">
+        <li class="post-row">
+        <div class="post-row__date">12 de nov. de 2025</div>
+        <div class="post-row__body">
+          <span class="pill">30DaysOfJava</span>
+          <h3><a href="/blog/2025/11/2025-11-12-monitoring-service.html">Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</a></h3>
+          <p>Prometheus, Grafana, Alertmanager e runbooks padronizados dão observabilidade operacional ao ecossistema Spring Boot no Day 12.</p>
+        </div>
+        <div class="post-row__cta">
+          <a href="/blog/2025/11/2025-11-12-monitoring-service.html" aria-label="Ler Day 12/30 — Monitoring Service with Prometheus &amp; Grafana">Ler mais →</a>
+        </div>
+      </li>
+<li class="post-row">
+        <div class="post-row__date">11 de nov. de 2025</div>
+        <div class="post-row__body">
+          <span class="pill">30DaysOfJava</span>
+          <h3><a href="/blog/2025/11/2025-11-11-logging-service.html">Day 11/30 — Logging Service in Spring Boot</a></h3>
+          <p>Logback + SLF4J, correlação distribuída, mascaramento de dados sensíveis e centralização ELK. Day 11 coloca observabilidade textual em ordem.</p>
+        </div>
+        <div class="post-row__cta">
+          <a href="/blog/2025/11/2025-11-11-logging-service.html" aria-label="Ler Day 11/30 — Logging Service in Spring Boot">Ler mais →</a>
+        </div>
+      </li>
+<li class="post-row">
+        <div class="post-row__date">10 de nov. de 2025</div>
+        <div class="post-row__body">
+          <span class="pill">DesafioDasAguias</span>
+          <h3><a href="/blog/2025/11/2025-11-10-reporting-service-streaming.html">Desafio das Águias — Dia 10: Reporting Service em Spring Boot</a></h3>
+          <p>Dia 10 no Desafio das Águias: criámos um Reporting Service que transforma eventos brutos em métricas confiáveis, com snapshots diários, APIs aceleradas e exports self-service — tudo com segurança e observabilidade.</p>
+        </div>
+        <div class="post-row__cta">
+          <a href="/blog/2025/11/2025-11-10-reporting-service-streaming.html" aria-label="Ler Desafio das Águias — Dia 10: Reporting Service em Spring Boot">Ler mais →</a>
+        </div>
+      </li>
+<li class="post-row">
+        <div class="post-row__date">10 de nov. de 2025</div>
+        <div class="post-row__body">
+          <span class="pill">30DaysOfJava</span>
+          <h3><a href="/blog/2025/11/2025-11-10-reporting-service-under-the-hood.html">Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics</a></h3>
+          <p>Snapshots diários via Spring Batch, caches Redis, exports self-service e observabilidade proativa. Day 10 do #30DaysOfJava transforma eventos em métricas executivas.</p>
+        </div>
+        <div class="post-row__cta">
+          <a href="/blog/2025/11/2025-11-10-reporting-service-under-the-hood.html" aria-label="Ler Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics">Ler mais →</a>
+        </div>
+      </li>
+<li class="post-row">
+        <div class="post-row__date">09 de nov. de 2025</div>
+        <div class="post-row__body">
+          <span class="pill">30DaysOfJava</span>
+          <h3><a href="/blog/2025/11/2025-11-09-payment-service-ledger.html">30 Days of Java — Day 9: Payment Service, Ledgers, and Idempotent Webhooks</a></h3>
+          <p>Desenhando o Payment Service com ledger imutável, integração Stripe/MBWay, idempotência de webhooks, reconciliação e observabilidade financeira.</p>
+        </div>
+        <div class="post-row__cta">
+          <a href="/blog/2025/11/2025-11-09-payment-service-ledger.html" aria-label="Ler 30 Days of Java — Day 9: Payment Service, Ledgers, and Idempotent Webhooks">Ler mais →</a>
+        </div>
+      </li>
+<li class="post-row">
+        <div class="post-row__date">08 de nov. de 2025</div>
+        <div class="post-row__body">
+          <span class="pill">30DaysOfJava</span>
+          <h3><a href="/blog/2025/11/2025-11-08-search-service-vector-ops.html">30 Days of Java — Day 8: Search Service with Vector Ops and Observability</a></h3>
+          <p>Blueprint do Search Service: combina busca textual (PostgreSQL + trigramas) com vetores (pgvector), indexação incremental, rate limiting, segurança e monitoring.</p>
+        </div>
+        <div class="post-row__cta">
+          <a href="/blog/2025/11/2025-11-08-search-service-vector-ops.html" aria-label="Ler 30 Days of Java — Day 8: Search Service with Vector Ops and Observability">Ler mais →</a>
+        </div>
+      </li>
+<li class="post-row">
+        <div class="post-row__date">07 de nov. de 2025</div>
+        <div class="post-row__body">
+          <span class="pill">30DaysOfJava</span>
+          <h3><a href="/blog/2025/11/2025-11-07-intelligent-assistants-real-time.html">30 Days of Java — Day 7: Intelligent Assistants Powered by Real-Time Events</a></h3>
+          <p>Como conectamos a assistente Nova, bots de chat e painéis analíticos à mesma malha de eventos em tempo real — com segurança, governança de payload e monitoramento completo.</p>
+        </div>
+        <div class="post-row__cta">
+          <a href="/blog/2025/11/2025-11-07-intelligent-assistants-real-time.html" aria-label="Ler 30 Days of Java — Day 7: Intelligent Assistants Powered by Real-Time Events">Ler mais →</a>
+        </div>
+      </li>
+<li class="post-row">
+        <div class="post-row__date">06 de nov. de 2025</div>
+        <div class="post-row__body">
+          <span class="pill">30DaysOfJava</span>
+          <h3><a href="/blog/2025/11/2025-11-06-docker-professional-stack.html">30 Days of Java — Day 6: Docker Professional Stack in 7 Steps</a></h3>
+          <p>Como levamos o stack Docker do desafio #30DiasJava do modo experimental a um padrão corporativo com imagens nomeadas, healthchecks reais, hardening de segurança e um workspace acessível por SSH.</p>
+        </div>
+        <div class="post-row__cta">
+          <a href="/blog/2025/11/2025-11-06-docker-professional-stack.html" aria-label="Ler 30 Days of Java — Day 6: Docker Professional Stack in 7 Steps">Ler mais →</a>
+        </div>
+      </li>
+<li class="post-row">
+        <div class="post-row__date">05 de nov. de 2025</div>
+        <div class="post-row__body">
+          <span class="pill">30DaysOfJava</span>
+          <h3><a href="/blog/2025/11/2025-11-05-notification-service-event-driven.html">30 Days of Java — Day 5: Notification Service with Event-Driven Architecture</a></h3>
+          <p>Como construímos um Notification Service com Spring Events, WebSockets/SSE, idempotência e preparação para Kafka/RabbitMQ no desafio #30DiasJava.</p>
+        </div>
+        <div class="post-row__cta">
+          <a href="/blog/2025/11/2025-11-05-notification-service-event-driven.html" aria-label="Ler 30 Days of Java — Day 5: Notification Service with Event-Driven Architecture">Ler mais →</a>
+        </div>
+      </li>
+      </ul>
+    </section>
+  
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
 </body>
 </html>

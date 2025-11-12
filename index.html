@@ -1,88 +1,140 @@
----
-layout: default
-title: The Java Place
----
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Java Place — Deep Dives em Java e Spring Boot</title>
+  <meta name="description" content="Deep-dives profissionais que transformam projetos Spring Boot em sistemas prontos para produção: arquitetura, resiliência, observabilidade e DevOps." />
+  <link rel="stylesheet" href="/styles.css" />
+  
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+    <section class="hero">
+      <div class="hero__eyebrow">#30DaysOfJava Challenge</div>
+      <h1>Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</h1>
+      <p>Prometheus, Grafana, Alertmanager e runbooks padronizados dão observabilidade operacional ao ecossistema Spring Boot no Day 12.</p>
+      <div class="progress-track">
+        <div class="progress-value" style="width: 27%"></div>
+      </div>
+      <div class="progress-meta">
+        <span>8/30 episódios publicados</span>
+        <span>Mais recente: <a href="/blog/2025/11/2025-11-12-monitoring-service.html">Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</a></span>
+      </div>
+      <div class="cta-group">
+        <a class="btn btn-primary" href="/blog/2025/11/2025-11-12-monitoring-service.html">Ler o episódio de hoje</a>
+        <a class="btn btn-ghost" href="https://github.com/adelmonsouza/30DiasJava-Day12-Monitoring" target="_blank" rel="noopener">Explorar código no GitHub</a>
+      </div>
+    </section>
 
-<div class="hero">
-    <h1>🚀 The Java Place</h1>
-    <p>Deep-Dives em Java e Spring Boot que ajudam você a construir arquiteturas resilientes, escaláveis e prontas para produção.</p>
-    <p><strong>Sem fluff — apenas conteúdo inteligente e aplicável.</strong></p>
-</div>
+    <section>
+      <h2 class="section-title">Quick actions</h2>
+      <div class="panel-grid">
+        <div class="panel">
+          <h3>Operações diárias</h3>
+          <ul><li>
+        <span>Clone #30DiasJava</span>
+        <a href="https://github.com/adelmonsouza/30DiasJava-Day12-Monitoring">Abrir →</a>
+      </li>
+<li>
+        <span>Run pre-golive</span>
+        <a href="https://github.com/e-nouveau/desafio-das-aguias/blob/main/pre-golive.sh">Abrir →</a>
+      </li>
+<li>
+        <span>Open Resources Hub</span>
+        <a href="/resources/">Abrir →</a>
+      </li>
+<li>
+        <span>LinkedIn Copy Template</span>
+        <a href="https://github.com/adelmonsouza/adelmonsouza.github.io/blob/main/LinkedIn_Post_Template.md">Abrir →</a>
+      </li></ul>
+        </div>
+        <div class="panel">
+          <h3>Próximos drops</h3>
+          <ul><li>
+        <span>Day 13/30 — Feature Flags &amp; Experimentation Platform</span>
+        <span>13 nov 2025</span>
+      </li>
+      <p>Rollouts graduais, targeting dinâmico e métricas controladas.</p>
+<li>
+        <span>Day 14/30 — Data Lakehouse Financeiro</span>
+        <span>14 nov 2025</span>
+      </li>
+      <p>Delta Lake, orquestração por jobs e governança para CFO insights.</p></ul>
+        </div>
+      </div>
+    </section>
 
-## 🎯 O que você encontrará aqui:
+    <section>
+      <h2 class="section-title">Últimos lançamentos</h2>
+      <p class="section-subtitle">Cada deep dive vem acompanhado de métricas, observabilidade e links para o repositório com deploy documentado.</p>
+      <div class="card-grid">
+        <div class="card">
+        <span class="pill">30DaysOfJava</span>
+        <h3>Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</h3>
+        <p>Prometheus, Grafana, Alertmanager e runbooks padronizados dão observabilidade operacional ao ecossistema Spring Boot no Day 12.</p>
+        <a href="/blog/2025/11/2025-11-12-monitoring-service.html">Ler episódio →</a>
+      </div>
+<div class="card">
+        <span class="pill">30DaysOfJava</span>
+        <h3>Day 11/30 — Logging Service in Spring Boot</h3>
+        <p>Logback + SLF4J, correlação distribuída, mascaramento de dados sensíveis e centralização ELK. Day 11 coloca observabilidade textual em ordem.</p>
+        <a href="/blog/2025/11/2025-11-11-logging-service.html">Ler episódio →</a>
+      </div>
+<div class="card">
+        <span class="pill">DesafioDasAguias</span>
+        <h3>Desafio das Águias — Dia 10: Reporting Service em Spring Boot</h3>
+        <p>Dia 10 no Desafio das Águias: criámos um Reporting Service que transforma eventos brutos em métricas confiáveis, com snapshots diários, APIs aceleradas e exports self-service — tudo com segurança e observabilidade.</p>
+        <a href="/blog/2025/11/2025-11-10-reporting-service-streaming.html">Ler episódio →</a>
+      </div>
+      </div>
+    </section>
 
-### Spring Boot 'Under the Hood'
-Entendendo o ciclo de vida, a auto-configuração e as decisões de design que fazem o Spring funcionar.
-
-### Estratégias de Resiliência
-Microsserviços, Design Patterns (Clean Code, Hexagonal) e como evitar falhas em cascata com Filas (Kafka/RabbitMQ).
-
-### Performance & Testes
-Cobertura de testes de alto valor (JUnit, Testcontainers) e otimizações de latência e escalabilidade com Java 21+ (Virtual Threads).
-
-### DevOps e Cloud Prático
-Docker, Kubernetes e CI/CD com GitHub Actions, garantindo que seu projeto nasça pronto para o mercado.
-
----
-
-## 📅 Desafio #30DiasJava
-
-**Começando em 01/11/2025!**
-
-Todos os dias vou criar um novo projeto Java/Spring focado em conceitos de BigTechs (Netflix, Spotify, Google, X) aplicando as melhores práticas profissionais do mercado.
-
-Cada projeto terá:
-1. **Código funcional** pronto para produção
-2. **Deep-Dive** explicando o "porquê"
-3. **Testes** com alta cobertura
-4. **Deploy** documentado
-5. **Business Case** mostrando valor real
-
-<a href="https://github.com/adelmonsouza/30DiasJava">Ver todos os projetos no GitHub →</a>
-
----
-
-## 📚 Últimos Artigos
-
-<ul class="articles-list">
-    <li>
-        <a href="/blog/2025/11/02/pagination-under-the-hood.html">
-            <strong>Paginação Eficiente no Spring Boot: Como Evitar OutOfMemoryError</strong>
-        </a>
-        <br>
-        <small>02/11/2025 - Performance, Spring Boot</small>
-    </li>
-    <li>
-        <a href="/blog/2025/11/01/dtos-under-the-hood.html">
-            <strong>Deep-Dive: DTOs, Entidades e Controller Magro no Spring Boot</strong>
-        </a>
-        <br>
-        <small>01/11/2025 - Arquitetura, Spring Boot</small>
-    </li>
-    <li>
-        <a href="/blog/">Ver todos os artigos →</a>
-    </li>
-</ul>
-
----
-
-## 📚 Quem sou eu
-
-Sou **Adelmo Souza**, um Engenheiro de Software que acredita que a excelência técnica é inseparável da visão de negócio. Minha paixão é simplificar sistemas complexos e compartilhar as lições aprendidas no campo de batalha.
-
-Eu aprendi Java e Spring Boot para construir minhas próprias APIs, e agora vou compartilhar as lições que aprendi e as que ainda estou descobrindo.
-
----
-
-## 🔗 Links
-
-- **GitHub:** <a href="https://github.com/adelmonsouza">@adelmonsouza</a>
-- **LinkedIn:** <a href="https://www.linkedin.com/in/adelmonsouza/">adelmonsouza</a>
-
----
-
-<p><strong>Se isso parece algo que pode ajudá-lo a crescer como desenvolvedor Java, então certifique-se de me acompanhar!</strong></p>
-
-<p><strong>Acompanhe esta jornada de aprendizado e crescimento profissional! 🚀</strong></p>
-
-
+    <section>
+      <h2 class="section-title">Escolha sua trilha</h2>
+      <p class="section-subtitle">Modularizamos a experiência para squads, tech leads e rookies. Siga o caminho que acelera o seu próximo ship.</p>
+      <div class="panel-grid">
+        <div class="panel">
+        <h3>Backend Engineer</h3>
+        <ul>
+          <li>DTOs enxutos e guardrails de segurança</li><li>Paginação resiliente com métricas</li><li>Playbook de notificações event-driven</li>
+        </ul>
+        <a href="/blog/2025/11/2025-11-12-monitoring-service.html">Explorar trilha →</a>
+      </div>
+<div class="panel">
+        <h3>Architecture &amp; Design</h3>
+        <ul>
+          <li>Observabilidade proativa com Prometheus</li><li>Estratégias de caching e consistência</li><li>Dashboards executivos e métricas de negócio</li>
+        </ul>
+        <a href="/blog/2025/11/2025-11-11-logging-service.html">Ver arquitetura →</a>
+      </div>
+<div class="panel">
+        <h3>Operations &amp; DevOps</h3>
+        <ul>
+          <li>Pipelines de deploy e checagens pré-go live</li><li>Logging estruturado com correlação end-to-end</li><li>Infra como código e feature flags seguras</li>
+        </ul>
+        <a href="/blog/2025/11/2025-11-10-reporting-service-streaming.html">Abrir runbooks →</a>
+      </div>
+      </div>
+    </section>
+  
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>
