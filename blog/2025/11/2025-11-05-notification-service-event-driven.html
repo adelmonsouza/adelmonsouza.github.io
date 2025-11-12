@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30 Days of Java — Day 5: Notification Service with Event-Driven Architecture · The Java Place</title>
+  <meta name="description" content="Como construímos um Notification Service com Spring Events, WebSockets/SSE, idempotência e preparação para Kafka/RabbitMQ no desafio #30DiasJava." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html" />
+  <meta property="og:title" content="30 Days of Java — Day 5: Notification Service with Event-Driven Architecture" />
+  <meta property="og:description" content="Como construímos um Notification Service com Spring Events, WebSockets/SSE, idempotência e preparação para Kafka/RabbitMQ no desafio #30DiasJava." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html" />
+  <meta property="article:published_time" content="2025-11-05T00:00:00.000Z" />
+  <meta property="article:tag" content="Java" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Event-Driven Architecture" />
+  <meta property="article:tag" content="Microservices" />
+  <meta property="article:tag" content="Notifications" />
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+    <article>
+      <header class="post-header">
+        <h1>30 Days of Java — Day 5: Notification Service with Event-Driven Architecture</h1>
+        <p class="section-subtitle">Como construímos um Notification Service com Spring Events, WebSockets/SSE, idempotência e preparação para Kafka/RabbitMQ no desafio #30DiasJava.</p>
+        <div class="post-meta">
+          <span>📅 05 de nov. de 2025</span>
+          <span>⏱️ 1 min read</span>
+          <span>🗂️ 30DaysOfJava</span>
+        </div>
+      </header>
+      <div class="post-body">
+        <p>🚀 <strong>#30DaysOfJava Challenge — Day 5/30</strong></p>
+<p>💡 <strong>Project:</strong> Notification Service — Event-Driven Architecture</p>
+<p>Yesterday we focused on keeping inventory state consistent.<br>Today we moved into real-time communication — where responsiveness, observability, and scalability take center stage.</p>
+<p>🎯 <strong>Inside the article:</strong></p>
+<ul>
+<li>Emitting domain events (<code>NotificationRequestedEvent</code>) and keeping producers decoupled from delivery channels  </li>
+<li>Building async listeners with <code>@EventListener</code>, outbox persistence, retries, and rate limiting  </li>
+<li>Choosing between WebSockets and Server-Sent Events (SSE) for different UX needs  </li>
+<li>Knowing when to graduate from in-memory Spring Events to Kafka or RabbitMQ — without rewriting the domain</li>
+</ul>
+<p>⚙️ <strong>Quick insight:</strong><br>Event-Driven Architecture turns your platform from reactive to proactive — every emitted event becomes a chance to delight the user, trigger automation, or feed analytics.</p>
+<p>🔗 <strong>Read the full article:</strong><br>👉 enouveau.io/blog/2025/11/05/notification-service-event-driven.html</p>
+<p>💬 <strong>Your turn:</strong>  </p>
+<ul>
+<li>Have you used events in your Spring Boot projects?  </li>
+<li>What’s your go-to approach for scaling notifications — in-process listeners, queues, or external brokers?</li>
+</ul>
+<p>👇 Let’s discuss and share ideas!</p>
+<p>#Java #SpringBoot #EventDrivenArchitecture #Microservices #Asynchronous #Notifications #SoftwareEngineering #Scalability #CleanCode #TheJavaPlace #30DaysOfJava</p>
+
+      </div>
+      <div class="article-footer">
+        <p>Gostou deste episódio? Compartilhe no LinkedIn, marque @adelmon e conte o que implementou.</p>
+        <p>Explore a série completa em <a href="https://enouveau.io/blog/series/30-days-of-java.html">30 Days of Java</a>.</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

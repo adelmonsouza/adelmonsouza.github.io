@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics · The Java Place</title>
+  <meta name="description" content="Snapshots diários via Spring Batch, caches Redis, exports self-service e observabilidade proativa. Day 10 do #30DaysOfJava transforma eventos em métricas executivas." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-under-the-hood.html" />
+  <meta property="og:title" content="Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics" />
+  <meta property="og:description" content="Snapshots diários via Spring Batch, caches Redis, exports self-service e observabilidade proativa. Day 10 do #30DaysOfJava transforma eventos em métricas executivas." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-10-reporting-service-under-the-hood.html" />
+  <meta property="article:published_time" content="2025-11-10T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Analytics" />
+  <meta property="article:tag" content="Data Engineering" />
+  <meta property="article:tag" content="Reporting" />
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+    <article>
+      <header class="post-header">
+        <h1>Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics</h1>
+        <p class="section-subtitle">Snapshots diários via Spring Batch, caches Redis, exports self-service e observabilidade proativa. Day 10 do #30DaysOfJava transforma eventos em métricas executivas.</p>
+        <div class="post-meta">
+          <span>📅 10 de nov. de 2025</span>
+          <span>⏱️ 1 min read</span>
+          <span>🗂️ 30DaysOfJava</span>
+        </div>
+      </header>
+      <div class="post-body">
+        <p>Today I switched from payments to the challenge every board asks for: trustworthy dashboards.</p>
+<p>I built a Reporting Service that turns raw events into executive-level metrics.</p>
+<h2>📊 What went live</h2>
+<ul>
+<li>Daily snapshots using Spring Batch + SQL <code>ON CONFLICT</code> → no more recomputing six months of data.</li>
+<li>Insight APIs powered by JPA projections + Redis cache → dashboards respond in milliseconds.</li>
+<li>Self-service exports (PDF/CSV) via Thymeleaf templates + OpenPDF, with S3 upload and email delivery.</li>
+<li>RBAC/OAuth2 → finance sees everything; leadership only what’s relevant.</li>
+<li>Observability: metrics (<code>reporting.batch.duration</code>, <code>reporting.export.count</code>) feeding Grafana and Kibana.</li>
+</ul>
+<h2>💡 Why it matters</h2>
+<ul>
+<li>Provides full traceability — no hidden spreadsheets.</li>
+<li>Frees squads from daily “can you pull this report for me?” requests.</li>
+<li>Keeps OLTP healthy: aggregations and exports run in isolation.</li>
+</ul>
+<h2>📚 Full deep dive (+ code)</h2>
+<p>👉 <a href="https://enouveau.io/blog/2025/11/10/reporting-service-under-the-hood.html">https://enouveau.io/blog/2025/11/10/reporting-service-under-the-hood.html</a></p>
+<p>Backed by code in <a href="https://github.com/adelmonsouza/30DiasJava-Day10-ReportingService">adelmonsouza/30DiasJava-Day10-ReportingService</a>.</p>
+<hr>
+<p><strong>Next episode</strong> → Day 11/30 — Caching Strategies in Spring Boot<br><strong>Start from zero</strong> → <a href="https://enouveau.io/start-line/season-1-becoming-developer.html">Start Line: Season 1 — Becoming a Developer</a></p>
+
+      </div>
+      <div class="article-footer">
+        <p>Gostou deste episódio? Compartilhe no LinkedIn, marque @adelmon e conte o que implementou.</p>
+        <p>Explore a série completa em <a href="https://enouveau.io/blog/series/30-days-of-java.html">30 Days of Java</a>.</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

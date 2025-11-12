@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 12/30 — Monitoring Service with Prometheus &amp; Grafana · The Java Place</title>
+  <meta name="description" content="Prometheus, Grafana, Alertmanager e runbooks padronizados dão observabilidade operacional ao ecossistema Spring Boot no Day 12." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-12-monitoring-service.html" />
+  <meta property="og:title" content="Day 12/30 — Monitoring Service with Prometheus &amp; Grafana" />
+  <meta property="og:description" content="Prometheus, Grafana, Alertmanager e runbooks padronizados dão observabilidade operacional ao ecossistema Spring Boot no Day 12." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-12-monitoring-service.html" />
+  <meta property="article:published_time" content="2025-11-12T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Prometheus" />
+  <meta property="article:tag" content="Grafana" />
+  <meta property="article:tag" content="Monitoring" />
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+    <article>
+      <header class="post-header">
+        <h1>Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</h1>
+        <p class="section-subtitle">Prometheus, Grafana, Alertmanager e runbooks padronizados dão observabilidade operacional ao ecossistema Spring Boot no Day 12.</p>
+        <div class="post-meta">
+          <span>📅 12 de nov. de 2025</span>
+          <span>⏱️ 2 min read</span>
+          <span>🗂️ 30DaysOfJava</span>
+        </div>
+      </header>
+      <div class="post-body">
+        <p>Depois do logging estruturado, era hora de mostrar saúde em tempo real.<br>No <strong>Day 12</strong> construímos o <strong>Monitoring Service</strong>: métricas padronizadas, dashboards opinativos e alertas acionáveis.</p>
+<h2>📡 What went live</h2>
+<ul>
+<li><strong>Prometheus Operator</strong> com scrape configs automáticos para todos os microsserviços (<code>/actuator/prometheus</code>).</li>
+<li><strong>Dashboards Grafana</strong> (Finance, Reporting, Start Line) versionados em <code>monitoring/dashboards/*.json</code>.</li>
+<li><strong>Alertmanager</strong> integrado ao Slack/Email com escalonamento por severidade (warning → squad, critical → SRE).</li>
+<li><strong>SLO Tracker</strong>: availability e latency objetivos definidos por serviço (ex.: 99.5% availability, P95 &lt; 200 ms).</li>
+<li><strong>Runbooks</strong> linkados diretamente nas anotações de alerta.</li>
+</ul>
+<h2>💡 Why it matters</h2>
+<ul>
+<li>Visibilidade unificada: squads, product e SRE olham para os mesmos painéis.</li>
+<li>Alertas priorizados (sem ruidos) com contexto e passos de mitigação.</li>
+<li>Base para Start Line: monitorar progresso dos rookies em tempo real.</li>
+</ul>
+<h2>📚 Deep dive (+ code)</h2>
+<ul>
+<li>Artigo completo: <a href="https://enouveau.io/blog/2025/11/12/monitoring-service-under-the-hood.html">https://enouveau.io/blog/2025/11/12/monitoring-service-under-the-hood.html</a></li>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day12-Monitoring">https://github.com/adelmonsouza/30DiasJava-Day12-Monitoring</a></li>
+</ul>
+<hr>
+<h2>🧩 Implementation Notes</h2>
+<ul>
+<li><strong>Metrics contracts</strong>: starter <code>monitoring-service-starter</code> adiciona métricas (<code>http.server.requests</code>, <code>custom.*</code>) com tags padrão (<code>service</code>, <code>tenant</code>, <code>environment</code>).</li>
+<li><strong>Recording rules</strong> em <code>monitoring/prometheus/rules/</code> calculam SLOs e backlog (queue size, export duration).</li>
+<li><strong>Dashboard-as-code</strong>: JSON + <code>grafana-toolkit</code>/Terraform para importar/exportar versões.</li>
+<li><strong>Alert templates</strong> com labels (<code>team</code>, <code>runbook</code>, <code>severity</code>) e anotação com <code>grafana.com/d/&lt;dashboard-id&gt;</code>.</li>
+<li><strong>Synthetic probes</strong>: <code>monitoring-prober</code> chama endpoints críticos a cada 30 s (health check e flows Start Line).</li>
+</ul>
+<h2>✅ Daily checklist</h2>
+<ul>
+<li>Prometheus scraping ativo (targets <code>UP</code>) e TSDB saudável.</li>
+<li>Alertmanager silencioso (sem alertas pendentes) ou incidentes resolvidos.</li>
+<li>Painéis Grafana atualizados com notas de deploy e SLO compliance.</li>
+</ul>
+<hr>
+<p><strong>Next episode</strong> → Day 13/30 — Feature Flags &amp; Experimentation Platform<br><strong>Start from zero</strong> → <a href="https://enouveau.io/start-line/season-1-becoming-developer.html">Start Line: Season 1</a></p>
+
+      </div>
+      <div class="article-footer">
+        <p>Gostou deste episódio? Compartilhe no LinkedIn, marque @adelmon e conte o que implementou.</p>
+        <p>Explore a série completa em <a href="https://enouveau.io/blog/series/30-days-of-java.html">30 Days of Java</a>.</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

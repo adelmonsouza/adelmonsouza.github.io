@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30 Days of Java — Day 6: Docker Professional Stack in 7 Steps · The Java Place</title>
+  <meta name="description" content="Como levamos o stack Docker do desafio #30DiasJava do modo experimental a um padrão corporativo com imagens nomeadas, healthchecks reais, hardening de segurança e um workspace acessível por SSH." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html" />
+  <meta property="og:title" content="30 Days of Java — Day 6: Docker Professional Stack in 7 Steps" />
+  <meta property="og:description" content="Como levamos o stack Docker do desafio #30DiasJava do modo experimental a um padrão corporativo com imagens nomeadas, healthchecks reais, hardening de segurança e um workspace acessível por SSH." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html" />
+  <meta property="article:published_time" content="2025-11-06T00:00:00.000Z" />
+  <meta property="article:tag" content="DevOps" />
+  <meta property="article:tag" content="Docker" />
+  <meta property="article:tag" content="SRE" />
+  <meta property="article:tag" content="Observability" />
+  <meta property="article:tag" content="Remote Workspace" />
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+    <article>
+      <header class="post-header">
+        <h1>30 Days of Java — Day 6: Docker Professional Stack in 7 Steps</h1>
+        <p class="section-subtitle">Como levamos o stack Docker do desafio #30DiasJava do modo experimental a um padrão corporativo com imagens nomeadas, healthchecks reais, hardening de segurança e um workspace acessível por SSH.</p>
+        <div class="post-meta">
+          <span>📅 06 de nov. de 2025</span>
+          <span>⏱️ 1 min read</span>
+          <span>🗂️ 30DaysOfJava</span>
+        </div>
+      </header>
+      <div class="post-body">
+        <p>🚀 <strong>#30DaysOfJava Challenge — Day 6/30</strong></p>
+<p>💡 <strong>Project:</strong> Docker Professional Stack — DevOps Hardening</p>
+<p>Yesterday we shipped the Notification Service with event-driven flows.<br>Today we made sure the entire platform runs anywhere — securely, predictably, and with zero guesswork for the next engineer who clones the repo.</p>
+<p>🎯 <strong>Inside the article:</strong></p>
+<ul>
+<li>Standardising image names as <code>enouveau/{service}:{tag}</code> (including external bases) for tidy registries and faster CI layers  </li>
+<li>Crafting <code>docker-compose.professional.yml</code> with resource limits, <code>no-new-privileges</code>, authenticated healthchecks, and <code>read_only</code> + <code>tmpfs</code> mounts  </li>
+<li>Automating maintenance with <code>scripts/maintenance.sh</code>, <code>cleanup-and-organize.sh</code>, and a remote-ready workspace container (<code>ssh -p 2222 enouveau@&lt;ip&gt;</code>)  </li>
+<li>Wiring observability out of the box: Prometheus + Grafana dashboards, log rotation, a security checklist, and living documentation</li>
+</ul>
+<p>⚙️ <strong>Quick insight:</strong><br>Docker only feels simple until multiple services, secrets, and contributors collide. Investing in naming conventions, health checks, and scripted hygiene keeps the stack boring — exactly what we need before diving into Day 7’s intelligent assistant work.</p>
+<p>🔗 <strong>Read the full article:</strong><br>👉 enouveau.io/blog/2025/11/06/docker-professional-stack.html</p>
+<p>💬 <strong>Your turn:</strong>  </p>
+<ul>
+<li>Which hardening step is still missing in your Docker setup?  </li>
+<li>Do you rely on scripts, policies, or people to keep images and secrets under control?</li>
+</ul>
+<p>👇 Let’s trade best practices in the comments!</p>
+<p>#Java #SpringBoot #DevOps #Docker #SRE #Observability #Security #CleanCode #TheJavaPlace #30DaysOfJava</p>
+
+      </div>
+      <div class="article-footer">
+        <p>Gostou deste episódio? Compartilhe no LinkedIn, marque @adelmon e conte o que implementou.</p>
+        <p>Explore a série completa em <a href="https://enouveau.io/blog/series/30-days-of-java.html">30 Days of Java</a>.</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

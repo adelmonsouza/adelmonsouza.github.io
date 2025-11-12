@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30 Days of Java — Day 8: Search Service with Vector Ops and Observability · The Java Place</title>
+  <meta name="description" content="Blueprint do Search Service: combina busca textual (PostgreSQL + trigramas) com vetores (pgvector), indexação incremental, rate limiting, segurança e monitoring." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-08-search-service-vector-ops.html" />
+  <meta property="og:title" content="30 Days of Java — Day 8: Search Service with Vector Ops and Observability" />
+  <meta property="og:description" content="Blueprint do Search Service: combina busca textual (PostgreSQL + trigramas) com vetores (pgvector), indexação incremental, rate limiting, segurança e monitoring." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-08-search-service-vector-ops.html" />
+  <meta property="article:published_time" content="2025-11-08T00:00:00.000Z" />
+  <meta property="article:tag" content="Java" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Search" />
+  <meta property="article:tag" content="Vector Database" />
+  <meta property="article:tag" content="Observability" />
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+    <article>
+      <header class="post-header">
+        <h1>30 Days of Java — Day 8: Search Service with Vector Ops and Observability</h1>
+        <p class="section-subtitle">Blueprint do Search Service: combina busca textual (PostgreSQL + trigramas) com vetores (pgvector), indexação incremental, rate limiting, segurança e monitoring.</p>
+        <div class="post-meta">
+          <span>📅 08 de nov. de 2025</span>
+          <span>⏱️ 2 min read</span>
+          <span>🗂️ 30DaysOfJava</span>
+        </div>
+      </header>
+      <div class="post-body">
+        <blockquote>
+<p>“Findability is a feature, not um detalhe.” — <em>E-Nouveau DX Charter</em></p>
+</blockquote>
+<p>O Day 8 foi dedicado ao <strong>Search Service</strong> que alimenta landing pages, hubs de conteúdo e a própria assistente Nova.</p>
+<h3>Escopo</h3>
+<ul>
+<li>Busca textual (fuzzy + ranking) com PostgreSQL / <code>pg_trgm</code>.  </li>
+<li>Vetores <code>pgvector</code> para similaridade semântica (suporte ao copiloto).  </li>
+<li>Indexação incremental via eventos.  </li>
+<li>API segura com quotas por consumidor.  </li>
+<li>Observabilidade completa (latência, cache hit, erro).</li>
+</ul>
+<h3>Arquitetura resumida</h3>
+<pre><code class="language-mermaid">graph TD
+    A[Domain Services] --&gt;|ContentIndexedEvent| B[Index Worker]
+    B --&gt; C[PostgreSQL + pg_trgm + pgvector]
+    C --&gt; D[Search API]
+    D --&gt;|REST/GraphQL| E[Frontend / Nova]
+    D --&gt; F[Metrics + Logs + Tracing]
+</code></pre>
+<h3>Pipeline de indexação</h3>
+<ol>
+<li>Serviços emitem um <code>ContentIndexedEvent</code> (inclui <code>contentId</code>, <code>tipo</code>, <code>payload</code>).  </li>
+<li>Worker (<code>search-indexer</code>) consome, normaliza Markdown → HTML → tokens.  </li>
+<li>Calcula embedding via <code>VectorService</code> (OpenAI ou modelo local).  </li>
+<li>Persiste:<pre><code class="language-sql">INSERT INTO search_document (
+  content_id, tipo, titulo, trecho, payload_json, vector_embedding
+) VALUES (...)
+ON CONFLICT (content_id) DO UPDATE ...
+</code></pre>
+</li>
+<li>Registra em <code>search_index_audit</code> (timestamp, versão, source).</li>
+</ol>
+<h3>Consultas</h3>
+<p>REST endpoint <code>/api/search</code> aceita:</p>
+<pre><code class="language-json">{
+  &quot;query&quot;: &quot;planejamento financeiro familiar&quot;,
+  &quot;types&quot;: [&quot;ARTICLE&quot;, &quot;MISSION&quot;],
+  &quot;semantic&quot;: true,
+  &quot;limit&quot;: 10,
+  &quot;offset&quot;: 0
+}
+</code></pre>
+<p>No backend:</p>
+<pre><code class="language-sql">SELECT id, titulo, trecho, rank, cosine_similarity(vector_embedding, :embedding) AS similarity
+FROM search_document
+WHERE search_vector @@ websearch_to_tsquery(:locale, :query)
+ORDER BY (rank * 0.7 + similarity * 0.3) DESC
+LIMIT :limit OFFSET :offset;
+</code></pre>
+<h3>Segurança e governança</h3>
+<ul>
+<li><strong>API Key</strong> + JWT: consumidores internos usam JWT; integrações externas usam <code>X-API-Key</code> rotacionável.  </li>
+<li><strong>Quota</strong>: Redis rate limit (<code>search:quota:&lt;consumer&gt;</code>).  </li>
+<li><strong>Payload</strong>: audit log armazena quem buscou o quê (anonimizado quando required), respeitando <code>docs/SECURITY_CHECKLIST.md</code>.  </li>
+<li><strong>GDPR</strong>: direito de esquecimento dispara evento <code>SearchDocumentRemovedEvent</code>.</li>
+</ul>
+<h3>Observabilidade</h3>
+<ul>
+<li>Metrics: <code>search_latency_seconds{type=&quot;text&quot;}</code>, <code>search_semantic_usage_total</code>, <code>search_index_backlog</code>.  </li>
+<li>Logs estruturados com <code>traceId</code>, <code>consumerId</code>, <code>queryHash</code>.  </li>
+<li>Traces (OpenTelemetry) mostram pipeline completo (API → embedding → DB).  </li>
+<li>Alertas: <code>P95 latency &gt; 400ms</code>, <code>index backlog &gt; 50</code>.</li>
+</ul>
+<h3>Próximos passos</h3>
+<ul>
+<li>Cache semântico por família (Redis sorted set).  </li>
+<li>Re-indexer agendado (<code>Quartz</code>) para aging de documentos &gt; 90 dias.  </li>
+<li>UI “Search Insights” (Day 11/12).</li>
+</ul>
+<blockquote>
+<p><strong>Status:</strong> código em <code>Day08-Search-Service</code>, documentação base em <code>docs/ENOUVEAU_STANDARDS.md#search</code>. Publicação oficial do blog aguardando revisão editorial.</p>
+</blockquote>
+
+      </div>
+      <div class="article-footer">
+        <p>Gostou deste episódio? Compartilhe no LinkedIn, marque @adelmon e conte o que implementou.</p>
+        <p>Explore a série completa em <a href="https://enouveau.io/blog/series/30-days-of-java.html">30 Days of Java</a>.</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

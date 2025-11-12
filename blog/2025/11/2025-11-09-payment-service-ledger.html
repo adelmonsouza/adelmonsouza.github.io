@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30 Days of Java — Day 9: Payment Service, Ledgers, and Idempotent Webhooks · The Java Place</title>
+  <meta name="description" content="Desenhando o Payment Service com ledger imutável, integração Stripe/MBWay, idempotência de webhooks, reconciliação e observabilidade financeira." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-09-payment-service-ledger.html" />
+  <meta property="og:title" content="30 Days of Java — Day 9: Payment Service, Ledgers, and Idempotent Webhooks" />
+  <meta property="og:description" content="Desenhando o Payment Service com ledger imutável, integração Stripe/MBWay, idempotência de webhooks, reconciliação e observabilidade financeira." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-09-payment-service-ledger.html" />
+  <meta property="article:published_time" content="2025-11-09T00:00:00.000Z" />
+  <meta property="article:tag" content="Java" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Payments" />
+  <meta property="article:tag" content="Ledger" />
+  <meta property="article:tag" content="Webhooks" />
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+    <article>
+      <header class="post-header">
+        <h1>30 Days of Java — Day 9: Payment Service, Ledgers, and Idempotent Webhooks</h1>
+        <p class="section-subtitle">Desenhando o Payment Service com ledger imutável, integração Stripe/MBWay, idempotência de webhooks, reconciliação e observabilidade financeira.</p>
+        <div class="post-meta">
+          <span>📅 09 de nov. de 2025</span>
+          <span>⏱️ 2 min read</span>
+          <span>🗂️ 30DaysOfJava</span>
+        </div>
+      </header>
+      <div class="post-body">
+        <blockquote>
+<p>“Pagamento em produção é assunto sério: sem idempotência, sem deploy.” — <em>E-Nouveau Finance Ops</em></p>
+</blockquote>
+<h3>Metas do Day 9</h3>
+<ul>
+<li>Construir um <strong>Payment Service</strong> com Spring Boot + PostgreSQL (ledger imutável).  </li>
+<li>Integrar Stripe (cartão) e MBWay (Portugal) via webhooks seguros.  </li>
+<li>Garantir idempotência, reconciliação e auditoria.  </li>
+<li>Expor eventos para o restante da plataforma (famílias, XP, relatórios).</li>
+</ul>
+<h3>Modelo de dados</h3>
+<p>Tabela principal: <code>payment_ledger</code></p>
+<pre><code class="language-sql">CREATE TABLE payment_ledger (
+  id BIGSERIAL PRIMARY KEY,
+  reference UUID NOT NULL UNIQUE,
+  familia_id BIGINT NOT NULL,
+  amount_cents BIGINT NOT NULL,
+  currency VARCHAR(3) NOT NULL,
+  provider VARCHAR(20) NOT NULL,
+  provider_payment_id VARCHAR(120) NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  metadata JSONB NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE UNIQUE INDEX ux_payment_dedup 
+  ON payment_ledger(provider, provider_payment_id);
+</code></pre>
+<ul>
+<li><strong>Imutabilidade</strong>: nenhum update. Mudanças geram novos registros com <code>status</code> diferente (<code>AUTHORIZED</code>, <code>CAPTURED</code>, <code>REFUNDED</code>).  </li>
+<li><strong>Metadata</strong> versionada (contém <code>schemaVersion</code>, <code>taxes</code>, <code>exchangeRate</code>).</li>
+</ul>
+<h3>Fluxo com Stripe</h3>
+<ol>
+<li>Frontend gera PaymentIntent (Stripe Elements).  </li>
+<li>Backend expõe <code>/api/payments/stripe/confirm</code> → valida <code>clientSecret</code>, cria registro <code>PENDING</code>.  </li>
+<li>Webhook <code>stripe/payment_intent.succeeded</code> chega:</li>
+</ol>
+<pre><code class="language-java">@PostMapping(&quot;/webhook/stripe&quot;)
+public ResponseEntity&lt;Void&gt; handleStripe(@RequestBody String payload,
+                                         @RequestHeader(&quot;Stripe-Signature&quot;) String signature) {
+    stripeWebhookVerifier.verify(payload, signature); // HMAC only
+    StripeEvent event = mapper.read(payload);
+    ledgerService.apply(event);
+    return ResponseEntity.ok().build();
+}
+</code></pre>
+<ul>
+<li><code>ledgerService.apply</code> usa <code>UPSERT</code> com <code>ON CONFLICT DO NOTHING</code> para idempotência.  </li>
+<li>Depois de <code>CAPTURED</code>, publicamos <code>PaymentReceivedEvent</code>.</li>
+</ul>
+<h3>Fluxo MBWay</h3>
+<ul>
+<li>Utiliza API do banco. Callback assinado com certificado X509 (validamos via <code>KeyStore</code>).  </li>
+<li><code>nonce</code> salvo em Redis para evitar reexecução.  </li>
+<li>Resposta sincronizada em &lt;=30s, fallback via webhook assíncrono.</li>
+</ul>
+<h3>Segurança e compliance</h3>
+<ul>
+<li>Dados sensíveis (cartão) nunca tocam nosso banco — usamos tokens Stripe.  </li>
+<li>PII no ledger é redigida (apenas <code>familiaId</code>, <code>country</code>, <code>taxIdHash</code>).  </li>
+<li>Logs e dashboards respeitam <code>docs/SECURITY_CHECKLIST.md</code> (mascaramento).  </li>
+<li>Cada request inclui <code>traceId</code> + <code>paymentRef</code>.  </li>
+<li>Secrets em Vault + rotacionamento automático.</li>
+</ul>
+<h3>Observabilidade financeira</h3>
+<ul>
+<li>Métricas Prometheus:  <ul>
+<li><code>payment_amount_total{status=&quot;CAPTURED&quot;}</code>  </li>
+<li><code>payment_webhook_latency_seconds</code>  </li>
+<li><code>payment_idempotency_conflicts_total</code>  </li>
+<li><code>payment_chargeback_total</code></li>
+</ul>
+</li>
+<li>Grafana dashboards para Finance e Engineering (ver <code>docs/ENOUVEAU_STANDARDS.md#payments</code>).  </li>
+<li>Alertas: <code>CAPTURED</code> sem <code>PaymentReceivedEvent</code> em &lt;5min → incident.</li>
+</ul>
+<h3>Reconciliação</h3>
+<ul>
+<li>Job diário <code>reconcile-payments</code> compara ledger × provedor:  <ul>
+<li>Stripe: <code>ListPaymentIntents</code> + diff.  </li>
+<li>MBWay: <code>GET /transactions?date=...</code>.</li>
+</ul>
+</li>
+<li>Divergências escrevem em <code>payment_reconciliation_issue</code> (com <code>status</code> e <code>action</code>).</li>
+</ul>
+<h3>Próximos passos</h3>
+<ul>
+<li>Suporte a split payments (parceiros).  </li>
+<li>PIX / Open Banking (Roadmap).  </li>
+<li>Painel de Finance com drill down (Day 11/12).</li>
+</ul>
+<blockquote>
+<p><strong>Status:</strong> código em <code>Day09-Payment-Service</code>. Post ficará em revisão até validarmos compliance com time financeiro.</p>
+</blockquote>
+
+      </div>
+      <div class="article-footer">
+        <p>Gostou deste episódio? Compartilhe no LinkedIn, marque @adelmon e conte o que implementou.</p>
+        <p>Explore a série completa em <a href="https://enouveau.io/blog/series/30-days-of-java.html">30 Days of Java</a>.</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

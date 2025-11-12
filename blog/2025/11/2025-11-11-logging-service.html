@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 11/30 — Logging Service in Spring Boot · The Java Place</title>
+  <meta name="description" content="Logback + SLF4J, correlação distribuída, mascaramento de dados sensíveis e centralização ELK. Day 11 coloca observabilidade textual em ordem." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-11-logging-service.html" />
+  <meta property="og:title" content="Day 11/30 — Logging Service in Spring Boot" />
+  <meta property="og:description" content="Logback + SLF4J, correlação distribuída, mascaramento de dados sensíveis e centralização ELK. Day 11 coloca observabilidade textual em ordem." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-11-logging-service.html" />
+  <meta property="article:published_time" content="2025-11-11T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Logging" />
+  <meta property="article:tag" content="Observability" />
+  <meta property="article:tag" content="DevOps" />
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+    <article>
+      <header class="post-header">
+        <h1>Day 11/30 — Logging Service in Spring Boot</h1>
+        <p class="section-subtitle">Logback + SLF4J, correlação distribuída, mascaramento de dados sensíveis e centralização ELK. Day 11 coloca observabilidade textual em ordem.</p>
+        <div class="post-meta">
+          <span>📅 11 de nov. de 2025</span>
+          <span>⏱️ 2 min read</span>
+          <span>🗂️ 30DaysOfJava</span>
+        </div>
+      </header>
+      <div class="post-body">
+        <p>Depois do Reporting Service, a cobrança foi clara: “quero seguir um request do app mobile ao backend em segundos”.<br>No <strong>Day 11</strong> construímos o <strong>Logging Service</strong>, um starter padrão que entrega logs estruturados, correlação distribuída e ingestão centralizada com governança.</p>
+<h2>🧰 What went live</h2>
+<ul>
+<li><strong>Starter de logging</strong> (<code>logging-service-starter</code>) com SLF4J + Logback, layouts JSON e appenders STDOUT/FILE/GELF.</li>
+<li><strong>Correlation ID + Session ID</strong> propagados via filtros Servlet, <code>RestTemplate</code> e <code>WebClient</code>, inclusive em chamadas assíncronas.</li>
+<li><strong>Log context</strong> com MDC (<code>requestId</code>, <code>tenant</code>, <code>userId</code>, <code>featureFlag</code>, <code>endpoint</code>) aplicado automaticamente em cada request.</li>
+<li><strong>Mascaramento e redaction</strong> (<code>@SensitiveLog</code>) para PII (email, taxId) antes dos logs saírem do pod.</li>
+<li><strong>Shipping centralizado</strong>: Filebeat → Logstash → Elasticsearch → Kibana, com dashboards “Error Heatmap” e “Slow Requests”.</li>
+</ul>
+<h2>💡 Why it matters</h2>
+<ul>
+<li>Auditoria financeira consegue rastrear cada pagamento ponta a ponta em segundos.</li>
+<li>Resposta a incidentes reduziu drasticamente (buscar requestId → stacktrace → correção).</li>
+<li>Logs viraram insumo para analytics da Start Line (quais missões geram mais WARN/ERROR).</li>
+</ul>
+<h2>📚 Deep dive (+ code)</h2>
+<ul>
+<li>Artigo completo: <a href="https://enouveau.io/blog/2025/11/11/logging-service-under-the-hood.html">https://enouveau.io/blog/2025/11/11/logging-service-under-the-hood.html</a></li>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day11-Logging">https://github.com/adelmonsouza/30DiasJava-Day11-Logging</a></li>
+</ul>
+<hr>
+<h2>🧩 Implementation Notes</h2>
+<ul>
+<li><strong>Logback JSON encoder</strong> (<code>net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder</code>) com providers (<code>mdc</code>, <code>arguments</code>, <code>stackTrace</code>).</li>
+<li><strong>Config as code</strong>: <code>logging/enouveau-logback.xml</code> incluído em todos os serviços via Spring Boot auto-config.</li>
+<li><strong>Async logging</strong> com <code>AsyncAppender</code> para não bloquear threads HTTP.</li>
+<li><strong>Dynamic log level</strong>: endpoint <code>/actuator/loggers</code> protegido via RBAC para ajustar níveis em runtime.</li>
+<li><strong>Metrics</strong>: <code>logging.events.total{level=&quot;ERROR&quot;}</code>, <code>logging.events.dropped</code> expostos via Micrometer + Prometheus.</li>
+</ul>
+<h2>✅ Daily checklist</h2>
+<ul>
+<li>Filebeat/Logstash/Elasticsearch verdes (health check) e índices rotacionando (<code>log-enouveau-YYYY.MM.DD</code>).</li>
+<li>Alertas (<code>logging.error.count &gt; 50 em 5m</code>) sendo enviados ao Slack/Teams.</li>
+<li>Dashboards Kibana revisados com o time de suporte e SRE.</li>
+</ul>
+<hr>
+<p><strong>Next episode</strong> → Day 12/30 — Monitoring Service with Prometheus &amp; Grafana<br><strong>Start from zero</strong> → <a href="https://enouveau.io/start-line/season-1-becoming-developer.html">Start Line: Season 1</a></p>
+
+      </div>
+      <div class="article-footer">
+        <p>Gostou deste episódio? Compartilhe no LinkedIn, marque @adelmon e conte o que implementou.</p>
+        <p>Explore a série completa em <a href="https://enouveau.io/blog/series/30-days-of-java.html">30 Days of Java</a>.</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>
