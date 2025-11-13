@@ -5,6 +5,13 @@
     <description>Deep-dives semanais em Java e Spring Boot</description>
     <link>https://enouveau.io/blog/</link>
     <item>
+  <title>Day 13/30 — Feature Flags &amp; Experimentation Platform</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-13-feature-flags-experimentation.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-13-feature-flags-experimentation.html</guid>
+  <pubDate>Thu, 13 Nov 2025 00:00:00 GMT</pubDate>
+  <description>LaunchDarkly + Unleash, experimentos A/B, canary rollouts e feature toggles no runtime. Day 13 coloca controle de releases nas mãos dos produtos.</description>
+</item>
+<item>
   <title>Day 12/30 — Monitoring Service with Prometheus &amp; Grafana</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-12-monitoring-service.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-12-monitoring-service.html</guid>

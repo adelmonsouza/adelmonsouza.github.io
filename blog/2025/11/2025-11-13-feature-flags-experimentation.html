@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 13/30 — Feature Flags &amp; Experimentation Platform · The Java Place</title>
+  <meta name="description" content="LaunchDarkly + Unleash, experimentos A/B, canary rollouts e feature toggles no runtime. Day 13 coloca controle de releases nas mãos dos produtos." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-13-feature-flags-experimentation.html" />
+  <meta property="og:title" content="Day 13/30 — Feature Flags &amp; Experimentation Platform" />
+  <meta property="og:description" content="LaunchDarkly + Unleash, experimentos A/B, canary rollouts e feature toggles no runtime. Day 13 coloca controle de releases nas mãos dos produtos." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-13-feature-flags-experimentation.html" />
+  <meta property="article:published_time" content="2025-11-13T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Feature Flags" />
+  <meta property="article:tag" content="DevOps" />
+  <meta property="article:tag" content="Experimentation" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 13/30 — Feature Flags &amp; Experimentation Platform</h1>
+          <p>LaunchDarkly + Unleash, experimentos A/B, canary rollouts e feature toggles no runtime. Day 13 coloca controle de releases nas mãos dos produtos.</p>
+          <div class="meta-line">
+            <span>📅 13 de novembro de 2025</span>
+            <span>⏱️ 2 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <p>Depois de consolidar observabilidade (logging, métricas, alertas), o desafio do Day 13 do #30DiasJava foi entregar controle de features sem deploys. O resultado é uma <strong>Feature Flags &amp; Experimentation Platform</strong> que permite rollouts progressivos, testes A/B e kill switches instantâneos para qualquer microserviço Spring Boot.</p>
+<h2>🚩 What went live</h2>
+<ul>
+<li><strong>Feature flag SDK</strong> (<code>feature-flags-starter</code>) com suporte a LaunchDarkly e Unleash (modo client-side e server-side).</li>
+<li><strong>Canary rollouts</strong> graduais por percentual de tráfego (ex.: 10% → 50% → 100%) com rollback automático via health checks.</li>
+<li><strong>A/B testing framework</strong> com segmentação por usuário (<code>userId</code>), tenant, país e atributos customizados.</li>
+<li><strong>Kill switches</strong> operacionais: desliga features instantaneamente via dashboard sem tocar no código.</li>
+<li><strong>Feature analytics</strong>: dashboard mostra adoção, impacto em métricas (revenue, error rate) e recomendações de rollout.</li>
+</ul>
+<h2>💡 Why it matters</h2>
+<ul>
+<li>Produtos lançam features com confiança: rollback em segundos se algo quebrar.</li>
+<li>Experimentação viabiliza decisões baseadas em dados — não opiniões.</li>
+<li>Devs reduzem branches longas: features ficam mergidas com flags <code>disabled</code> até o momento certo.</li>
+</ul>
+<h2>📚 Deep dive (+ code)</h2>
+<ul>
+<li>Artigo completo: <a href="https://enouveau.io/blog/2025/11/13/feature-flags-experimentation.html">https://enouveau.io/blog/2025/11/13/feature-flags-experimentation.html</a></li>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day13-FeatureFlags">https://github.com/adelmonsouza/30DiasJava-Day13-FeatureFlags</a></li>
+</ul>
+<hr>
+<h2>🧩 Implementation Notes</h2>
+<ul>
+<li><strong>Client-side evaluation</strong>: flags resolvidas no pod, sem latência extra por chamada externa.</li>
+<li><strong>Server-side SDK</strong>: Spring Boot <code>@FeatureFlag(&quot;new-checkout&quot;)</code> com fallback para default quando o serviço de flags está offline.</li>
+<li><strong>Targeting rules</strong>: YAML/JSON define segmentos (<code>beta-users</code>, <code>eu-region</code>, <code>tier=premium</code>) e porcentagens.</li>
+<li><strong>Event tracking</strong>: cada avaliação de flag envia evento para analytics (LaunchDarkly insights ou Prometheus metrics).</li>
+<li><strong>Integrations</strong>: Webhooks para Slack/Teams quando flags mudam de estado, e APIs REST para gerenciar flags via GitOps.</li>
+</ul>
+<h2>✅ Daily checklist</h2>
+<ul>
+<li>SDK conectado ao serviço de flags (LaunchDarkly/Unleash) e health check <code>feature-flags.connected</code> = <code>true</code>.</li>
+<li>Rollouts graduais monitorados via dashboards (adoption rate, error rate delta).</li>
+<li>Kill switches testados em staging antes de produção.</li>
+</ul>
+<hr>
+<p><strong>Next episode</strong> → Day 14/30 — API Gateway &amp; Rate Limiting (em breve)</p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>
