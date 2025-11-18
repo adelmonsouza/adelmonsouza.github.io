@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 14/30 — API Gateway &amp; Rate Limiting · The Java Place</title>
+  <meta name="description" content="Day 14 do #30DiasJava: API Gateway centralizado com rate limiting por usuário/tenant, circuit breakers, request/response transformation e observabilidade completa." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-14-api-gateway-rate-limiting.html" />
+  <meta property="og:title" content="Day 14/30 — API Gateway &amp; Rate Limiting" />
+  <meta property="og:description" content="Day 14 do #30DiasJava: API Gateway centralizado com rate limiting por usuário/tenant, circuit breakers, request/response transformation e observabilidade completa." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-14-api-gateway-rate-limiting.html" />
+  <meta property="article:published_time" content="2025-11-14T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="API Gateway" />
+  <meta property="article:tag" content="Rate Limiting" />
+  <meta property="article:tag" content="Security" />
+  <meta property="article:tag" content="Performance" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 14/30 — API Gateway &amp; Rate Limiting</h1>
+          <p>Day 14 do #30DiasJava: API Gateway centralizado com rate limiting por usuário/tenant, circuit breakers, request/response transformation e observabilidade completa.</p>
+          <div class="meta-line">
+            <span>📅 14 de novembro de 2025</span>
+            <span>⏱️ 4 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>&quot;Um API Gateway é a porta de entrada que protege, limita e observa todos os requests antes que cheguem aos microsserviços.&quot; — <em>#30DiasJava Gateway Notes</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 14</h2>
+<p>Com todos os serviços internos rodando, era hora de criar uma camada única de entrada. O Day 14 do #30DiasJava entregou um <strong>API Gateway</strong> completo com rate limiting inteligente, circuit breakers, transformação de requests/responses e observabilidade unificada.</p>
+<h2>🛠️ O que foi implementado</h2>
+<h3>✅ API Gateway Centralizado</h3>
+<ul>
+<li><strong>Spring Cloud Gateway</strong>: Gateway reativo com rotas dinâmicas</li>
+<li><strong>Route configuration</strong>: YAML ou código para definir rotas, predicates e filters</li>
+<li><strong>Request/Response transformation</strong>: Modificação de headers, body, path</li>
+<li><strong>Load balancing</strong>: Distribuição de carga entre instâncias do mesmo serviço</li>
+<li><strong>SSL/TLS termination</strong>: Terminação SSL no gateway</li>
+</ul>
+<h3>✅ Rate Limiting Avançado</h3>
+<ul>
+<li><strong>Token bucket algorithm</strong>: Implementação Redis-based para rate limiting distribuído</li>
+<li><strong>Limits por usuário</strong>: Limites personalizados por <code>userId</code> (ex.: premium: 1000/min, free: 100/min)</li>
+<li><strong>Limits por tenant</strong>: Limites por organização/tenant</li>
+<li><strong>Limits por endpoint</strong>: Limites específicos por rota (ex.: <code>/api/auth/login</code>: 5/min)</li>
+<li><strong>Headers HTTP</strong>: <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, <code>X-RateLimit-Reset</code></li>
+</ul>
+<h3>✅ Circuit Breakers</h3>
+<ul>
+<li><strong>Resilience4j integration</strong>: Circuit breakers automáticos para rotas</li>
+<li><strong>Fallback responses</strong>: Respostas padrão quando serviços estão down</li>
+<li><strong>Retry policies</strong>: Retry com backoff exponencial</li>
+<li><strong>Bulkhead isolation</strong>: Isolamento de recursos por rota</li>
+</ul>
+<h3>✅ Segurança e Autenticação</h3>
+<ul>
+<li><strong>JWT validation</strong>: Validação centralizada de tokens no gateway</li>
+<li><strong>API key authentication</strong>: Suporte a API keys para integrações</li>
+<li><strong>IP whitelisting/blacklisting</strong>: Controle de acesso por IP</li>
+<li><strong>CORS policy</strong>: Configuração centralizada de CORS</li>
+<li><strong>Request size limits</strong>: Limites de tamanho de request</li>
+</ul>
+<h3>✅ Observabilidade</h3>
+<ul>
+<li><strong>Metrics por rota</strong>: Taxa de requests, latência, taxa de erro por rota</li>
+<li><strong>Tracing distribuído</strong>: Correlation ID propagado automaticamente</li>
+<li><strong>Access logs estruturados</strong>: Logs JSON com contexto rico</li>
+<li><strong>Dashboard Grafana</strong>: Visão unificada de todas as rotas</li>
+</ul>
+<h2>📊 Arquitetura</h2>
+<pre><code>┌─────────────┐
+│   Client    │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────────────────────────────┐
+│         API Gateway                 │
+│  ┌──────────────────────────────┐  │
+│  │ Rate Limiting (Redis)        │  │
+│  ├──────────────────────────────┤  │
+│  │ JWT Validation               │  │
+│  ├──────────────────────────────┤  │
+│  │ Circuit Breaker (Resilience4j)│ │
+│  ├──────────────────────────────┤  │
+│  │ Request Transformation       │  │
+│  └──────────────────────────────┘  │
+└──────┬──────────────────────────────┘
+       │
+       ├──────────────┬──────────────┐
+       ▼              ▼              ▼
+┌──────────┐   ┌──────────┐   ┌──────────┐
+│ Backend  │   │ Payment  │   │ Search   │
+│ Service  │   │ Service  │   │ Service  │
+└──────────┘   └──────────┘   └──────────┘
+</code></pre>
+<h2>🔧 Implementação Técnica</h2>
+<h3>1. Dependências (<code>pom.xml</code>)</h3>
+<pre><code class="language-xml">&lt;!-- Spring Cloud Gateway --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-cloud-starter-gateway&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+&lt;!-- Rate Limiting --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
+  &lt;artifactId&gt;bucket4j-core&lt;/artifactId&gt;
+  &lt;version&gt;8.10.0&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;!-- Resilience4j --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;io.github.resilience4j&lt;/groupId&gt;
+  &lt;artifactId&gt;resilience4j-spring-boot3&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+&lt;!-- Redis for distributed rate limiting --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-data-redis-reactive&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3>2. Gateway Routes Configuration</h3>
+<pre><code class="language-yaml">spring:
+  cloud:
+    gateway:
+      routes:
+        - id: backend-service
+          uri: lb://backend-service
+          predicates:
+            - Path=/api/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 100
+                redis-rate-limiter.burstCapacity: 200
+                key-resolver: &quot;#{@userKeyResolver}&quot;
+            - name: CircuitBreaker
+              args:
+                name: backendCircuitBreaker
+                fallbackUri: forward:/fallback
+            - StripPrefix=1
+        
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                key-resolver: &quot;#{@ipKeyResolver}&quot;
+</code></pre>
+<h3>3. Custom Rate Limiter</h3>
+<pre><code class="language-java">@Component
+public class UserRateLimiter implements KeyResolver {
+  @Override
+  public Mono&lt;String&gt; resolve(ServerWebExchange exchange) {
+    String userId = extractUserId(exchange);
+    if (userId != null) {
+      return Mono.just(userId);
+    }
+    return Mono.just(&quot;anonymous:&quot; + getClientIP(exchange));
+  }
+}
+</code></pre>
+<h2>💡 Lições do dia</h2>
+<ul>
+<li><strong>Rate limiting é essencial</strong>: Protege contra abuso e garante fair usage</li>
+<li><strong>Circuit breakers previnem cascading failures</strong>: Isolam falhas antes que se espalhem</li>
+<li><strong>Gateway centraliza cross-cutting concerns</strong>: Autenticação, rate limiting, observabilidade em um só lugar</li>
+<li><strong>Redis é crucial</strong>: Rate limiting distribuído requer estado compartilhado</li>
+<li><strong>Fallbacks melhoram UX</strong>: Respostas padrão quando serviços estão down</li>
+</ul>
+<h2>📈 Métricas e Observabilidade</h2>
+<ul>
+<li><code>gateway.requests.total{route, status}</code>: Total de requests por rota</li>
+<li><code>gateway.latency.seconds{route, percentile}</code>: Latência por rota</li>
+<li><code>gateway.rate_limited.total{route}</code>: Requests bloqueados por rate limit</li>
+<li><code>gateway.circuit_breaker.state{route}</code>: Estado do circuit breaker</li>
+</ul>
+<h2>🔗 Recursos</h2>
+<ul>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day14-APIGateway">https://github.com/adelmonsouza/30DiasJava-Day14-APIGateway</a></li>
+<li>Spring Cloud Gateway: <a href="https://spring.io/projects/spring-cloud-gateway">https://spring.io/projects/spring-cloud-gateway</a></li>
+<li>Bucket4j: <a href="https://bucket4j.com/">https://bucket4j.com/</a></li>
+<li>Resilience4j: <a href="https://resilience4j.readme.io/">https://resilience4j.readme.io/</a></li>
+<li><strong>Projeto pessoal:</strong> Este é um projeto do desafio #30DiasJava, mantido independentemente para fins educacionais.</li>
+</ul>
+<hr>
+<p><strong>Next episode</strong> → <a href="../2025-11-15-caching-strategies.md">Day 15/30 — Caching Strategies in Spring Boot</a></p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Day14-APIGateway" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>

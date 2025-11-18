@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 15/30 — Caching Strategies in Spring Boot · The Java Place</title>
+  <meta name="description" content="Day 15 do #30DiasJava: estratégias de cache com Redis, Caffeine, cache-aside, write-through, TTL inteligente e invalidação distribuída." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-15-caching-strategies.html" />
+  <meta property="og:title" content="Day 15/30 — Caching Strategies in Spring Boot" />
+  <meta property="og:description" content="Day 15 do #30DiasJava: estratégias de cache com Redis, Caffeine, cache-aside, write-through, TTL inteligente e invalidação distribuída." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-15-caching-strategies.html" />
+  <meta property="article:published_time" content="2025-11-15T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Caching" />
+  <meta property="article:tag" content="Redis" />
+  <meta property="article:tag" content="Performance" />
+  <meta property="article:tag" content="Cache Patterns" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 15/30 — Caching Strategies in Spring Boot</h1>
+          <p>Day 15 do #30DiasJava: estratégias de cache com Redis, Caffeine, cache-aside, write-through, TTL inteligente e invalidação distribuída.</p>
+          <div class="meta-line">
+            <span>📅 15 de novembro de 2025</span>
+            <span>⏱️ 4 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>&quot;Cache é a diferença entre uma API lenta e uma API instantânea. A estratégia certa reduz latência em 90%.&quot; — <em>#30DiasJava Performance Notes</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 15</h2>
+<p>Com o gateway protegendo a entrada, era hora de otimizar o desempenho. O Day 15 do #30DiasJava entregou um <strong>sistema de cache completo</strong> com múltiplas estratégias, invalidação inteligente e observabilidade de hit rates.</p>
+<h2>🛠️ O que foi implementado</h2>
+<h3>✅ Múltiplas Estratégias de Cache</h3>
+<ul>
+<li><strong>Cache-aside (Lazy Loading)</strong>: Aplicação gerencia cache manualmente</li>
+<li><strong>Write-through</strong>: Escrita simultânea em cache e banco</li>
+<li><strong>Write-behind (Write-back)</strong>: Escrita assíncrona em batch</li>
+<li><strong>Refresh-ahead</strong>: Pré-carregamento antes de expirar</li>
+<li><strong>Cache invalidation</strong>: Invalidação por eventos ou TTL</li>
+</ul>
+<h3>✅ Stack de Cache Multi-Camada</h3>
+<ul>
+<li><strong>L1 Cache (Caffeine)</strong>: Cache in-memory local (ultra-rápido)</li>
+<li><strong>L2 Cache (Redis)</strong>: Cache distribuído compartilhado</li>
+<li><strong>L3 Cache (Database)</strong>: Queries otimizadas com índices</li>
+<li><strong>Cache warming</strong>: Pré-carregamento em startup</li>
+</ul>
+<h3>✅ TTL Inteligente</h3>
+<ul>
+<li><strong>Static TTL</strong>: Tempo fixo para dados estáticos</li>
+<li><strong>Dynamic TTL</strong>: TTL baseado em volatilidade dos dados</li>
+<li><strong>Sliding TTL</strong>: Renovação automática em acesso</li>
+<li><strong>TTL por tipo</strong>: Diferentes TTLs para diferentes domínios</li>
+</ul>
+<h3>✅ Cache Invalidation</h3>
+<ul>
+<li><strong>Event-driven invalidation</strong>: Invalidação por eventos de domínio</li>
+<li><strong>Pattern-based invalidation</strong>: Invalidação por padrões (ex.: <code>user:*</code>)</li>
+<li><strong>Distributed invalidation</strong>: Pub/Sub Redis para invalidar em todos os pods</li>
+<li><strong>Stale-while-revalidate</strong>: Serve stale data enquanto revalida em background</li>
+</ul>
+<h3>✅ Observabilidade</h3>
+<ul>
+<li><strong>Hit rate metrics</strong>: <code>cache.hits.total</code>, <code>cache.misses.total</code></li>
+<li><strong>Cache size metrics</strong>: <code>cache.size{name}</code></li>
+<li><strong>Eviction metrics</strong>: <code>cache.evictions.total</code></li>
+<li><strong>Latency metrics</strong>: <code>cache.latency.seconds</code></li>
+</ul>
+<h2>📊 Arquitetura</h2>
+<pre><code>┌─────────────┐
+│   Request   │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────────┐
+│  @Cacheable     │
+│  (Caffeine L1)  │
+└──────┬──────────┘
+       │ Miss
+       ▼
+┌─────────────────┐
+│  Redis Cache    │
+│  (L2)           │
+└──────┬──────────┘
+       │ Miss
+       ▼
+┌─────────────────┐
+│   Database      │
+│   (L3)          │
+└─────────────────┘
+</code></pre>
+<h2>🔧 Implementação Técnica</h2>
+<h3>1. Dependências (<code>pom.xml</code>)</h3>
+<pre><code class="language-xml">&lt;!-- Spring Cache --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-cache&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+&lt;!-- Caffeine (L1 Cache) --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.github.ben-manes.caffeine&lt;/groupId&gt;
+  &lt;artifactId&gt;caffeine&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+&lt;!-- Redis (L2 Cache) --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+&lt;!-- Cache Metrics --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;io.micrometer&lt;/groupId&gt;
+  &lt;artifactId&gt;micrometer-core&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3>2. Cache Configuration</h3>
+<pre><code class="language-java">@Configuration
+@EnableCaching
+public class CacheConfig {
+  
+  @Bean
+  public CacheManager cacheManager(RedisConnectionFactory factory) {
+    RedisCacheConfiguration defaultConfig = RedisCacheConfiguration
+      .defaultCacheConfig()
+      .entryTtl(Duration.ofMinutes(10))
+      .serializeValuesWith(RedisSerializationContext.SerializationPair
+        .fromSerializer(new GenericJackson2JsonRedisSerializer()));
+    
+    return RedisCacheManager.builder(factory)
+      .cacheDefaults(defaultConfig)
+      .withCacheConfiguration(&quot;users&quot;, 
+        defaultConfig.entryTtl(Duration.ofHours(1)))
+      .withCacheConfiguration(&quot;families&quot;,
+        defaultConfig.entryTtl(Duration.ofMinutes(30)))
+      .build();
+  }
+  
+  @Bean
+  public CaffeineCache localCache() {
+    return Caffeine.newBuilder()
+      .maximumSize(1000)
+      .expireAfterWrite(5, TimeUnit.MINUTES)
+      .recordStats()
+      .build();
+  }
+}
+</code></pre>
+<h3>3. Cache Usage</h3>
+<pre><code class="language-java">@Service
+public class FamiliaService {
+  
+  @Cacheable(value = &quot;families&quot;, key = &quot;#id&quot;)
+  public FamiliaDTO findById(Long id) {
+    return familiaRepository.findById(id)
+      .map(this::toDTO)
+      .orElseThrow();
+  }
+  
+  @CacheEvict(value = &quot;families&quot;, key = &quot;#id&quot;)
+  public FamiliaDTO update(Long id, FamiliaDTO dto) {
+    // Update logic
+    return updated;
+  }
+  
+  @CacheEvict(value = &quot;families&quot;, allEntries = true)
+  public void evictAll() {
+    // Clear all cache
+  }
+}
+</code></pre>
+<h3>4. Cache Warming</h3>
+<pre><code class="language-java">@Component
+@Slf4j
+public class CacheWarmer implements ApplicationListener&lt;ContextRefreshedEvent&gt; {
+  
+  @Autowired
+  private FamiliaService familiaService;
+  
+  @Override
+  public void onApplicationEvent(ContextRefreshedEvent event) {
+    log.info(&quot;Warming cache...&quot;);
+    // Pre-load frequently accessed data
+    familiaService.findAll().forEach(f -&gt; {
+      familiaService.findById(f.getId());
+    });
+    log.info(&quot;Cache warmed successfully&quot;);
+  }
+}
+</code></pre>
+<h2>💡 Padrões de Cache</h2>
+<h3>Cache-Aside (Lazy Loading)</h3>
+<pre><code class="language-java">public FamiliaDTO findById(Long id) {
+  // 1. Check cache
+  FamiliaDTO cached = cache.get(id);
+  if (cached != null) {
+    return cached;
+  }
+  
+  // 2. Load from database
+  FamiliaDTO dto = loadFromDatabase(id);
+  
+  // 3. Store in cache
+  cache.put(id, dto);
+  
+  return dto;
+}
+</code></pre>
+<h3>Write-Through</h3>
+<pre><code class="language-java">@CachePut(value = &quot;families&quot;, key = &quot;#dto.id&quot;)
+public FamiliaDTO save(FamiliaDTO dto) {
+  // Write to database and cache simultaneously
+  return familiaRepository.save(toEntity(dto));
+}
+</code></pre>
+<h3>Write-Behind (Async)</h3>
+<pre><code class="language-java">@Async
+@CachePut(value = &quot;families&quot;, key = &quot;#dto.id&quot;)
+public CompletableFuture&lt;FamiliaDTO&gt; saveAsync(FamiliaDTO dto) {
+  // Write to cache immediately
+  cache.put(dto.getId(), dto);
+  
+  // Write to database asynchronously
+  return CompletableFuture.supplyAsync(() -&gt; 
+    familiaRepository.save(toEntity(dto))
+  );
+}
+</code></pre>
+<h2>💡 Lições do dia</h2>
+<ul>
+<li><strong>Multi-layer cache maximiza performance</strong>: L1 para ultra-rápido, L2 para compartilhado</li>
+<li><strong>TTL é uma arte</strong>: Muito curto = muitos misses, muito longo = dados stale</li>
+<li><strong>Invalidation é crítico</strong>: Cache stale pode causar bugs graves</li>
+<li><strong>Hit rate é a métrica principal</strong>: 80%+ hit rate é excelente</li>
+<li><strong>Cache warming reduz cold starts</strong>: Pré-carregamento melhora primeira resposta</li>
+</ul>
+<h2>📈 Métricas Importantes</h2>
+<ul>
+<li><strong>Hit Rate</strong>: <code>cache.hits / (cache.hits + cache.misses)</code></li>
+<li><strong>Cache Size</strong>: Tamanho atual do cache</li>
+<li><strong>Eviction Rate</strong>: Taxa de remoção por falta de espaço</li>
+<li><strong>Latency</strong>: Redução de latência com cache vs sem cache</li>
+</ul>
+<h2>🔗 Recursos</h2>
+<ul>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day15-Caching">https://github.com/adelmonsouza/30DiasJava-Day15-Caching</a></li>
+<li>Spring Cache: <a href="https://docs.spring.io/spring-framework/reference/integration/cache.html">https://docs.spring.io/spring-framework/reference/integration/cache.html</a></li>
+<li>Caffeine: <a href="https://github.com/ben-manes/caffeine">https://github.com/ben-manes/caffeine</a></li>
+<li>Redis: <a href="https://redis.io/docs/">https://redis.io/docs/</a></li>
+<li><strong>Projeto pessoal:</strong> Este é um projeto do desafio #30DiasJava, mantido independentemente para fins educacionais.</li>
+</ul>
+<hr>
+<p><strong>Next episode</strong> → <a href="../2025-11-16-config-service.md">Day 16/30 — Config Service &amp; Centralized Configuration</a></p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Day15-Caching" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>

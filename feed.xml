@@ -5,6 +5,27 @@
     <description>Deep-dives semanais em Java e Spring Boot</description>
     <link>https://enouveau.io/blog/</link>
     <item>
+  <title>Day 16/30 — Config Service &amp; Centralized Configuration</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-16-config-service.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-16-config-service.html</guid>
+  <pubDate>Sun, 16 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 16 do #30DiasJava: Config Service centralizado com Spring Cloud Config, Git backend, encryption de secrets, refresh dinâmico e multi-environment.</description>
+</item>
+<item>
+  <title>Day 15/30 — Caching Strategies in Spring Boot</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-15-caching-strategies.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-15-caching-strategies.html</guid>
+  <pubDate>Sat, 15 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 15 do #30DiasJava: estratégias de cache com Redis, Caffeine, cache-aside, write-through, TTL inteligente e invalidação distribuída.</description>
+</item>
+<item>
+  <title>Day 14/30 — API Gateway &amp; Rate Limiting</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-14-api-gateway-rate-limiting.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-14-api-gateway-rate-limiting.html</guid>
+  <pubDate>Fri, 14 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 14 do #30DiasJava: API Gateway centralizado com rate limiting por usuário/tenant, circuit breakers, request/response transformation e observabilidade completa.</description>
+</item>
+<item>
   <title>Day 13/30 — Feature Flags &amp; Experimentation Platform</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-13-feature-flags-experimentation.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-13-feature-flags-experimentation.html</guid>

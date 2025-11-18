@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 16/30 — Config Service &amp; Centralized Configuration · The Java Place</title>
+  <meta name="description" content="Day 16 do #30DiasJava: Config Service centralizado com Spring Cloud Config, Git backend, encryption de secrets, refresh dinâmico e multi-environment." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-16-config-service.html" />
+  <meta property="og:title" content="Day 16/30 — Config Service &amp; Centralized Configuration" />
+  <meta property="og:description" content="Day 16 do #30DiasJava: Config Service centralizado com Spring Cloud Config, Git backend, encryption de secrets, refresh dinâmico e multi-environment." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-16-config-service.html" />
+  <meta property="article:published_time" content="2025-11-16T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Spring Cloud Config" />
+  <meta property="article:tag" content="Configuration Management" />
+  <meta property="article:tag" content="DevOps" />
+  <meta property="article:tag" content="GitOps" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 16/30 — Config Service &amp; Centralized Configuration</h1>
+          <p>Day 16 do #30DiasJava: Config Service centralizado com Spring Cloud Config, Git backend, encryption de secrets, refresh dinâmico e multi-environment.</p>
+          <div class="meta-line">
+            <span>📅 16 de novembro de 2025</span>
+            <span>⏱️ 4 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>&quot;Configuration management é a base de DevOps. Um Config Service centralizado elimina &#39;works on my machine&#39; e habilita GitOps completo.&quot; — <em>#30DiasJava DevOps Notes</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 16</h2>
+<p>Com múltiplos serviços rodando, gerenciar configurações em cada um era um pesadelo. O Day 16 do #30DiasJava entregou um <strong>Config Service centralizado</strong> com backend Git, encryption de secrets, refresh dinâmico e suporte a múltiplos ambientes.</p>
+<h2>🛠️ O que foi implementado</h2>
+<h3>✅ Config Service Centralizado</h3>
+<ul>
+<li><strong>Spring Cloud Config Server</strong>: Servidor centralizado de configuração</li>
+<li><strong>Git backend</strong>: Configurações versionadas em Git</li>
+<li><strong>File-based config</strong>: Suporte a YAML, Properties, JSON</li>
+<li><strong>Environment profiles</strong>: Configs por ambiente (dev, staging, prod)</li>
+<li><strong>Label/tag support</strong>: Configs por versão/tag do Git</li>
+</ul>
+<h3>✅ Encryption de Secrets</h3>
+<ul>
+<li><strong>Symmetric encryption</strong>: AES-256 para secrets sensíveis</li>
+<li><strong>Key rotation</strong>: Rotação automática de chaves de encryption</li>
+<li><strong>Environment variables</strong>: Secrets via env vars (mais seguro)</li>
+<li><strong>Vault integration</strong>: Suporte para HashiCorp Vault (opcional)</li>
+</ul>
+<h3>✅ Dynamic Configuration Refresh</h3>
+<ul>
+<li><strong>@RefreshScope</strong>: Beans que podem ser atualizados sem restart</li>
+<li><strong>Actuator endpoints</strong>: <code>/actuator/refresh</code>, <code>/actuator/bus-refresh</code></li>
+<li><strong>Webhooks</strong>: Refresh automático via webhook do Git</li>
+<li><strong>Selective refresh</strong>: Refresh apenas de serviços específicos</li>
+</ul>
+<h3>✅ Multi-Environment Support</h3>
+<ul>
+<li><strong>Profile-based config</strong>: <code>application-dev.yml</code>, <code>application-prod.yml</code></li>
+<li><strong>Environment variables override</strong>: Env vars sobrescrevem configs</li>
+<li><strong>Default values</strong>: Fallbacks quando configs não existem</li>
+<li><strong>Environment-specific secrets</strong>: Secrets diferentes por ambiente</li>
+</ul>
+<h3>✅ Observabilidade</h3>
+<ul>
+<li><strong>Config change events</strong>: Eventos quando configs mudam</li>
+<li><strong>Config audit log</strong>: Histórico de mudanças de configuração</li>
+<li><strong>Health checks</strong>: Verificação de conectividade com Git backend</li>
+<li><strong>Metrics</strong>: <code>config.requests.total</code>, <code>config.refresh.total</code></li>
+</ul>
+<h2>📊 Arquitetura</h2>
+<pre><code>┌──────────────┐
+│   Git Repo   │
+│ (Configs)    │
+└──────┬───────┘
+       │
+       ▼
+┌─────────────────┐
+│ Config Server   │
+│  (Port 8888)    │
+└──────┬──────────┘
+       │
+       ├──────────────┬──────────────┐
+       ▼              ▼              ▼
+┌──────────┐   ┌──────────┐   ┌──────────┐
+│ Backend  │   │ Payment  │   │ Search   │
+│ Service  │   │ Service  │   │ Service  │
+└──────────┘   └──────────┘   └──────────┘
+</code></pre>
+<h2>🔧 Implementação Técnica</h2>
+<h3>1. Config Server (<code>pom.xml</code>)</h3>
+<pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3>2. Config Server Application</h3>
+<pre><code class="language-java">@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+  public static void main(String[] args) {
+    SpringApplication.run(ConfigServerApplication.class, args);
+  }
+}
+</code></pre>
+<h3>3. Config Server Configuration</h3>
+<pre><code class="language-yaml">spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/adelmonsouza/30dias-java-configs
+          default-label: main
+          search-paths: &#39;{application}&#39;
+        encryption:
+          enabled: true
+          key-store:
+            location: classpath:config-server-keystore.jks
+            password: ${KEYSTORE_PASSWORD}
+            alias: config-server-key
+</code></pre>
+<h3>4. Client Configuration</h3>
+<pre><code class="language-yaml">spring:
+  config:
+    import: configserver:http://config-server:8888
+  cloud:
+    config:
+      name: backend-service
+      profile: ${SPRING_PROFILES_ACTIVE:prod}
+      label: ${CONFIG_LABEL:main}
+</code></pre>
+<h3>5. Encrypted Secrets</h3>
+<pre><code class="language-yaml"># application-prod.yml
+database:
+  password: &#39;{cipher}AQA...encrypted...&#39;
+  
+jwt:
+  secret: &#39;{cipher}AQA...encrypted...&#39;
+</code></pre>
+<h3>6. Dynamic Refresh</h3>
+<pre><code class="language-java">@RestController
+@RefreshScope
+public class ConfigController {
+  
+  @Value(&quot;${feature.new-checkout:false}&quot;)
+  private boolean newCheckout;
+  
+  @GetMapping(&quot;/config/feature/new-checkout&quot;)
+  public Map&lt;String, Boolean&gt; getFeature() {
+    return Map.of(&quot;enabled&quot;, newCheckout);
+  }
+}
+</code></pre>
+<h2>💡 Padrões de Configuração</h2>
+<h3>Hierarquia de Configs</h3>
+<ol>
+<li><strong>Defaults</strong> (application.yml)</li>
+<li><strong>Profile</strong> (application-prod.yml)</li>
+<li><strong>Environment Variables</strong> (highest priority)</li>
+</ol>
+<h3>Config Organization</h3>
+<pre><code>config-repo/
+├── application.yml          # Shared configs
+├── application-dev.yml      # Dev overrides
+├── application-prod.yml     # Prod overrides
+├── backend-service/
+│   ├── application.yml
+│   └── application-prod.yml
+└── payment-service/
+    ├── application.yml
+    └── application-prod.yml
+</code></pre>
+<h2>💡 Lições do dia</h2>
+<ul>
+<li><strong>Centralização elimina duplicação</strong>: Um único source of truth</li>
+<li><strong>Versionamento é essencial</strong>: Git permite rollback de configs</li>
+<li><strong>Encryption protege secrets</strong>: Nunca commitar secrets em texto plano</li>
+<li><strong>Refresh dinâmico reduz downtime</strong>: Atualiza configs sem restart</li>
+<li><strong>Multi-environment é obrigatório</strong>: Dev, staging, prod precisam isolamento</li>
+</ul>
+<h2>📈 Observabilidade</h2>
+<h3>Config Health Check</h3>
+<pre><code class="language-java">@Component
+public class ConfigHealthIndicator implements HealthIndicator {
+  @Override
+  public Health health() {
+    // Check Git connectivity
+    // Check encryption key availability
+    return Health.up()
+      .withDetail(&quot;git&quot;, &quot;connected&quot;)
+      .withDetail(&quot;encryption&quot;, &quot;enabled&quot;)
+      .build();
+  }
+}
+</code></pre>
+<h3>Config Change Events</h3>
+<pre><code class="language-java">@EventListener
+public void handleConfigChange(EnvironmentChangeEvent event) {
+  log.info(&quot;Configuration changed: {}&quot;, event.getKeys());
+  metrics.increment(&quot;config.changes.total&quot;, &quot;keys&quot;, event.getKeys().size());
+}
+</code></pre>
+<h2>🔗 Recursos</h2>
+<ul>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day16-ConfigService">https://github.com/adelmonsouza/30DiasJava-Day16-ConfigService</a></li>
+<li>Spring Cloud Config: <a href="https://spring.io/projects/spring-cloud-config">https://spring.io/projects/spring-cloud-config</a></li>
+<li>Encryption Guide: <a href="https://cloud.spring.io/spring-cloud-config/reference/html/#_encryption_and_decryption">https://cloud.spring.io/spring-cloud-config/reference/html/#_encryption_and_decryption</a></li>
+<li><strong>Projeto pessoal:</strong> Este é um projeto do desafio #30DiasJava, mantido independentemente para fins educacionais.</li>
+</ul>
+<hr>
+<p><strong>Next episode</strong> → Day 17/30 — Resilience Patterns &amp; Circuit Breakers (em breve)</p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Day16-ConfigService" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>
