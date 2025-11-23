@@ -22,18 +22,86 @@
   <div class="app-shell">
     <header class="masthead">
   <div class="brand">
-    <span>🚀</span>
-    <span>The Java Place</span>
+    <a href="/" style="display: inline-flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.5rem; color: var(--text-primary); letter-spacing: 0.02em; text-decoration: none;">
+      <span>🚀</span>
+      <span>The Java Place</span>
+    </a>
   </div>
   <nav class="main-nav">
     <a href="/">Home</a>
     <a href="/blog/">Blog</a>
+    <a href="/blog/about.html">Sobre</a>
     <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
     <a href="/resources/">Resources</a>
   </nav>
 </header>
     
+      
+      <nav class="breadcrumbs" style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+        <a href="/">Home</a>
+        <span> / </span>
+        <a href="/blog/">Blog</a>
+        <span> / </span>
+        <span>Day 10/30 — Reporting Service em Spring Boot</span>
+      </nav>
+    
       <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      
+      <div class="audio-player" style="margin: 2rem 0; padding: 1.5rem; background: rgba(139, 92, 246, 0.1); border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.3);">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <span style="font-size: 1.5rem;">🎙️</span>
+          <h3 style="margin: 0; font-size: 1.1rem;">Ouça este post</h3>
+        </div>
+        <div class="language-selector" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+          <button class="lang-btn active" data-lang="pt" style="padding: 0.5rem 1rem; border: 1px solid rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.2); color: #d8b4fe; border-radius: 8px; cursor: pointer;">🇧🇷 Português</button>
+          <button class="lang-btn" data-lang="fr" style="padding: 0.5rem 1rem; border: 1px solid rgba(139, 92, 246, 0.5); background: transparent; color: var(--text-secondary); border-radius: 8px; cursor: pointer;">🇫🇷 Français</button>
+          <button class="lang-btn" data-lang="en" style="padding: 0.5rem 1rem; border: 1px solid rgba(139, 92, 246, 0.5); background: transparent; color: var(--text-secondary); border-radius: 8px; cursor: pointer;">🇬🇧 English</button>
+        </div>
+        <audio id="podcast-audio" controls style="width: 100%; margin-bottom: 0.5rem;">
+          <source src="/blog/audio/2025-11-10-reporting-service-streaming-pt.mp3" type="audio/mpeg" id="audio-source-pt">
+          <source src="/blog/audio/2025-11-10-reporting-service-streaming-fr.mp3" type="audio/mpeg" id="audio-source-fr">
+          <source src="/blog/audio/2025-11-10-reporting-service-streaming-en.mp3" type="audio/mpeg" id="audio-source-en">
+          Seu navegador não suporta áudio HTML5.
+        </audio>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-secondary);">
+          <a href="/blog/audio/2025-11-10-reporting-service-streaming-pt.mp3" download style="color: var(--link); text-decoration: none;">📥 Baixar episódio</a>
+          <span id="audio-status">Idioma: Português</span>
+        </div>
+      </div>
+      <script>
+        (function() {
+          const langButtons = document.querySelectorAll('.lang-btn');
+          const audio = document.getElementById('podcast-audio');
+          const status = document.getElementById('audio-status');
+          const sources = {
+            pt: document.getElementById('audio-source-pt'),
+            fr: document.getElementById('audio-source-fr'),
+            en: document.getElementById('audio-source-en')
+          };
+          const langNames = { pt: 'Português', fr: 'Français', en: 'English' };
+          
+          langButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+              const lang = this.dataset.lang;
+              langButtons.forEach(b => {
+                b.classList.remove('active');
+                b.style.background = 'transparent';
+                b.style.color = 'var(--text-secondary)';
+              });
+              this.classList.add('active');
+              this.style.background = 'rgba(139, 92, 246, 0.2)';
+              this.style.color = '#d8b4fe';
+              
+              if (sources[lang]) {
+                audio.src = sources[lang].src;
+                audio.load();
+                status.textContent = 'Idioma: ' + langNames[lang];
+              }
+            });
+          });
+        })();
+      </script>
+    
       <article class="article">
         <header>
           <span class="pill">30DaysOfJava</span>
@@ -88,6 +156,22 @@
           <a href="https://github.com/adelmonsouza/30DiasJava-Day10-ReportingService" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
         </footer>
       </article>
+      
+      <nav class="post-navigation" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 2rem;">
+        
+          <div style="flex: 1;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">← Post anterior</div>
+            <a href="/blog/2025/11/2025-11-10-reporting-service-under-the-hood.html" style="color: var(--link); font-weight: 600; text-decoration: none;">Reporting Service in Spring Boot: Turning Raw Events into Board-Ready Metrics</a>
+          </div>
+        
+        
+          <div style="flex: 1; text-align: right;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Próximo post →</div>
+            <a href="/blog/2025/11/2025-11-11-logging-service.html" style="color: var(--link); font-weight: 600; text-decoration: none;">Day 11/30 — Logging Service in Spring Boot</a>
+          </div>
+        
+      </nav>
+    
     
   </div>
   <footer class="site-footer">

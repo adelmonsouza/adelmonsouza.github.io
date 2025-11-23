@@ -5,6 +5,20 @@
     <description>Deep-dives semanais em Java e Spring Boot</description>
     <link>https://enouveau.io/blog/</link>
     <item>
+  <title>Day 23/30 — A Evolução do Aprendizado Java: Com e Sem Spring</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-23-java-learning-evolution.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-23-java-learning-evolution.html</guid>
+  <pubDate>Sun, 23 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 23 do #30DiasJava: Reflexão sobre como era aprender Java antigamente, a evolução do aprendizado com Spring Boot, e se a tecnologia está deixando profissionais incompletos.</description>
+</item>
+<item>
+  <title>Day 22/30 — CORS &amp; Cross-Origin Security</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-22-cors-cross-origin-security.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-22-cors-cross-origin-security.html</guid>
+  <pubDate>Sat, 22 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 22 do #30DiasJava: Configuração de CORS, segurança cross-origin, preflight requests, e como permitir que frontend e mobile acessem a API de forma segura.</description>
+</item>
+<item>
   <title>Day 21/30 — OpenAPI/Swagger Documentation</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-21-openapi-swagger-documentation.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-21-openapi-swagger-documentation.html</guid>
@@ -31,6 +45,13 @@
   <guid>https://enouveau.io/blog/2025/11/2025-11-18-multi-factor-authentication-mfa.html</guid>
   <pubDate>Tue, 18 Nov 2025 00:00:00 GMT</pubDate>
   <description>Day 18 do #30DiasJava: Multi-Factor Authentication com TOTP, geração de QR codes, verificação de códigos e integração com fluxo de login.</description>
+</item>
+<item>
+  <title>Day 17/30 — Error Handling &amp; Exception Management</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-17-error-handling-exception-management.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-17-error-handling-exception-management.html</guid>
+  <pubDate>Mon, 17 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 17 do #30DiasJava: Tratamento centralizado de erros, respostas consistentes de API, logging estruturado e como evitar que um erro quebre toda a aplicação.</description>
 </item>
 <item>
   <title>Day 16/30 — Config Service &amp; Centralized Configuration</title>
@@ -122,6 +143,13 @@
   <guid>https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html</guid>
   <pubDate>Wed, 05 Nov 2025 00:00:00 GMT</pubDate>
   <description>Day 5 do #30DiasJava: um Notification Service orientado a eventos, com WebSockets/SSE, idempotência e pronto para evoluir de Spring Events para Kafka ou RabbitMQ.</description>
+</item>
+<item>
+  <title>Days 1-4/30 — Os Primeiros Passos: Retrospectiva</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-01-first-steps-retrospective.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-01-first-steps-retrospective.html</guid>
+  <pubDate>Sat, 01 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Retrospectiva dos primeiros 4 dias do #30DiasJava: User Profile Service, Content Catalog com paginação, Notification Service com eventos, e os fundamentos que construíram a base do projeto.</description>
 </item>
   </channel>
 </rss>

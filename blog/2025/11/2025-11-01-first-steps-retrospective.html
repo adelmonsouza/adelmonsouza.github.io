@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Days 1-4/30 — Os Primeiros Passos: Retrospectiva · The Java Place</title>
+  <meta name="description" content="Retrospectiva dos primeiros 4 dias do #30DiasJava: User Profile Service, Content Catalog com paginação, Notification Service com eventos, e os fundamentos que construíram a base do projeto." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-01-first-steps-retrospective.html" />
+  <meta property="og:title" content="Days 1-4/30 — Os Primeiros Passos: Retrospectiva" />
+  <meta property="og:description" content="Retrospectiva dos primeiros 4 dias do #30DiasJava: User Profile Service, Content Catalog com paginação, Notification Service com eventos, e os fundamentos que construíram a base do projeto." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-01-first-steps-retrospective.html" />
+  <meta property="article:published_time" content="2025-11-01T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Microservices" />
+  <meta property="article:tag" content="Event-Driven Architecture" />
+  <meta property="article:tag" content="Pagination" />
+  <meta property="article:tag" content="Retrospective" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <a href="/" style="display: inline-flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.5rem; color: var(--text-primary); letter-spacing: 0.02em; text-decoration: none;">
+      <span>🚀</span>
+      <span>The Java Place</span>
+    </a>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/blog/about.html">Sobre</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      
+      <nav class="breadcrumbs" style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+        <a href="/">Home</a>
+        <span> / </span>
+        <a href="/blog/">Blog</a>
+        <span> / </span>
+        <span>Days 1-4/30 — Os Primeiros Passos: Retrospectiva</span>
+      </nav>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      
+      <div class="audio-player" style="margin: 2rem 0; padding: 1.5rem; background: rgba(139, 92, 246, 0.1); border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.3);">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <span style="font-size: 1.5rem;">🎙️</span>
+          <h3 style="margin: 0; font-size: 1.1rem;">Ouça este post</h3>
+        </div>
+        <div class="language-selector" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+          <button class="lang-btn active" data-lang="pt" style="padding: 0.5rem 1rem; border: 1px solid rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.2); color: #d8b4fe; border-radius: 8px; cursor: pointer;">🇧🇷 Português</button>
+          <button class="lang-btn" data-lang="fr" style="padding: 0.5rem 1rem; border: 1px solid rgba(139, 92, 246, 0.5); background: transparent; color: var(--text-secondary); border-radius: 8px; cursor: pointer;">🇫🇷 Français</button>
+          <button class="lang-btn" data-lang="en" style="padding: 0.5rem 1rem; border: 1px solid rgba(139, 92, 246, 0.5); background: transparent; color: var(--text-secondary); border-radius: 8px; cursor: pointer;">🇬🇧 English</button>
+        </div>
+        <audio id="podcast-audio" controls style="width: 100%; margin-bottom: 0.5rem;">
+          <source src="/blog/audio/2025-11-01-first-steps-retrospective-pt.mp3" type="audio/mpeg" id="audio-source-pt">
+          <source src="/blog/audio/2025-11-01-first-steps-retrospective-fr.mp3" type="audio/mpeg" id="audio-source-fr">
+          <source src="/blog/audio/2025-11-01-first-steps-retrospective-en.mp3" type="audio/mpeg" id="audio-source-en">
+          Seu navegador não suporta áudio HTML5.
+        </audio>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-secondary);">
+          <a href="/blog/audio/2025-11-01-first-steps-retrospective-pt.mp3" download style="color: var(--link); text-decoration: none;">📥 Baixar episódio</a>
+          <span id="audio-status">Idioma: Português</span>
+        </div>
+      </div>
+      <script>
+        (function() {
+          const langButtons = document.querySelectorAll('.lang-btn');
+          const audio = document.getElementById('podcast-audio');
+          const status = document.getElementById('audio-status');
+          const sources = {
+            pt: document.getElementById('audio-source-pt'),
+            fr: document.getElementById('audio-source-fr'),
+            en: document.getElementById('audio-source-en')
+          };
+          const langNames = { pt: 'Português', fr: 'Français', en: 'English' };
+          
+          langButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+              const lang = this.dataset.lang;
+              langButtons.forEach(b => {
+                b.classList.remove('active');
+                b.style.background = 'transparent';
+                b.style.color = 'var(--text-secondary)';
+              });
+              this.classList.add('active');
+              this.style.background = 'rgba(139, 92, 246, 0.2)';
+              this.style.color = '#d8b4fe';
+              
+              if (sources[lang]) {
+                audio.src = sources[lang].src;
+                audio.load();
+                status.textContent = 'Idioma: ' + langNames[lang];
+              }
+            });
+          });
+        })();
+      </script>
+    
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Days 1-4/30 — Os Primeiros Passos: Retrospectiva</h1>
+          <p>Retrospectiva dos primeiros 4 dias do #30DiasJava: User Profile Service, Content Catalog com paginação, Notification Service com eventos, e os fundamentos que construíram a base do projeto.</p>
+          <div class="meta-line">
+            <span>📅 01 de novembro de 2025</span>
+            <span>⏱️ 2 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>&quot;Começar simples e evoluir é melhor que tentar fazer tudo perfeito de uma vez.&quot; — <em>#30DiasJava First Steps</em></p>
+</blockquote>
+<h2>🎯 Por que esta Retrospectiva?</h2>
+<p>Os primeiros 4 dias do desafio estabeleceram os <strong>fundamentos</strong> do que viria a ser um sistema completo. Esta retrospectiva documenta o que foi aprendido e implementado nesses dias iniciais, servindo como base para entender a evolução do projeto.</p>
+<h2>📋 O que foi Implementado</h2>
+<h3><strong>Day 1: User Profile Service</strong></h3>
+<p><strong>Objetivo:</strong> Criar um serviço de perfil de usuário com Spring Boot.</p>
+<p><strong>Implementação:</strong></p>
+<ul>
+<li>✅ Spring Boot 3 com Java 21</li>
+<li>✅ Spring Data JPA com PostgreSQL</li>
+<li>✅ Endpoints REST básicos (CRUD)</li>
+<li>✅ Validação de dados com Bean Validation</li>
+</ul>
+<p><strong>Aprendizados:</strong></p>
+<ul>
+<li>Configuração inicial de um projeto Spring Boot</li>
+<li>Estrutura de pacotes e organização de código</li>
+<li>Integração com banco de dados PostgreSQL</li>
+</ul>
+<h3><strong>Day 2: Content Catalog com Paginação</strong></h3>
+<p><strong>Objetivo:</strong> Implementar um catálogo de conteúdo com paginação eficiente.</p>
+<p><strong>Implementação:</strong></p>
+<ul>
+<li>✅ Paginação usando <code>Pageable</code> do Spring Data</li>
+<li>✅ Filtros e busca</li>
+<li>✅ Respostas paginadas padronizadas</li>
+</ul>
+<p><strong>Aprendizados:</strong></p>
+<ul>
+<li>Como implementar paginação eficiente</li>
+<li>Evitar carregar todos os dados de uma vez</li>
+<li>Melhorar performance de APIs</li>
+</ul>
+<h3><strong>Day 3: Notification Service com Event-Driven</strong></h3>
+<p><strong>Objetivo:</strong> Criar um serviço de notificações baseado em eventos.</p>
+<p><strong>Implementação:</strong></p>
+<ul>
+<li>✅ Spring Events para comunicação assíncrona</li>
+<li>✅ Eventos customizados</li>
+<li>✅ Handlers de eventos</li>
+</ul>
+<p><strong>Aprendizados:</strong></p>
+<ul>
+<li>Arquitetura orientada a eventos</li>
+<li>Desacoplamento de serviços</li>
+<li>Comunicação assíncrona</li>
+</ul>
+<h3><strong>Day 4: Consolidação e Próximos Passos</strong></h3>
+<p><strong>Objetivo:</strong> Revisar o que foi feito e planejar os próximos dias.</p>
+<p><strong>Implementação:</strong></p>
+<ul>
+<li>✅ Documentação dos serviços</li>
+<li>✅ Estrutura de projeto consolidada</li>
+<li>✅ Planejamento dos próximos dias</li>
+</ul>
+<p><strong>Aprendizados:</strong></p>
+<ul>
+<li>Importância da documentação</li>
+<li>Organização de projeto</li>
+<li>Planejamento incremental</li>
+</ul>
+<h2>🔍 Insights Importantes</h2>
+<h3><strong>1. Começar Simples</strong></h3>
+<p>Não tentamos fazer tudo perfeito desde o início. Começamos com funcionalidades básicas e evoluímos gradualmente.</p>
+<h3><strong>2. Aprendizado Prático</strong></h3>
+<p>Cada dia trouxe um novo conceito aplicado em código real, não apenas teoria.</p>
+<h3><strong>3. Base Sólida</strong></h3>
+<p>Esses primeiros dias estabeleceram a base para todo o projeto que viria depois.</p>
+<h2>🚀 Aplicação no Produto</h2>
+<p>Tudo que foi aprendido nesses 4 dias foi aplicado no projeto <strong>Desafio das Águias</strong>:</p>
+<ul>
+<li>✅ User Profile Service → Base para sistema de usuários</li>
+<li>✅ Content Catalog → Base para catálogo de recursos</li>
+<li>✅ Notification Service → Base para sistema de notificações</li>
+<li>✅ Paginação → Implementada em todas as listagens</li>
+</ul>
+<h2>❓ Perguntas para Reflexão</h2>
+<ol>
+<li><strong>Você já começou um projeto do zero?</strong> Como foi sua experiência?</li>
+<li><strong>Qual foi o maior desafio nos primeiros dias?</strong></li>
+<li><strong>O que você faria diferente se começasse hoje?</strong></li>
+</ol>
+<hr>
+<p><strong>Próximos Posts:</strong></p>
+<ul>
+<li>Day 5: Notification Service Event-Driven</li>
+<li>Day 6: Docker Professional Stack</li>
+<li>Day 7: Intelligent Assistants Real-Time</li>
+</ul>
+<p><strong>Código no GitHub:</strong> <a href="https://github.com/adelmonsouza/30DiasJava-Day1-4-Retrospective">adelmonsouza/30DiasJava-Day1-4-Retrospective</a></p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Days1-4-FirstSteps" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
+        </footer>
+      </article>
+      
+      <nav class="post-navigation" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 2rem;">
+        <div></div>
+        
+          <div style="flex: 1; text-align: right;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Próximo post →</div>
+            <a href="/blog/2025/11/2025-11-05-notification-service-event-driven.html" style="color: var(--link); font-weight: 600; text-decoration: none;">Day 5/30 — Notification Service with Event-Driven Architecture</a>
+          </div>
+        
+      </nav>
+    
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>

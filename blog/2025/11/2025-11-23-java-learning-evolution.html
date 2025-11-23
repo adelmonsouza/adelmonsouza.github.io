@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 23/30 — A Evolução do Aprendizado Java: Com e Sem Spring · The Java Place</title>
+  <meta name="description" content="Day 23 do #30DiasJava: Reflexão sobre como era aprender Java antigamente, a evolução do aprendizado com Spring Boot, e se a tecnologia está deixando profissionais incompletos." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-23-java-learning-evolution.html" />
+  <meta property="og:title" content="Day 23/30 — A Evolução do Aprendizado Java: Com e Sem Spring" />
+  <meta property="og:description" content="Day 23 do #30DiasJava: Reflexão sobre como era aprender Java antigamente, a evolução do aprendizado com Spring Boot, e se a tecnologia está deixando profissionais incompletos." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-23-java-learning-evolution.html" />
+  <meta property="article:published_time" content="2025-11-23T00:00:00.000Z" />
+  <meta property="article:tag" content="Java" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Learning" />
+  <meta property="article:tag" content="Education" />
+  <meta property="article:tag" content="Career Development" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <a href="/" style="display: inline-flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.5rem; color: var(--text-primary); letter-spacing: 0.02em; text-decoration: none;">
+      <span>🚀</span>
+      <span>The Java Place</span>
+    </a>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/blog/about.html">Sobre</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      
+      <nav class="breadcrumbs" style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+        <a href="/">Home</a>
+        <span> / </span>
+        <a href="/blog/">Blog</a>
+        <span> / </span>
+        <span>Day 23/30 — A Evolução do Aprendizado Java: Com e Sem Spring</span>
+      </nav>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      
+      <div class="audio-player" style="margin: 2rem 0; padding: 1.5rem; background: rgba(139, 92, 246, 0.1); border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.3);">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <span style="font-size: 1.5rem;">🎙️</span>
+          <h3 style="margin: 0; font-size: 1.1rem;">Ouça este post</h3>
+        </div>
+        <div class="language-selector" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+          <button class="lang-btn active" data-lang="pt" style="padding: 0.5rem 1rem; border: 1px solid rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.2); color: #d8b4fe; border-radius: 8px; cursor: pointer;">🇧🇷 Português</button>
+          <button class="lang-btn" data-lang="fr" style="padding: 0.5rem 1rem; border: 1px solid rgba(139, 92, 246, 0.5); background: transparent; color: var(--text-secondary); border-radius: 8px; cursor: pointer;">🇫🇷 Français</button>
+          <button class="lang-btn" data-lang="en" style="padding: 0.5rem 1rem; border: 1px solid rgba(139, 92, 246, 0.5); background: transparent; color: var(--text-secondary); border-radius: 8px; cursor: pointer;">🇬🇧 English</button>
+        </div>
+        <audio id="podcast-audio" controls style="width: 100%; margin-bottom: 0.5rem;">
+          <source src="/blog/audio/2025-11-23-java-learning-evolution-pt.mp3" type="audio/mpeg" id="audio-source-pt">
+          <source src="/blog/audio/2025-11-23-java-learning-evolution-fr.mp3" type="audio/mpeg" id="audio-source-fr">
+          <source src="/blog/audio/2025-11-23-java-learning-evolution-en.mp3" type="audio/mpeg" id="audio-source-en">
+          Seu navegador não suporta áudio HTML5.
+        </audio>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-secondary);">
+          <a href="/blog/audio/2025-11-23-java-learning-evolution-pt.mp3" download style="color: var(--link); text-decoration: none;">📥 Baixar episódio</a>
+          <span id="audio-status">Idioma: Português</span>
+        </div>
+      </div>
+      <script>
+        (function() {
+          const langButtons = document.querySelectorAll('.lang-btn');
+          const audio = document.getElementById('podcast-audio');
+          const status = document.getElementById('audio-status');
+          const sources = {
+            pt: document.getElementById('audio-source-pt'),
+            fr: document.getElementById('audio-source-fr'),
+            en: document.getElementById('audio-source-en')
+          };
+          const langNames = { pt: 'Português', fr: 'Français', en: 'English' };
+          
+          langButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+              const lang = this.dataset.lang;
+              langButtons.forEach(b => {
+                b.classList.remove('active');
+                b.style.background = 'transparent';
+                b.style.color = 'var(--text-secondary)';
+              });
+              this.classList.add('active');
+              this.style.background = 'rgba(139, 92, 246, 0.2)';
+              this.style.color = '#d8b4fe';
+              
+              if (sources[lang]) {
+                audio.src = sources[lang].src;
+                audio.load();
+                status.textContent = 'Idioma: ' + langNames[lang];
+              }
+            });
+          });
+        })();
+      </script>
+    
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 23/30 — A Evolução do Aprendizado Java: Com e Sem Spring</h1>
+          <p>Day 23 do #30DiasJava: Reflexão sobre como era aprender Java antigamente, a evolução do aprendizado com Spring Boot, e se a tecnologia está deixando profissionais incompletos.</p>
+          <div class="meta-line">
+            <span>📅 23 de novembro de 2025</span>
+            <span>⏱️ 8 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>&quot;Aprender Java sem Spring é como aprender a dirigir sem carro: você entende o motor, mas não sabe como tudo funciona junto.&quot; — <em>Reflexão sobre aprendizado moderno</em></p>
+</blockquote>
+<h2>🎯 Por que esta Reflexão é Importante?</h2>
+<p>Recentemente, alguém comentou: <em>&quot;Todo mundo agora só aprende Java com Spring. Antigamente não era assim.&quot;</em></p>
+<p>Isso me fez pensar:</p>
+<ul>
+<li><strong>Como era aprender Java antigamente?</strong></li>
+<li><strong>A evolução do aprendizado: como fica?</strong></li>
+<li><strong>Será que a tecnologia está deixando profissionais incompletos?</strong></li>
+<li><strong>Como eu seria se tivesse aprendido Java sem Spring?</strong></li>
+</ul>
+<p>Esta reflexão não é sobre certo ou errado, mas sobre <strong>entender a evolução</strong> e como podemos ser profissionais mais completos.</p>
+<h2>📅 Como Era Antigamente?</h2>
+<h3><strong>Java nos Anos 2000</strong></h3>
+<p><strong>O que você aprendia:</strong></p>
+<ul>
+<li>✅ <strong>Core Java</strong>: Classes, objetos, herança, polimorfismo</li>
+<li>✅ <strong>Collections</strong>: List, Set, Map, como funcionam internamente</li>
+<li>✅ <strong>Threads</strong>: Programação concorrente do zero</li>
+<li>✅ <strong>I/O</strong>: FileInputStream, BufferedReader, manipulação manual</li>
+<li>✅ <strong>Sockets</strong>: Programação de rede TCP/IP</li>
+<li>✅ <strong>JDBC</strong>: Conexão com banco de dados manual</li>
+<li>✅ <strong>Servlets</strong>: HTTP do zero, request/response manual</li>
+<li>✅ <strong>JSP</strong>: Views com scriptlets e JSTL</li>
+</ul>
+<p><strong>O que você NÃO tinha:</strong></p>
+<ul>
+<li>❌ Frameworks que faziam &quot;mágica&quot;</li>
+<li>❌ Injeção de dependência automática</li>
+<li>❌ ORM que gerenciava transações</li>
+<li>❌ Anotações que simplificavam tudo</li>
+</ul>
+<p><strong>Resultado:</strong></p>
+<ul>
+<li>✅ Você <strong>entendia</strong> como tudo funcionava por baixo dos panos</li>
+<li>✅ Você <strong>sabia</strong> o que cada linha de código fazia</li>
+<li>✅ Você <strong>construía</strong> tudo do zero</li>
+<li>⚠️ Mas levava <strong>muito mais tempo</strong> para fazer coisas simples</li>
+</ul>
+<h3><strong>Exemplo: Criar uma API REST</strong></h3>
+<p><strong>Antigamente (2005):</strong></p>
+<pre><code class="language-java">// 1. Criar servlet
+public class UserServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
+            throws ServletException, IOException {
+        // 2. Parse manual da URL
+        String path = req.getPathInfo();
+        String[] parts = path.split(&quot;/&quot;);
+        Long userId = Long.parseLong(parts[1]);
+        
+        // 3. Conexão manual com banco
+        Connection conn = DriverManager.getConnection(...);
+        PreparedStatement stmt = conn.prepareStatement(&quot;SELECT * FROM users WHERE id = ?&quot;);
+        stmt.setLong(1, userId);
+        ResultSet rs = stmt.executeQuery();
+        
+        // 4. Converter manualmente para objeto
+        User user = new User();
+        if (rs.next()) {
+            user.setId(rs.getLong(&quot;id&quot;));
+            user.setName(rs.getString(&quot;name&quot;));
+            // ... mais 20 linhas
+        }
+        
+        // 5. Serializar manualmente para JSON
+        resp.setContentType(&quot;application/json&quot;);
+        PrintWriter out = resp.getWriter();
+        out.print(&quot;{&quot;);
+        out.print(&quot;\&quot;id\&quot;:&quot; + user.getId() + &quot;,&quot;);
+        out.print(&quot;\&quot;name\&quot;:\&quot;&quot; + user.getName() + &quot;\&quot;&quot;);
+        out.print(&quot;}&quot;);
+        
+        // 6. Fechar conexões manualmente
+        rs.close();
+        stmt.close();
+        conn.close();
+    }
+}
+</code></pre>
+<p><strong>Hoje (2025):</strong></p>
+<pre><code class="language-java">@RestController
+@RequestMapping(&quot;/api/users&quot;)
+public class UserController {
+    @Autowired
+    private UserRepository repository;
+    
+    @GetMapping(&quot;/{id}&quot;)
+    public User getUser(@PathVariable Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -&gt; new EntityNotFoundException(&quot;User not found&quot;));
+    }
+}
+</code></pre>
+<p><strong>Diferença:</strong></p>
+<ul>
+<li><strong>Antigamente</strong>: ~50 linhas, tudo manual, você controla cada passo</li>
+<li><strong>Hoje</strong>: 5 linhas, Spring faz a mágica, você não vê o que acontece</li>
+</ul>
+<h2>🧠 A Evolução do Aprendizado</h2>
+<h3><strong>Vantagens do Aprendizado Antigo</strong></h3>
+<ol>
+<li><p><strong>Fundamentos Sólidos</strong></p>
+<ul>
+<li>Você entende como HTTP funciona</li>
+<li>Você sabe como banco de dados se conecta</li>
+<li>Você compreende o ciclo de vida de objetos</li>
+</ul>
+</li>
+<li><p><strong>Debugging Profundo</strong></p>
+<ul>
+<li>Quando algo quebra, você sabe onde procurar</li>
+<li>Você entende stack traces complexos</li>
+<li>Você pode debugar sem ferramentas</li>
+</ul>
+</li>
+<li><p><strong>Flexibilidade</strong></p>
+<ul>
+<li>Você pode criar soluções customizadas</li>
+<li>Você não depende de frameworks</li>
+<li>Você entende trade-offs</li>
+</ul>
+</li>
+</ol>
+<h3><strong>Vantagens do Aprendizado Moderno</strong></h3>
+<ol>
+<li><p><strong>Produtividade</strong></p>
+<ul>
+<li>Você entrega valor rápido</li>
+<li>Você foca no negócio, não em infraestrutura</li>
+<li>Você usa melhores práticas já validadas</li>
+</ul>
+</li>
+<li><p><strong>Manutenibilidade</strong></p>
+<ul>
+<li>Código mais limpo e organizado</li>
+<li>Padrões consistentes</li>
+<li>Fácil de entender para outros desenvolvedores</li>
+</ul>
+</li>
+<li><p><strong>Evolução</strong></p>
+<ul>
+<li>Você usa tecnologias modernas</li>
+<li>Você segue tendências do mercado</li>
+<li>Você está preparado para o futuro</li>
+</ul>
+</li>
+</ol>
+<h2>⚠️ O Problema: Profissionais Incompletos?</h2>
+<h3><strong>O Risco do Aprendizado Apenas com Spring</strong></h3>
+<p><strong>Cenário comum hoje:</strong></p>
+<ul>
+<li>Desenvolvedor aprende Spring Boot</li>
+<li>Cria APIs REST facilmente</li>
+<li>Usa JPA sem entender SQL</li>
+<li>Usa anotações sem saber o que fazem</li>
+<li><strong>Problema</strong>: Quando algo quebra, não sabe o que fazer</li>
+</ul>
+<p><strong>Exemplo real:</strong></p>
+<pre><code class="language-java">@Transactional
+public void transferMoney(Long from, Long to, BigDecimal amount) {
+    Account accountFrom = repository.findById(from).get();
+    Account accountTo = repository.findById(to).get();
+    
+    accountFrom.debit(amount);
+    accountTo.credit(amount);
+    
+    repository.save(accountFrom);
+    repository.save(accountTo);
+}
+</code></pre>
+<p><strong>Pergunta</strong>: O que acontece se <code>accountTo</code> não existir?</p>
+<ul>
+<li><strong>Com Spring</strong>: Pode funcionar &quot;por acaso&quot; ou quebrar de forma estranha</li>
+<li><strong>Sem entender transações</strong>: Você não sabe quando commit acontece</li>
+<li><strong>Sem entender JPA</strong>: Você não sabe quando queries são executadas</li>
+</ul>
+<p><strong>Resultado</strong>: Código que funciona &quot;na maioria das vezes&quot;, mas quebra em produção de forma inesperada.</p>
+<h2>🎓 Como Ser um Profissional Completo?</h2>
+<h3><strong>1. Aprenda os Fundamentos Primeiro</strong></h3>
+<p><strong>Antes de Spring Boot, aprenda:</strong></p>
+<ul>
+<li>✅ Core Java (classes, objetos, herança)</li>
+<li>✅ Collections (como funcionam internamente)</li>
+<li>✅ Threads (programação concorrente)</li>
+<li>✅ I/O (streams, files)</li>
+<li>✅ JDBC (conexão com banco manual)</li>
+<li>✅ HTTP (como funciona request/response)</li>
+</ul>
+<p><strong>Por quê?</strong></p>
+<ul>
+<li>Quando Spring faz &quot;mágica&quot;, você entende o que está acontecendo</li>
+<li>Quando algo quebra, você sabe onde procurar</li>
+<li>Quando precisa customizar, você sabe como fazer</li>
+</ul>
+<h3><strong>2. Entenda o que Spring Faz Por Você</strong></h3>
+<p><strong>Não aceite &quot;mágica&quot; sem entender:</strong></p>
+<pre><code class="language-java">@Autowired
+private UserService userService;
+</code></pre>
+<p><strong>O que acontece aqui?</strong></p>
+<ol>
+<li>Spring cria uma instância de <code>UserService</code></li>
+<li>Spring injeta dependências (se houver)</li>
+<li>Spring gerencia o ciclo de vida</li>
+<li>Spring pode criar proxy para transações</li>
+</ol>
+<p><strong>Você deveria saber:</strong></p>
+<ul>
+<li>Como injeção de dependência funciona</li>
+<li>O que é um proxy</li>
+<li>Quando objetos são criados</li>
+<li>Como Spring resolve dependências</li>
+</ul>
+<h3><strong>3. Faça Projetos Sem Framework</strong></h3>
+<p><strong>Exercício prático:</strong></p>
+<ol>
+<li>Crie uma API REST <strong>sem Spring</strong></li>
+<li>Use apenas Servlets e JDBC</li>
+<li>Faça tudo manualmente</li>
+<li>Depois, refatore para Spring Boot</li>
+</ol>
+<p><strong>Resultado:</strong></p>
+<ul>
+<li>Você entende o que Spring faz</li>
+<li>Você valoriza o que Spring oferece</li>
+<li>Você sabe quando NÃO usar Spring</li>
+</ul>
+<h3><strong>4. Leia o Código Fonte</strong></h3>
+<p><strong>Quando usar uma anotação, leia a implementação:</strong></p>
+<ul>
+<li><code>@Transactional</code>: Como funciona?</li>
+<li><code>@Autowired</code>: Como resolve dependências?</li>
+<li><code>@RestController</code>: O que faz diferente de <code>@Controller</code>?</li>
+</ul>
+<p><strong>Ferramentas:</strong></p>
+<ul>
+<li>IDE: &quot;Go to Declaration&quot;</li>
+<li>GitHub: Código fonte do Spring</li>
+<li>Documentação: Explicações técnicas</li>
+</ul>
+<h2>🏗️ Aplicação no Desafio das Águias</h2>
+<p><strong>Como isso se aplica ao projeto:</strong></p>
+<h3><strong>O que eu fiz:</strong></h3>
+<ol>
+<li><strong>Aprendi Core Java primeiro</strong> (anos atrás)</li>
+<li><strong>Entendi fundamentos</strong> antes de usar Spring</li>
+<li><strong>Aplico conhecimento</strong> em cada implementação</li>
+</ol>
+<h3><strong>Exemplo: Error Handling</strong></h3>
+<p><strong>Sem entender HTTP:</strong></p>
+<ul>
+<li>Você não saberia que 400 é diferente de 500</li>
+<li>Você não entenderia status codes</li>
+<li>Você não saberia como estruturar respostas</li>
+</ul>
+<p><strong>Com fundamentos:</strong></p>
+<ul>
+<li>Você entende o protocolo HTTP</li>
+<li>Você sabe quando usar cada status code</li>
+<li>Você cria respostas consistentes</li>
+</ul>
+<h3><strong>Exemplo: CORS</strong></h3>
+<p><strong>Sem entender navegadores:</strong></p>
+<ul>
+<li>Você não saberia por que CORS existe</li>
+<li>Você não entenderia preflight requests</li>
+<li>Você não saberia como configurar corretamente</li>
+</ul>
+<p><strong>Com fundamentos:</strong></p>
+<ul>
+<li>Você entende Same-Origin Policy</li>
+<li>Você sabe como navegadores funcionam</li>
+<li>Você configura CORS de forma segura</li>
+</ul>
+<h2>💬 Pergunta para Você</h2>
+<p><strong>Como você aprendeu Java?</strong></p>
+<ul>
+<li>Começou com Core Java ou direto com Spring?</li>
+<li>Você entende o que Spring faz por você?</li>
+<li>Você já fez um projeto sem framework?</li>
+</ul>
+<p><strong>E a questão mais importante:</strong></p>
+<ul>
+<li><strong>Você se sente um profissional completo?</strong></li>
+<li><strong>O que você faria diferente se pudesse voltar no tempo?</strong></li>
+</ul>
+<p><strong>Compartilhe sua jornada nos comentários! 👇</strong></p>
+<h2>🧠 Insight Principal</h2>
+<blockquote>
+<p><strong>&quot;Aprender apenas com Spring é como aprender a dirigir sem entender o motor: você chega ao destino, mas não sabe o que fazer quando o carro quebra.&quot;</strong></p>
+</blockquote>
+<h3>Por quê isso importa?</h3>
+<ol>
+<li><p><strong>Fundamentos são para sempre</strong></p>
+<ul>
+<li>Frameworks mudam, fundamentos não</li>
+<li>Java core é a base de tudo</li>
+<li>Entender fundamentos te torna flexível</li>
+</ul>
+</li>
+<li><p><strong>Debugging profundo</strong></p>
+<ul>
+<li>Quando Spring quebra, você precisa entender o que está acontecendo</li>
+<li>Stack traces complexos exigem conhecimento de fundamentos</li>
+<li>Problemas de produção raramente são &quot;mágica do Spring&quot;</li>
+</ul>
+</li>
+<li><p><strong>Profissional completo</strong></p>
+<ul>
+<li>Você pode trabalhar com ou sem framework</li>
+<li>Você entende trade-offs</li>
+<li>Você pode criar soluções customizadas</li>
+</ul>
+</li>
+</ol>
+<h2>📈 Resultados Reais</h2>
+<p><strong>Minha experiência:</strong></p>
+<ul>
+<li><strong>Aprendi Core Java primeiro</strong> (2008-2010)</li>
+<li><strong>Fiz projetos sem framework</strong> (Servlets, JDBC manual)</li>
+<li><strong>Depois aprendi Spring</strong> (2012+)</li>
+<li><strong>Resultado</strong>: Entendo o que Spring faz, posso debugar profundamente, posso criar soluções customizadas</li>
+</ul>
+<p><strong>Se tivesse aprendido só Spring:</strong></p>
+<ul>
+<li>❌ Não entenderia como HTTP funciona</li>
+<li>❌ Não saberia debugar problemas profundos</li>
+<li>❌ Dependeria de frameworks para tudo</li>
+<li>❌ Não poderia criar soluções customizadas</li>
+</ul>
+<h2>🎓 Lições Aprendidas</h2>
+<h3>✅ O que funcionou bem</h3>
+<ul>
+<li><strong>Aprender fundamentos primeiro</strong>: Base sólida para tudo</li>
+<li><strong>Fazer projetos sem framework</strong>: Entender o que frameworks fazem</li>
+<li><strong>Ler código fonte</strong>: Entender implementações</li>
+<li><strong>Aplicar conhecimento</strong>: Usar fundamentos em projetos reais</li>
+</ul>
+<h3>⚠️ Desafios e soluções</h3>
+<ul>
+<li><p><strong>Desafio</strong>: Aprendizado leva mais tempo</p>
+<ul>
+<li><strong>Solução</strong>: Vale a pena, você se torna profissional completo</li>
+</ul>
+</li>
+<li><p><strong>Desafio</strong>: Pode parecer &quot;desatualizado&quot;</p>
+<ul>
+<li><strong>Solução</strong>: Fundamentos nunca ficam desatualizados</li>
+</ul>
+</li>
+<li><p><strong>Desafio</strong>: Muitos tutoriais pulam fundamentos</p>
+<ul>
+<li><strong>Solução</strong>: Buscar recursos que ensinam fundamentos primeiro</li>
+</ul>
+</li>
+</ul>
+<h2>📚 Recursos para Aprender Fundamentos</h2>
+<h3><strong>Core Java</strong></h3>
+<ul>
+<li>Oracle Java Tutorials: <a href="https://docs.oracle.com/javase/tutorial/">https://docs.oracle.com/javase/tutorial/</a></li>
+<li>Effective Java (Joshua Bloch)</li>
+<li>Java: The Complete Reference</li>
+</ul>
+<h3><strong>Sem Framework</strong></h3>
+<ul>
+<li>Criar API REST com Servlets</li>
+<li>Conexão com banco usando JDBC puro</li>
+<li>Programação de rede com Sockets</li>
+</ul>
+<h3><strong>Entender Spring</strong></h3>
+<ul>
+<li>Spring Framework Documentation</li>
+<li>Spring Source Code (GitHub)</li>
+<li>&quot;Spring in Action&quot; (livro)</li>
+</ul>
+<h2>🔗 Links</h2>
+<ul>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day23-LearningEvolution">https://github.com/adelmonsouza/30DiasJava-Day23-LearningEvolution</a></li>
+<li>Artigo completo: <a href="https://enouveau.io/blog/2025/11/23/java-learning-evolution.html">https://enouveau.io/blog/2025/11/23/java-learning-evolution.html</a></li>
+</ul>
+<p><strong>Next episode</strong> → Day 24/30 — Testing Strategies &amp; Quality Assurance</p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Day23-LearningEvolution" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
+        </footer>
+      </article>
+      
+      <nav class="post-navigation" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 2rem;">
+        
+          <div style="flex: 1;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">← Post anterior</div>
+            <a href="/blog/2025/11/2025-11-22-cors-cross-origin-security.html" style="color: var(--link); font-weight: 600; text-decoration: none;">Day 22/30 — CORS &amp; Cross-Origin Security</a>
+          </div>
+        
+        
+      </nav>
+    
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>

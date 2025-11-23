@@ -17,6 +17,16 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-23-java-learning-evolution.html</loc>
+    <lastmod>2025-11-23T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-22-cors-cross-origin-security.html</loc>
+    <lastmod>2025-11-22T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
     <loc>https://enouveau.io/blog/2025/11/2025-11-21-openapi-swagger-documentation.html</loc>
     <lastmod>2025-11-21T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -34,6 +44,11 @@
 <url>
     <loc>https://enouveau.io/blog/2025/11/2025-11-18-multi-factor-authentication-mfa.html</loc>
     <lastmod>2025-11-18T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-17-error-handling-exception-management.html</loc>
+    <lastmod>2025-11-17T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 <url>
@@ -99,6 +114,11 @@
 <url>
     <loc>https://enouveau.io/blog/2025/11/2025-11-05-notification-service-event-driven.html</loc>
     <lastmod>2025-11-05T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-01-first-steps-retrospective.html</loc>
+    <lastmod>2025-11-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
