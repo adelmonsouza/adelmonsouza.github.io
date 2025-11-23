@@ -54,6 +54,13 @@
   <description>Day 17 do #30DiasJava: Tratamento centralizado de erros, respostas consistentes de API, logging estruturado e como evitar que um erro quebre toda a aplicação.</description>
 </item>
 <item>
+  <title>Day 17/30 — Resilience Patterns &amp; Circuit Breakers</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-17-resilience-patterns-circuit-breakers.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-17-resilience-patterns-circuit-breakers.html</guid>
+  <pubDate>Mon, 17 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 17 do #30DiasJava: Resilience patterns com Resilience4j, circuit breakers, retry, timeout, rate limiting e bulkhead para sistemas resilientes.</description>
+</item>
+<item>
   <title>Day 16/30 — Config Service &amp; Centralized Configuration</title>
   <link>https://enouveau.io/blog/2025/11/2025-11-16-config-service.html</link>
   <guid>https://enouveau.io/blog/2025/11/2025-11-16-config-service.html</guid>

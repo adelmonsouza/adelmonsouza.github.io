@@ -52,6 +52,11 @@
     <changefreq>weekly</changefreq>
   </url>
 <url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-17-resilience-patterns-circuit-breakers.html</loc>
+    <lastmod>2025-11-17T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
     <loc>https://enouveau.io/blog/2025/11/2025-11-16-config-service.html</loc>
     <lastmod>2025-11-16T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
