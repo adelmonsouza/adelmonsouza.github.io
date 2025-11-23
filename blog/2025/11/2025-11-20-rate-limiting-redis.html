@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 20/30 — Rate Limiting com Redis · The Java Place</title>
+  <meta name="description" content="Day 20 do #30DiasJava: Rate limiting por IP usando Redis, prevenção de abuso de API, headers de rate limit e integração com Spring Security Filter Chain." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-20-rate-limiting-redis.html" />
+  <meta property="og:title" content="Day 20/30 — Rate Limiting com Redis" />
+  <meta property="og:description" content="Day 20 do #30DiasJava: Rate limiting por IP usando Redis, prevenção de abuso de API, headers de rate limit e integração com Spring Security Filter Chain." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-20-rate-limiting-redis.html" />
+  <meta property="article:published_time" content="2025-11-20T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Security" />
+  <meta property="article:tag" content="Rate Limiting" />
+  <meta property="article:tag" content="Redis" />
+  <meta property="article:tag" content="Performance" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 20/30 — Rate Limiting com Redis</h1>
+          <p>Day 20 do #30DiasJava: Rate limiting por IP usando Redis, prevenção de abuso de API, headers de rate limit e integração com Spring Security Filter Chain.</p>
+          <div class="meta-line">
+            <span>📅 20 de novembro de 2025</span>
+            <span>⏱️ 6 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>&quot;Rate limiting é a primeira linha de defesa contra abuso de API. Redis torna isso rápido e escalável.&quot; — <em>#30DiasJava Security Notes</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 20</h2>
+<p>Para proteger a API contra abuso e garantir fair usage, o Day 20 do #30DiasJava implementou <strong>Rate Limiting</strong> usando Redis, limitando requisições por endereço IP e retornando headers informativos sobre limites e disponibilidade.</p>
+<h2>🛠️ O que foi implementado</h2>
+<h3>✅ Redis-based Rate Limiting</h3>
+<ul>
+<li><strong>IP-based limiting</strong>: Limitação baseada em endereço IP do cliente</li>
+<li><strong>Sliding window</strong>: Janela deslizante de 60 segundos</li>
+<li><strong>Configurable limits</strong>: Limite configurável (padrão: 100 req/min)</li>
+<li><strong>Redis storage</strong>: Armazenamento de contadores em Redis</li>
+</ul>
+<h3>✅ Request Filtering</h3>
+<ul>
+<li><strong>Spring Filter</strong>: Filtro <code>OncePerRequestFilter</code> para interceptar todas as requisições</li>
+<li><strong>Conditional activation</strong>: Ativo apenas quando Redis está disponível</li>
+<li><strong>Graceful degradation</strong>: Sistema funciona normalmente se Redis não estiver disponível</li>
+</ul>
+<h3>✅ Rate Limit Headers</h3>
+<ul>
+<li><strong>X-RateLimit-Limit</strong>: Limite máximo de requisições por período</li>
+<li><strong>X-RateLimit-Remaining</strong>: Requisições restantes no período atual</li>
+<li><strong>HTTP 429</strong>: Status code &quot;Too Many Requests&quot; quando limite excedido</li>
+</ul>
+<h3>✅ IP Address Detection</h3>
+<ul>
+<li><strong>X-Forwarded-For</strong>: Suporte para proxies e load balancers</li>
+<li><strong>X-Real-IP</strong>: Suporte para nginx reverse proxy</li>
+<li><strong>Remote address fallback</strong>: Fallback para IP remoto direto</li>
+</ul>
+<h2>📊 Arquitetura</h2>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                    Client Request                       │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              RateLimitingFilter                         │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  1. Extract IP Address                           │  │
+│  │  2. Check Redis Counter                          │  │
+│  │  3. Increment Counter                             │  │
+│  │  4. Add Rate Limit Headers                        │  │
+│  │  5. Block if Limit Exceeded (HTTP 429)            │  │
+│  └──────────────────────────────────────────────────┘  │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              Redis                                      │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Key: &quot;rate_limit:192.168.1.1&quot;                   │  │
+│  │  Value: &quot;45&quot; (request count)                      │  │
+│  │  TTL: 60 seconds                                  │  │
+│  └──────────────────────────────────────────────────┘  │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              Spring Security Filter Chain               │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Continue to next filter / controller             │  │
+│  └──────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+</code></pre>
+<h2>💻 Implementação</h2>
+<h3>Dependências (pom.xml)</h3>
+<pre><code class="language-xml">&lt;!-- Cache --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-cache&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3>RedisConfig</h3>
+<pre><code class="language-java">@Configuration
+@ConditionalOnProperty(name = &quot;spring.data.redis.host&quot;, matchIfMissing = false)
+public class RedisConfig {
+
+    @Value(&quot;${spring.data.redis.host:#{null}}&quot;)
+    private String redisHost;
+
+    @Value(&quot;${spring.data.redis.port:6379}&quot;)
+    private int redisPort;
+
+    @Bean
+    public LettuceConnectionFactory redisConnectionFactory() {
+        if (redisHost == null || redisHost.trim().isEmpty()) {
+            throw new IllegalStateException(&quot;Redis host não configurado&quot;);
+        }
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+        config.setHostName(redisHost);
+        config.setPort(redisPort);
+        return new LettuceConnectionFactory(config);
+    }
+
+    @Bean
+    public RedisTemplate&lt;String, String&gt; redisTemplate(
+            RedisConnectionFactory connectionFactory) {
+        RedisTemplate&lt;String, String&gt; template = new RedisTemplate&lt;&gt;();
+        template.setConnectionFactory(connectionFactory);
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new StringRedisSerializer());
+        template.afterPropertiesSet();
+        return template;
+    }
+}
+</code></pre>
+<h3>RateLimitingFilter</h3>
+<pre><code class="language-java">@Component
+@ConditionalOnBean(RedisTemplate.class)
+public class RateLimitingFilter extends OncePerRequestFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(
+        RateLimitingFilter.class
+    );
+    
+    @Autowired(required = false)
+    private RedisTemplate&lt;String, String&gt; redisTemplate;
+    
+    // Configuration
+    private static final int MAX_REQUESTS_PER_MINUTE = 100;
+    private static final String RATE_LIMIT_KEY_PREFIX = &quot;rate_limit:&quot;;
+    
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
+        
+        // Skip rate limiting if Redis is not available
+        if (redisTemplate == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
+        String clientIp = getClientIpAddress(request);
+        String rateLimitKey = RATE_LIMIT_KEY_PREFIX + clientIp;
+        
+        // Check current request count
+        ValueOperations&lt;String, String&gt; ops = redisTemplate.opsForValue();
+        String currentCount = ops.get(rateLimitKey);
+        
+        int count = currentCount != null ? Integer.parseInt(currentCount) : 0;
+        
+        if (count &gt;= MAX_REQUESTS_PER_MINUTE) {
+            log.warn(&quot;Rate limit exceeded for IP: {}&quot;, clientIp);
+            response.setStatus(429); // Too Many Requests
+            response.setContentType(&quot;application/json&quot;);
+            response.getWriter().write(
+                &quot;{\&quot;error\&quot;:\&quot;Rate limit exceeded\&quot;,&quot; +
+                &quot;\&quot;message\&quot;:\&quot;Too many requests. Please try again later.\&quot;}&quot;
+            );
+            return;
+        }
+        
+        // Increment counter
+        if (count == 0) {
+            ops.set(rateLimitKey, &quot;1&quot;, 60, TimeUnit.SECONDS);
+        } else {
+            ops.increment(rateLimitKey);
+        }
+        
+        // Add rate limit headers
+        response.setHeader(&quot;X-RateLimit-Limit&quot;, 
+            String.valueOf(MAX_REQUESTS_PER_MINUTE));
+        response.setHeader(&quot;X-RateLimit-Remaining&quot;, 
+            String.valueOf(MAX_REQUESTS_PER_MINUTE - count - 1));
+        
+        filterChain.doFilter(request, response);
+    }
+    
+    private String getClientIpAddress(HttpServletRequest request) {
+        // Check X-Forwarded-For header (for proxies/load balancers)
+        String xForwardedFor = request.getHeader(&quot;X-Forwarded-For&quot;);
+        if (xForwardedFor != null &amp;&amp; !xForwardedFor.isEmpty()) {
+            return xForwardedFor.split(&quot;,&quot;)[0].trim();
+        }
+        
+        // Check X-Real-IP header (for nginx reverse proxy)
+        String xRealIp = request.getHeader(&quot;X-Real-IP&quot;);
+        if (xRealIp != null &amp;&amp; !xRealIp.isEmpty()) {
+            return xRealIp;
+        }
+        
+        // Fallback to remote address
+        return request.getRemoteAddr();
+    }
+}
+</code></pre>
+<h3>SecurityConfig Integration</h3>
+<pre><code class="language-java">@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    
+    @Autowired
+    private RateLimitingFilter rateLimitingFilter;
+    
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+        http
+            .addFilterBefore(rateLimitingFilter, 
+                UsernamePasswordAuthenticationFilter.class)
+            // ... outras configurações
+        ;
+        return http.build();
+    }
+}
+</code></pre>
+<h3>Configuration (application.yml)</h3>
+<pre><code class="language-yaml">spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      username: ${REDIS_USERNAME:}
+      password: ${REDIS_PASSWORD:}
+</code></pre>
+<h2>📈 Fluxo de Uso</h2>
+<h3>1. Request Normal (dentro do limite)</h3>
+<pre><code class="language-bash"># Request 1-100 no mesmo minuto
+curl http://localhost:8080/api/familias
+
+# Response Headers:
+HTTP/1.1 200 OK
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 99
+
+# Request 50
+curl http://localhost:8080/api/familias
+
+# Response Headers:
+HTTP/1.1 200 OK
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 50
+</code></pre>
+<h3>2. Request Excedendo Limite</h3>
+<pre><code class="language-bash"># Request 101 (limite excedido)
+curl http://localhost:8080/api/familias
+
+# Response:
+HTTP/1.1 429 Too Many Requests
+Content-Type: application/json
+
+{
+  &quot;error&quot;: &quot;Rate limit exceeded&quot;,
+  &quot;message&quot;: &quot;Too many requests. Please try again later.&quot;
+}
+</code></pre>
+<h3>3. Redis Key Structure</h3>
+<pre><code class="language-bash"># Redis keys
+redis-cli
+
+# Ver contador de um IP
+GET rate_limit:192.168.1.1
+# &quot;45&quot;
+
+# Ver TTL restante
+TTL rate_limit:192.168.1.1
+# 35 (segundos restantes)
+
+# Listar todos os rate limits ativos
+KEYS rate_limit:*
+# 1) &quot;rate_limit:192.168.1.1&quot;
+# 2) &quot;rate_limit:10.0.0.5&quot;
+# 3) &quot;rate_limit:172.16.0.10&quot;
+</code></pre>
+<h2>📊 Métricas e Observabilidade</h2>
+<h3>Logs</h3>
+<pre><code>2025-11-20 10:15:23.456  WARN RateLimitingFilter : Rate limit exceeded for IP: 192.168.1.100
+2025-11-20 10:15:24.123  INFO RateLimitingFilter : Rate limit check passed for IP: 10.0.0.5
+</code></pre>
+<h3>Redis Monitoring</h3>
+<pre><code class="language-bash"># Monitorar comandos Redis em tempo real
+redis-cli MONITOR
+
+# Output:
+1658324523.456789 [0 127.0.0.1:54321] &quot;GET&quot; &quot;rate_limit:192.168.1.1&quot;
+1658324523.457123 [0 127.0.0.1:54321] &quot;INCR&quot; &quot;rate_limit:192.168.1.1&quot;
+</code></pre>
+<h2>🎓 Lições Aprendidas</h2>
+<h3>✅ O que funcionou bem</h3>
+<ul>
+<li><strong>Redis é rápido</strong>: Operações de incremento e verificação são muito rápidas</li>
+<li><strong>TTL automático</strong>: Redis expira keys automaticamente, não precisa limpeza manual</li>
+<li><strong>Graceful degradation</strong>: Sistema funciona mesmo se Redis não estiver disponível</li>
+<li><strong>IP detection</strong>: Suporte a proxies e load balancers via headers</li>
+</ul>
+<h3>⚠️ Desafios e soluções</h3>
+<ul>
+<li><strong>Distributed rate limiting</strong>: Com múltiplas instâncias, cada uma tem seu próprio contador. Solução: usar Redis compartilhado (já implementado).</li>
+<li><strong>Rate limiting por usuário</strong>: Atualmente apenas por IP. Para rate limiting por usuário autenticado, usar <code>userId</code> em vez de IP.</li>
+<li><strong>Burst protection</strong>: Sliding window permite bursts. Para proteção contra bursts, considerar token bucket algorithm.</li>
+</ul>
+<h2>📚 Recursos</h2>
+<ul>
+<li>Spring Data Redis: <a href="https://docs.spring.io/spring-data/redis/docs/current/reference/html/">https://docs.spring.io/spring-data/redis/docs/current/reference/html/</a></li>
+<li>Redis Commands: <a href="https://redis.io/commands/">https://redis.io/commands/</a></li>
+<li>HTTP 429 Status Code: <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429">https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429</a></li>
+<li>Rate Limiting Strategies: <a href="https://konghq.com/blog/how-to-design-a-scalable-rate-limiting-algorithm">https://konghq.com/blog/how-to-design-a-scalable-rate-limiting-algorithm</a></li>
+</ul>
+<h2>🔗 Links</h2>
+<ul>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day20-RateLimiting">https://github.com/adelmonsouza/30DiasJava-Day20-RateLimiting</a></li>
+</ul>
+<p><strong>Next episode</strong> → Day 21/30 — OpenAPI/Swagger Documentation</p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Day20-RateLimiting" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>

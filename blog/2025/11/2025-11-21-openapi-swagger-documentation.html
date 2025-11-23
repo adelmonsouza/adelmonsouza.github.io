@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 21/30 — OpenAPI/Swagger Documentation · The Java Place</title>
+  <meta name="description" content="Day 21 do #30DiasJava: Documentação automática de APIs com OpenAPI/Swagger, integração com Spring Security JWT, UI interativa e geração de client SDKs." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-21-openapi-swagger-documentation.html" />
+  <meta property="og:title" content="Day 21/30 — OpenAPI/Swagger Documentation" />
+  <meta property="og:description" content="Day 21 do #30DiasJava: Documentação automática de APIs com OpenAPI/Swagger, integração com Spring Security JWT, UI interativa e geração de client SDKs." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-21-openapi-swagger-documentation.html" />
+  <meta property="article:published_time" content="2025-11-21T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="API Documentation" />
+  <meta property="article:tag" content="OpenAPI" />
+  <meta property="article:tag" content="Swagger" />
+  <meta property="article:tag" content="Developer Experience" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 21/30 — OpenAPI/Swagger Documentation</h1>
+          <p>Day 21 do #30DiasJava: Documentação automática de APIs com OpenAPI/Swagger, integração com Spring Security JWT, UI interativa e geração de client SDKs.</p>
+          <div class="meta-line">
+            <span>📅 21 de novembro de 2025</span>
+            <span>⏱️ 5 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>&quot;Documentação de API é o contrato entre backend e frontend. OpenAPI torna isso automático, sempre atualizado e testável.&quot; — <em>#30DiasJava Developer Experience Notes</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 21</h2>
+<p>Para facilitar o desenvolvimento e integração com a API, o Day 21 do #30DiasJava implementou <strong>documentação automática de APIs</strong> usando OpenAPI 3.0 e Swagger UI, com integração JWT, UI interativa e geração automática de especificações.</p>
+<h2>🛠️ O que foi implementado</h2>
+<h3>✅ OpenAPI 3.0 Specification</h3>
+<ul>
+<li><strong>Automatic generation</strong>: Geração automática de especificação OpenAPI a partir de anotações</li>
+<li><strong>SpringDoc OpenAPI</strong>: Integração com Spring Boot via SpringDoc</li>
+<li><strong>API info</strong>: Informações da API (título, descrição, versão)</li>
+<li><strong>Security schemes</strong>: Configuração de esquemas de segurança (JWT Bearer)</li>
+</ul>
+<h3>✅ Swagger UI</h3>
+<ul>
+<li><strong>Interactive UI</strong>: Interface web interativa para testar APIs</li>
+<li><strong>Try it out</strong>: Testar endpoints diretamente do navegador</li>
+<li><strong>Request/Response examples</strong>: Exemplos de requests e responses</li>
+<li><strong>Authentication</strong>: Suporte para autenticação JWT na UI</li>
+</ul>
+<h3>✅ API Documentation</h3>
+<ul>
+<li><strong>Controller annotations</strong>: Documentação de controllers com <code>@Tag</code></li>
+<li><strong>Operation annotations</strong>: Documentação de operações com <code>@Operation</code></li>
+<li><strong>Parameter annotations</strong>: Documentação de parâmetros com <code>@Parameter</code></li>
+<li><strong>Response annotations</strong>: Documentação de responses com <code>@ApiResponse</code></li>
+</ul>
+<h3>✅ Security Integration</h3>
+<ul>
+<li><strong>JWT Bearer token</strong>: Configuração de autenticação JWT na documentação</li>
+<li><strong>Security requirements</strong>: Requisitos de segurança por endpoint</li>
+<li><strong>Token input</strong>: Campo para inserir token JWT na UI</li>
+</ul>
+<h2>📊 Arquitetura</h2>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│              Spring Boot Application                     │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Controllers com anotações OpenAPI               │  │
+│  │  @RestController, @Operation, @Tag                │  │
+│  └──────────────────────────────────────────────────┘  │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              SpringDoc OpenAPI                            │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  1. Scan controllers e anotações                 │  │
+│  │  2. Gerar OpenAPI spec (JSON/YAML)                │  │
+│  │  3. Expor Swagger UI                              │  │
+│  └──────────────────────────────────────────────────┘  │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+        ┌──────────────┼──────────────┐
+        ▼              ▼              ▼
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│  /swagger-ui │ │ /v3/api-docs │ │  OpenAPI     │
+│  (UI)        │ │  (JSON)      │ │  Spec        │
+└──────────────┘ └──────────────┘ └──────────────┘
+</code></pre>
+<h2>💻 Implementação</h2>
+<h3>Dependências (pom.xml)</h3>
+<pre><code class="language-xml">&lt;!-- OpenAPI --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springdoc&lt;/groupId&gt;
+  &lt;artifactId&gt;springdoc-openapi-starter-webmvc-ui&lt;/artifactId&gt;
+  &lt;version&gt;2.6.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3>OpenApiConfig</h3>
+<pre><code class="language-java">@Configuration
+public class OpenApiConfig {
+
+    @Bean
+    public OpenAPI api() {
+        final String schemeName = &quot;bearerAuth&quot;;
+        return new OpenAPI()
+            .info(new Info()
+                .title(&quot;Desafio das Águias API&quot;)
+                .description(&quot;Spring Boot + JWT + Missions&quot;)
+                .version(&quot;0.1.0&quot;))
+            .addSecurityItem(new SecurityRequirement().addList(schemeName))
+            .components(new Components()
+                .addSecuritySchemes(schemeName, new SecurityScheme()
+                    .name(schemeName)
+                    .type(SecurityScheme.Type.HTTP)
+                    .scheme(&quot;bearer&quot;)
+                    .bearerFormat(&quot;JWT&quot;)));
+    }
+}
+</code></pre>
+<h3>Controller Documentation Example</h3>
+<pre><code class="language-java">@RestController
+@RequestMapping(&quot;/api/familias&quot;)
+@Tag(name = &quot;Familias&quot;, description = &quot;API para gerenciamento de famílias&quot;)
+public class FamiliaController {
+
+    @Autowired
+    private FamiliaService familiaService;
+
+    @GetMapping
+    @Operation(
+        summary = &quot;Listar famílias&quot;,
+        description = &quot;Retorna lista paginada de famílias com suporte a busca e ordenação&quot;
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = &quot;200&quot;,
+            description = &quot;Lista de famílias retornada com sucesso&quot;,
+            content = @Content(
+                mediaType = &quot;application/json&quot;,
+                schema = @Schema(implementation = FamiliaDTO.class)
+            )
+        ),
+        @ApiResponse(
+            responseCode = &quot;401&quot;,
+            description = &quot;Não autenticado&quot;
+        ),
+        @ApiResponse(
+            responseCode = &quot;403&quot;,
+            description = &quot;Não autorizado&quot;
+        )
+    })
+    public ResponseEntity&lt;Page&lt;FamiliaDTO&gt;&gt; listarFamilias(
+            @Parameter(description = &quot;Termo de busca&quot;) 
+            @RequestParam(required = false) String busca,
+            @Parameter(description = &quot;Paginação&quot;) 
+            Pageable pageable) {
+        Page&lt;FamiliaDTO&gt; familias = familiaService.listar(busca, pageable);
+        return ResponseEntity.ok(familias);
+    }
+
+    @PostMapping
+    @Operation(
+        summary = &quot;Criar família&quot;,
+        description = &quot;Cria uma nova família no sistema&quot;
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = &quot;201&quot;,
+            description = &quot;Família criada com sucesso&quot;
+        ),
+        @ApiResponse(
+            responseCode = &quot;400&quot;,
+            description = &quot;Dados inválidos&quot;
+        )
+    })
+    @PreAuthorize(&quot;hasRole(&#39;USER&#39;)&quot;)
+    public ResponseEntity&lt;FamiliaDTO&gt; criarFamilia(
+            @Parameter(description = &quot;Dados da família&quot;)
+            @Valid @RequestBody CriarFamiliaRequest request) {
+        FamiliaDTO familia = familiaService.criar(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(familia);
+    }
+}
+</code></pre>
+<h3>Configuration (application.yml)</h3>
+<pre><code class="language-yaml">springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+  show-actuator: false
+</code></pre>
+<h2>📈 Uso da Documentação</h2>
+<h3>1. Acessar Swagger UI</h3>
+<pre><code>http://localhost:8080/swagger-ui
+</code></pre>
+<p>A interface Swagger UI permite:</p>
+<ul>
+<li><strong>Explorar endpoints</strong>: Ver todos os endpoints disponíveis</li>
+<li><strong>Ver schemas</strong>: Ver modelos de dados (DTOs, Entities)</li>
+<li><strong>Testar endpoints</strong>: Fazer requests diretamente da UI</li>
+<li><strong>Autenticar</strong>: Inserir token JWT para testar endpoints protegidos</li>
+</ul>
+<h3>2. Obter OpenAPI Specification</h3>
+<pre><code class="language-bash"># JSON format
+curl http://localhost:8080/v3/api-docs
+
+# YAML format (se configurado)
+curl http://localhost:8080/v3/api-docs.yaml
+</code></pre>
+<h3>3. Exemplo de OpenAPI Spec Gerado</h3>
+<pre><code class="language-json">{
+  &quot;openapi&quot;: &quot;3.0.1&quot;,
+  &quot;info&quot;: {
+    &quot;title&quot;: &quot;Desafio das Águias API&quot;,
+    &quot;description&quot;: &quot;Spring Boot + JWT + Missions&quot;,
+    &quot;version&quot;: &quot;0.1.0&quot;
+  },
+  &quot;servers&quot;: [
+    {
+      &quot;url&quot;: &quot;http://localhost:8080&quot;,
+      &quot;description&quot;: &quot;Local server&quot;
+    }
+  ],
+  &quot;paths&quot;: {
+    &quot;/api/familias&quot;: {
+      &quot;get&quot;: {
+        &quot;summary&quot;: &quot;Listar famílias&quot;,
+        &quot;operationId&quot;: &quot;listarFamilias&quot;,
+        &quot;parameters&quot;: [
+          {
+            &quot;name&quot;: &quot;busca&quot;,
+            &quot;in&quot;: &quot;query&quot;,
+            &quot;schema&quot;: {
+              &quot;type&quot;: &quot;string&quot;
+            }
+          }
+        ],
+        &quot;responses&quot;: {
+          &quot;200&quot;: {
+            &quot;description&quot;: &quot;Lista de famílias retornada com sucesso&quot;
+          }
+        },
+        &quot;security&quot;: [
+          {
+            &quot;bearerAuth&quot;: []
+          }
+        ]
+      }
+    }
+  },
+  &quot;components&quot;: {
+    &quot;securitySchemes&quot;: {
+      &quot;bearerAuth&quot;: {
+        &quot;type&quot;: &quot;http&quot;,
+        &quot;scheme&quot;: &quot;bearer&quot;,
+        &quot;bearerFormat&quot;: &quot;JWT&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<h3>4. Usar Token JWT na UI</h3>
+<ol>
+<li>Fazer login via <code>/auth/login</code> para obter token</li>
+<li>Clicar em &quot;Authorize&quot; no topo da Swagger UI</li>
+<li>Inserir token no formato: <code>Bearer &lt;token&gt;</code></li>
+<li>Agora todos os endpoints protegidos podem ser testados</li>
+</ol>
+<h2>🎓 Lições Aprendidas</h2>
+<h3>✅ O que funcionou bem</h3>
+<ul>
+<li><strong>Documentação automática</strong>: Anotações geram documentação automaticamente</li>
+<li><strong>Sempre atualizada</strong>: Documentação reflete código atual (sem desatualização)</li>
+<li><strong>UI interativa</strong>: Swagger UI permite testar APIs sem Postman/curl</li>
+<li><strong>JWT integration</strong>: Autenticação JWT funciona perfeitamente na UI</li>
+</ul>
+<h3>⚠️ Desafios e soluções</h3>
+<ul>
+<li><strong>Anotações verbosas</strong>: Muitas anotações podem poluir código. Solução: Usar apenas onde necessário, manter código limpo.</li>
+<li><strong>Schemas complexos</strong>: DTOs complexos podem gerar specs grandes. Solução: Usar <code>@Schema</code> para simplificar.</li>
+<li><strong>Versionamento</strong>: OpenAPI spec muda com código. Solução: Versionar spec junto com código.</li>
+</ul>
+<h2>📚 Recursos</h2>
+<ul>
+<li>SpringDoc OpenAPI: <a href="https://springdoc.org/">https://springdoc.org/</a></li>
+<li>OpenAPI Specification: <a href="https://swagger.io/specification/">https://swagger.io/specification/</a></li>
+<li>Swagger UI: <a href="https://swagger.io/tools/swagger-ui/">https://swagger.io/tools/swagger-ui/</a></li>
+<li>OpenAPI Generator: <a href="https://openapi-generator.tech/">https://openapi-generator.tech/</a> (gerar client SDKs)</li>
+</ul>
+<h2>🔗 Links</h2>
+<ul>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day21-OpenAPI">https://github.com/adelmonsouza/30DiasJava-Day21-OpenAPI</a></li>
+</ul>
+<p><strong>Next episode</strong> → Day 22/30 — Em desenvolvimento</p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Day21-OpenAPI" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>

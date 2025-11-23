@@ -17,8 +17,23 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://enouveau.io/blog/2025/11/2025-11-17-resilience-patterns-circuit-breakers.html</loc>
-    <lastmod>2025-11-17T00:00:00.000Z</lastmod>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-21-openapi-swagger-documentation.html</loc>
+    <lastmod>2025-11-21T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-20-rate-limiting-redis.html</loc>
+    <lastmod>2025-11-20T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-19-oauth2-social-login.html</loc>
+    <lastmod>2025-11-19T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+<url>
+    <loc>https://enouveau.io/blog/2025/11/2025-11-18-multi-factor-authentication-mfa.html</loc>
+    <lastmod>2025-11-18T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 <url>

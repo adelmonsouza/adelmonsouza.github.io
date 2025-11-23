@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 18/30 — Multi-Factor Authentication (MFA) · The Java Place</title>
+  <meta name="description" content="Day 18 do #30DiasJava: Multi-Factor Authentication com TOTP, geração de QR codes, verificação de códigos e integração com fluxo de login." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-18-multi-factor-authentication-mfa.html" />
+  <meta property="og:title" content="Day 18/30 — Multi-Factor Authentication (MFA)" />
+  <meta property="og:description" content="Day 18 do #30DiasJava: Multi-Factor Authentication com TOTP, geração de QR codes, verificação de códigos e integração com fluxo de login." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-18-multi-factor-authentication-mfa.html" />
+  <meta property="article:published_time" content="2025-11-18T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Security" />
+  <meta property="article:tag" content="MFA" />
+  <meta property="article:tag" content="TOTP" />
+  <meta property="article:tag" content="Authentication" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 18/30 — Multi-Factor Authentication (MFA)</h1>
+          <p>Day 18 do #30DiasJava: Multi-Factor Authentication com TOTP, geração de QR codes, verificação de códigos e integração com fluxo de login.</p>
+          <div class="meta-line">
+            <span>📅 18 de novembro de 2025</span>
+            <span>⏱️ 7 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>&quot;MFA não é opcional em 2025. É a diferença entre uma conta comprometida e uma conta protegida.&quot; — <em>#30DiasJava Security Notes</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 18</h2>
+<p>Para aumentar a segurança das contas de usuários, o Day 18 do #30DiasJava implementou <strong>Multi-Factor Authentication (MFA)</strong> usando TOTP (Time-based One-Time Password), permitindo que usuários configurem autenticação de dois fatores via aplicativos autenticadores (Google Authenticator, Authy, etc.).</p>
+<h2>🛠️ O que foi implementado</h2>
+<h3>✅ TOTP Secret Generation</h3>
+<ul>
+<li><strong>Secret generation</strong>: Geração de secrets Base32 únicos por usuário</li>
+<li><strong>Secret storage</strong>: Armazenamento seguro em banco de dados</li>
+<li><strong>Secret reuse</strong>: Reutilização de secrets não verificados</li>
+<li><strong>Secret rotation</strong>: Geração de novos secrets quando necessário</li>
+</ul>
+<h3>✅ QR Code Generation</h3>
+<ul>
+<li><strong>QR code generation</strong>: Geração de QR codes em PNG (base64)</li>
+<li><strong>TOTP URI format</strong>: Formato padrão <code>otpauth://totp/...</code></li>
+<li><strong>App name configuration</strong>: Nome da aplicação configurável</li>
+<li><strong>Username labeling</strong>: Labels personalizados por usuário</li>
+</ul>
+<h3>✅ MFA Verification</h3>
+<ul>
+<li><strong>Code verification</strong>: Verificação de códigos TOTP de 6 dígitos</li>
+<li><strong>Time window</strong>: Janela de tempo de 30 segundos</li>
+<li><strong>SHA1 algorithm</strong>: Algoritmo de hash SHA1 (padrão TOTP)</li>
+<li><strong>Enabled state</strong>: Estado de habilitação/desabilitação por usuário</li>
+</ul>
+<h3>✅ Login Flow Integration</h3>
+<ul>
+<li><strong>MFA check on login</strong>: Verificação de MFA habilitado durante login</li>
+<li><strong>Two-step login</strong>: Login em duas etapas (senha + código MFA)</li>
+<li><strong>MFA verification endpoint</strong>: Endpoint dedicado para verificação MFA</li>
+<li><strong>JWT token generation</strong>: Geração de token apenas após verificação MFA</li>
+</ul>
+<h3>✅ MFA Management</h3>
+<ul>
+<li><strong>Setup endpoint</strong>: Endpoint para configurar MFA (gera secret + QR code)</li>
+<li><strong>Verify endpoint</strong>: Endpoint para verificar e habilitar MFA</li>
+<li><strong>Status endpoint</strong>: Endpoint para verificar status MFA do usuário</li>
+<li><strong>Disable endpoint</strong>: Endpoint para desabilitar MFA</li>
+</ul>
+<h2>📊 Arquitetura</h2>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                    User Request                         │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              AuthController / MfaController              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
+│  │   Login      │  │   Setup MFA   │  │  Verify MFA   │ │
+│  │   (check)    │  │  (generate)   │  │  (enable)     │ │
+│  └──────────────┘  └──────────────┘  └──────────────┘ │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│                    MfaService                            │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
+│  │  Generate    │  │   Generate   │  │   Verify     │ │
+│  │   Secret     │  │   QR Code     │  │   Code       │ │
+│  └──────────────┘  └──────────────┘  └──────────────┘ │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+        ┌──────────────┼──────────────┐
+        ▼              ▼              ▼
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│  TOTP Lib    │ │  ZXing QR     │ │  PostgreSQL  │
+│  (samstevens)│ │  Generator    │ │  (mfa_secrets)│
+└──────────────┘ └──────────────┘ └──────────────┘
+</code></pre>
+<h2>💻 Implementação</h2>
+<h3>Dependências (pom.xml)</h3>
+<pre><code class="language-xml">&lt;!-- MFA / TOTP --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;dev.samstevens.totp&lt;/groupId&gt;
+  &lt;artifactId&gt;totp&lt;/artifactId&gt;
+  &lt;version&gt;1.7.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.google.zxing&lt;/groupId&gt;
+  &lt;artifactId&gt;core&lt;/artifactId&gt;
+  &lt;version&gt;3.5.3&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.google.zxing&lt;/groupId&gt;
+  &lt;artifactId&gt;javase&lt;/artifactId&gt;
+  &lt;version&gt;3.5.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3>Database Migration (V1005__create_mfa_secrets.sql)</h3>
+<pre><code class="language-sql">CREATE TABLE IF NOT EXISTS mfa_secrets (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL UNIQUE,
+    secret VARCHAR(32) NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    verified_at TIMESTAMPTZ,
+    CONSTRAINT fk_mfa_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_mfa_user_id ON mfa_secrets(user_id);
+</code></pre>
+<h3>MfaService</h3>
+<pre><code class="language-java">@Service
+public class MfaService {
+    private final MfaSecretRepository mfaSecretRepository;
+    private final SecretGenerator secretGenerator;
+    private final QrGenerator qrGenerator;
+    private final CodeVerifier codeVerifier;
+    private final String appName;
+
+    public MfaService(
+            MfaSecretRepository mfaSecretRepository,
+            @Value(&quot;${app.mfa.app-name:E-Nouveau}&quot;) String appName) {
+        this.mfaSecretRepository = mfaSecretRepository;
+        this.appName = appName;
+        this.secretGenerator = new DefaultSecretGenerator();
+        this.qrGenerator = new ZxingPngQrGenerator();
+        
+        TimeProvider timeProvider = new SystemTimeProvider();
+        CodeGenerator codeGenerator = new DefaultCodeGenerator(HashingAlgorithm.SHA1);
+        this.codeVerifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
+    }
+
+    public MfaSetupResponse generateSecret(Long userId, String username) {
+        MfaSecret existing = mfaSecretRepository.findByUserId(userId)
+            .orElse(null);
+
+        String secret;
+        if (existing != null &amp;&amp; !existing.isEnabled()) {
+            // Reutilizar secret não verificado
+            secret = existing.getSecret();
+        } else {
+            // Gerar novo secret
+            secret = secretGenerator.generate();
+            
+            if (existing != null) {
+                existing.setSecret(secret);
+                existing.setEnabled(false);
+                existing.setVerifiedAt(null);
+                mfaSecretRepository.save(existing);
+            } else {
+                MfaSecret mfaSecret = new MfaSecret();
+                mfaSecret.setUserId(userId);
+                mfaSecret.setSecret(secret);
+                mfaSecret.setEnabled(false);
+                mfaSecretRepository.save(mfaSecret);
+            }
+        }
+
+        // Gerar QR code
+        QrData qrData = generateQrCodeData(username, secret);
+        byte[] qrCodeImage = qrGenerator.generate(qrData);
+        String qrCodeBase64 = Base64.getEncoder().encodeToString(qrCodeImage);
+
+        return new MfaSetupResponse(secret, qrCodeBase64);
+    }
+
+    public boolean verifyCode(Long userId, String code) {
+        MfaSecret mfaSecret = mfaSecretRepository.findByUserId(userId)
+            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;MFA not set up for user&quot;));
+
+        if (!mfaSecret.isEnabled()) {
+            throw new IllegalStateException(&quot;MFA is not enabled for this user&quot;);
+        }
+
+        return codeVerifier.isValidCode(mfaSecret.getSecret(), code);
+    }
+
+    public void enableMfa(Long userId, String verificationCode) {
+        MfaSecret mfaSecret = mfaSecretRepository.findByUserId(userId)
+            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;MFA secret not found&quot;));
+
+        if (!codeVerifier.isValidCode(mfaSecret.getSecret(), verificationCode)) {
+            throw new IllegalArgumentException(&quot;Invalid verification code&quot;);
+        }
+
+        mfaSecret.setEnabled(true);
+        mfaSecret.setVerifiedAt(LocalDateTime.now());
+        mfaSecretRepository.save(mfaSecret);
+    }
+
+    private QrData generateQrCodeData(String username, String secret) {
+        return new QrData.Builder()
+            .label(username)
+            .secret(secret)
+            .issuer(appName)
+            .algorithm(HashingAlgorithm.SHA1)
+            .digits(6)
+            .period(30)
+            .build();
+    }
+
+    public record MfaSetupResponse(String secret, String qrCodeBase64) {}
+}
+</code></pre>
+<h3>MfaController</h3>
+<pre><code class="language-java">@RestController
+@RequestMapping({&quot;/auth/mfa&quot;, &quot;/api/auth/mfa&quot;})
+public class MfaController {
+    private final MfaService mfaService;
+    private final AppUserRepository userRepository;
+    private final JwtUtil jwtUtil;
+
+    @PostMapping(&quot;/setup&quot;)
+    public ResponseEntity&lt;MfaService.MfaSetupResponse&gt; setupMfa() {
+        String username = getCurrentUsername();
+        AppUser user = userRepository.findByUsername(username)
+            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;User not found&quot;));
+
+        MfaService.MfaSetupResponse response = mfaService.generateSecret(
+            user.getId(), 
+            user.getUsername()
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(&quot;/verify&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; verifyAndEnable(
+            @Valid @RequestBody VerifyMfaRequest request) {
+        String username = getCurrentUsername();
+        AppUser user = userRepository.findByUsername(username)
+            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;User not found&quot;));
+
+        mfaService.enableMfa(user.getId(), request.code());
+
+        return ResponseEntity.ok(Map.of(
+            &quot;message&quot;, &quot;MFA enabled successfully&quot;,
+            &quot;enabled&quot;, true
+        ));
+    }
+
+    @GetMapping(&quot;/status&quot;)
+    public ResponseEntity&lt;Map&lt;String, Boolean&gt;&gt; getMfaStatus() {
+        String username = getCurrentUsername();
+        AppUser user = userRepository.findByUsername(username)
+            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;User not found&quot;));
+
+        boolean enabled = mfaService.isMfaEnabled(user.getId());
+        return ResponseEntity.ok(Map.of(&quot;enabled&quot;, enabled));
+    }
+
+    @PostMapping(&quot;/verify-login&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; verifyLoginCode(
+            @Valid @RequestBody VerifyLoginMfaRequest request) {
+        AppUser user = userRepository.findByUsername(request.username())
+            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Invalid credentials&quot;));
+
+        boolean isValid = mfaService.verifyCode(user.getId(), request.code());
+        
+        if (!isValid) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of(&quot;error&quot;, &quot;Invalid MFA code&quot;));
+        }
+
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRoles());
+        return ResponseEntity.ok(Map.of(&quot;token&quot;, token));
+    }
+}
+</code></pre>
+<h3>AuthController Integration</h3>
+<pre><code class="language-java">@PostMapping(&quot;/login&quot;)
+public LoginResponse login(@Valid @RequestBody LoginRequest req) {
+    var u = users.findByUsername(req.username().trim().toLowerCase())
+        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Invalid credentials&quot;));
+    if (!encoder.matches(req.password(), u.getPasswordHash())) {
+        throw new IllegalArgumentException(&quot;Invalid credentials&quot;);
+    }
+    
+    // Verificar se MFA está habilitado
+    boolean mfaRequired = mfaService.isMfaEnabled(u.getId());
+    
+    if (mfaRequired) {
+        // Retornar indicador de que MFA é necessário (sem token ainda)
+        return new LoginResponse(null, true);
+    }
+    
+    // Gerar token normalmente se MFA não estiver habilitado
+    String token = jwt.generateToken(u.getUsername(), u.getRoles());
+    return new LoginResponse(token, false);
+}
+
+@PostMapping(&quot;/login/mfa&quot;)
+public TokenResponse verifyMfaAndLogin(@Valid @RequestBody MfaVerificationRequest req) {
+    var u = users.findByUsername(req.username().trim().toLowerCase())
+        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Invalid credentials&quot;));
+    
+    // Verificar código MFA
+    boolean isValid = mfaService.verifyCode(u.getId(), req.code());
+    if (!isValid) {
+        throw new IllegalArgumentException(&quot;Invalid MFA code&quot;);
+    }
+    
+    // Gerar token após verificação MFA bem-sucedida
+    return new TokenResponse(jwt.generateToken(u.getUsername(), u.getRoles()));
+}
+</code></pre>
+<h2>📈 Fluxo de Uso</h2>
+<h3>1. Setup MFA</h3>
+<pre><code class="language-bash"># 1. Usuário autenticado faz POST /auth/mfa/setup
+curl -X POST http://localhost:8080/auth/mfa/setup \
+  -H &quot;Authorization: Bearer &lt;token&gt;&quot;
+
+# Resposta:
+{
+  &quot;secret&quot;: &quot;JBSWY3DPEHPK3PXP&quot;,
+  &quot;qrCodeBase64&quot;: &quot;iVBORw0KGgoAAAANSUhEUgAA...&quot;
+}
+
+# 2. Frontend exibe QR code e usuário escaneia com app autenticador
+# 3. Usuário insere código de 6 dígitos do app
+</code></pre>
+<h3>2. Verify &amp; Enable MFA</h3>
+<pre><code class="language-bash"># POST /auth/mfa/verify com código do app
+curl -X POST http://localhost:8080/auth/mfa/verify \
+  -H &quot;Authorization: Bearer &lt;token&gt;&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;code&quot;: &quot;123456&quot;}&#39;
+
+# Resposta:
+{
+  &quot;message&quot;: &quot;MFA enabled successfully&quot;,
+  &quot;enabled&quot;: true
+}
+</code></pre>
+<h3>3. Login com MFA</h3>
+<pre><code class="language-bash"># 1. Login normal (retorna mfaRequired: true)
+curl -X POST http://localhost:8080/auth/login \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;username&quot;: &quot;user&quot;, &quot;password&quot;: &quot;pass&quot;}&#39;
+
+# Resposta:
+{
+  &quot;token&quot;: null,
+  &quot;mfaRequired&quot;: true
+}
+
+# 2. Verificar código MFA
+curl -X POST http://localhost:8080/auth/login/mfa \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;username&quot;: &quot;user&quot;, &quot;code&quot;: &quot;123456&quot;}&#39;
+
+# Resposta:
+{
+  &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;
+}
+</code></pre>
+<h2>🎓 Lições Aprendidas</h2>
+<h3>✅ O que funcionou bem</h3>
+<ul>
+<li><strong>TOTP é padrão da indústria</strong>: Compatível com Google Authenticator, Authy, 1Password, etc.</li>
+<li><strong>QR code facilita setup</strong>: Usuários não precisam digitar secret manualmente</li>
+<li><strong>Reutilização de secrets não verificados</strong>: Evita gerar múltiplos secrets desnecessários</li>
+<li><strong>Integração transparente com login</strong>: Fluxo de login existente não precisa mudar drasticamente</li>
+</ul>
+<h3>⚠️ Desafios e soluções</h3>
+<ul>
+<li><strong>Time drift</strong>: Códigos TOTP dependem de tempo sincronizado. Usamos <code>SystemTimeProvider</code> que assume servidor com NTP.</li>
+<li><strong>Backup codes</strong>: Não implementamos ainda, mas seria útil para recuperação de acesso.</li>
+<li><strong>Rate limiting em verificação</strong>: Códigos TOTP podem ser bruteforced. Considerar rate limiting no endpoint de verificação.</li>
+</ul>
+<h2>📚 Recursos</h2>
+<ul>
+<li>TOTP Library: <a href="https://github.com/samstevens/totp">https://github.com/samstevens/totp</a></li>
+<li>RFC 6238 (TOTP): <a href="https://tools.ietf.org/html/rfc6238">https://tools.ietf.org/html/rfc6238</a></li>
+<li>Google Authenticator: <a href="https://support.google.com/accounts/answer/1066447">https://support.google.com/accounts/answer/1066447</a></li>
+<li>ZXing QR Code: <a href="https://github.com/zxing/zxing">https://github.com/zxing/zxing</a></li>
+</ul>
+<h2>🔗 Links</h2>
+<ul>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day18-MFA">https://github.com/adelmonsouza/30DiasJava-Day18-MFA</a></li>
+</ul>
+<p><strong>Next episode</strong> → Day 19/30 — OAuth2 Social Login</p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Day18-MFA" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>

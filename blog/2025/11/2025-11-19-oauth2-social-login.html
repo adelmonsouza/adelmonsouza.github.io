@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 19/30 — OAuth2 Social Login · The Java Place</title>
+  <meta name="description" content="Day 19 do #30DiasJava: OAuth2 social login com Google, Apple e Microsoft, validação de tokens, criação automática de contas e vinculação com contas existentes." />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="canonical" href="https://enouveau.io/blog/2025/11/2025-11-19-oauth2-social-login.html" />
+  <meta property="og:title" content="Day 19/30 — OAuth2 Social Login" />
+  <meta property="og:description" content="Day 19 do #30DiasJava: OAuth2 social login com Google, Apple e Microsoft, validação de tokens, criação automática de contas e vinculação com contas existentes." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-19-oauth2-social-login.html" />
+  <meta property="article:published_time" content="2025-11-19T00:00:00.000Z" />
+  <meta property="article:tag" content="Spring Boot" />
+  <meta property="article:tag" content="Security" />
+  <meta property="article:tag" content="OAuth2" />
+  <meta property="article:tag" content="Social Login" />
+  <meta property="article:tag" content="Authentication" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="app-shell">
+    <header class="masthead">
+  <div class="brand">
+    <span>🚀</span>
+    <span>The Java Place</span>
+  </div>
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
+    <a href="/resources/">Resources</a>
+  </nav>
+</header>
+    
+      <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
+      <article class="article">
+        <header>
+          <span class="pill">30DaysOfJava</span>
+          <h1>Day 19/30 — OAuth2 Social Login</h1>
+          <p>Day 19 do #30DiasJava: OAuth2 social login com Google, Apple e Microsoft, validação de tokens, criação automática de contas e vinculação com contas existentes.</p>
+          <div class="meta-line">
+            <span>📅 19 de novembro de 2025</span>
+            <span>⏱️ 8 min read</span>
+            <span>🗂️ 30DaysOfJava</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <blockquote>
+<p>&quot;Social login reduz fricção de onboarding e aumenta conversão. Mas validação de tokens é crítica para segurança.&quot; — <em>#30DiasJava Security Notes</em></p>
+</blockquote>
+<h2>🎯 Objetivo do Day 19</h2>
+<p>Para permitir que usuários façam login usando suas contas sociais (Google, Apple, Microsoft), o Day 19 do #30DiasJava implementou <strong>OAuth2 Social Login</strong> com validação de tokens, criação automática de contas e vinculação com contas existentes.</p>
+<h2>🛠️ O que foi implementado</h2>
+<h3>✅ OAuth2 Token Validation</h3>
+<ul>
+<li><strong>Google token validation</strong>: Validação de ID tokens do Google usando Google API Client</li>
+<li><strong>Apple token validation</strong>: Estrutura para validação de tokens Apple (TODO: implementação completa)</li>
+<li><strong>Microsoft token validation</strong>: Estrutura para validação de tokens Microsoft (TODO: implementação completa)</li>
+<li><strong>Token verification</strong>: Verificação de assinatura e claims dos tokens</li>
+</ul>
+<h3>✅ User Account Management</h3>
+<ul>
+<li><strong>Automatic account creation</strong>: Criação automática de contas para novos usuários OAuth2</li>
+<li><strong>Account linking</strong>: Vinculação de OAuth2 a contas existentes (por email)</li>
+<li><strong>Provider tracking</strong>: Rastreamento de provedor OAuth2 (GOOGLE, APPLE, MICROSOFT)</li>
+<li><strong>Unique username generation</strong>: Geração de usernames únicos baseados em email + provider</li>
+</ul>
+<h3>✅ Social Login Flow</h3>
+<ul>
+<li><strong>Social login endpoint</strong>: Endpoint <code>/auth/social</code> para login social</li>
+<li><strong>Token validation</strong>: Validação de token antes de criar/autenticar usuário</li>
+<li><strong>MFA integration</strong>: Verificação de MFA também para login social</li>
+<li><strong>JWT token generation</strong>: Geração de JWT após autenticação social bem-sucedida</li>
+</ul>
+<h3>✅ Database Schema</h3>
+<ul>
+<li><strong>Email field</strong>: Campo <code>email</code> na tabela <code>users</code> para vinculação</li>
+<li><strong>Provider ID</strong>: Campo <code>provider_id</code> para ID único do provedor</li>
+<li><strong>Auth provider</strong>: Campo <code>auth_provider</code> para identificar provedor (GOOGLE, APPLE, MICROSOFT)</li>
+<li><strong>Nullable password</strong>: Campo <code>password_hash</code> nullable para usuários apenas OAuth2</li>
+</ul>
+<h2>📊 Arquitetura</h2>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│              OAuth2 Provider (Google/Apple/MS)          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
+│  │   Google     │  │    Apple     │  │  Microsoft   │ │
+│  │   Sign-In    │  │  Sign-In     │  │  Sign-In     │ │
+│  └──────────────┘  └──────────────┘  └──────────────┘ │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       │ ID Token
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              Frontend Application                        │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  POST /auth/social                                │  │
+│  │  { &quot;idToken&quot;: &quot;...&quot;, &quot;provider&quot;: &quot;GOOGLE&quot; }       │  │
+│  └──────────────────────────────────────────────────┘  │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              AuthController                              │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  @PostMapping(&quot;/social&quot;)                          │  │
+│  │  socialLogin(SocialLoginRequest)                  │  │
+│  └──────────────────────────────────────────────────┘  │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              OAuth2Service                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
+│  │  Validate    │  │   Extract    │  │   Return    │ │
+│  │   Token      │  │   User Info   │  │   UserInfo  │ │
+│  └──────────────┘  └──────────────┘  └──────────────┘ │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+        ┌──────────────┼──────────────┐
+        ▼              ▼              ▼
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│   Google     │ │    Apple     │ │  Microsoft   │
+│   Verifier   │ │  (TODO)      │ │  (TODO)      │
+└──────────────┘ └──────────────┘ └──────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              User Repository                            │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
+│  │  Find by     │  │  Create new  │  │  Link to     │ │
+│  │  provider    │  │   user       │  │  existing    │ │
+│  └──────────────┘  └──────────────┘  └──────────────┘ │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│              JWT Token Generation                       │
+└─────────────────────────────────────────────────────────┘
+</code></pre>
+<h2>💻 Implementação</h2>
+<h3>Dependências (pom.xml)</h3>
+<pre><code class="language-xml">&lt;!-- OAuth2 Client --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-oauth2-client&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.google.api-client&lt;/groupId&gt;
+  &lt;artifactId&gt;google-api-client&lt;/artifactId&gt;
+  &lt;version&gt;2.2.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3>Database Migration (V1001__add_social_auth_fields.sql)</h3>
+<pre><code class="language-sql">-- Add email, provider_id, auth_provider to users table
+ALTER TABLE users 
+  ADD COLUMN IF NOT EXISTS email VARCHAR(255),
+  ADD COLUMN IF NOT EXISTS provider_id VARCHAR(255),
+  ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(50);
+
+-- Make password_hash nullable (OAuth2 users don&#39;t have passwords)
+ALTER TABLE users 
+  ALTER COLUMN password_hash DROP NOT NULL;
+
+-- Create indexes
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_provider ON users(provider_id, auth_provider);
+</code></pre>
+<h3>OAuth2Service</h3>
+<pre><code class="language-java">@Service
+public class OAuth2Service {
+    private final GoogleIdTokenVerifier googleVerifier;
+    private final String googleClientId;
+
+    public OAuth2Service(@Value(&quot;${app.oauth2.google.client-id:}&quot;) String googleClientId) {
+        this.googleClientId = googleClientId;
+        
+        // Inicializar Google verifier apenas se client ID estiver configurado
+        if (googleClientId != null &amp;&amp; !googleClientId.isEmpty()) {
+            this.googleVerifier = new GoogleIdTokenVerifier.Builder(
+                new NetHttpTransport(),
+                new GsonFactory()
+            )
+            .setAudience(Collections.singletonList(googleClientId))
+            .build();
+        } else {
+            this.googleVerifier = null;
+        }
+    }
+
+    public OAuth2UserInfo validateToken(String idToken, String provider) {
+        return switch (provider.toUpperCase()) {
+            case &quot;GOOGLE&quot; -&gt; validateGoogleToken(idToken);
+            case &quot;APPLE&quot; -&gt; validateAppleToken(idToken);
+            case &quot;MICROSOFT&quot; -&gt; validateMicrosoftToken(idToken);
+            default -&gt; throw new IllegalArgumentException(&quot;Unsupported OAuth2 provider: &quot; + provider);
+        };
+    }
+
+    private OAuth2UserInfo validateGoogleToken(String idToken) {
+        if (googleVerifier == null) {
+            // Em desenvolvimento, aceitar token sem validação real
+            // Em produção, sempre validar
+            return new OAuth2UserInfo(
+                &quot;dev-user-&quot; + System.currentTimeMillis() + &quot;@google.local&quot;,
+                &quot;google_&quot; + System.currentTimeMillis(),
+                &quot;Google User&quot;
+            );
+        }
+
+        try {
+            GoogleIdToken token = googleVerifier.verify(idToken);
+            if (token == null) {
+                throw new IllegalArgumentException(&quot;Invalid Google ID token&quot;);
+            }
+
+            GoogleIdToken.Payload payload = token.getPayload();
+            String email = payload.getEmail();
+            String userId = payload.getSubject();
+            String name = (String) payload.get(&quot;name&quot;);
+
+            return new OAuth2UserInfo(email, userId, name);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(&quot;Failed to validate Google token: &quot; + e.getMessage(), e);
+        }
+    }
+
+    private OAuth2UserInfo validateAppleToken(String idToken) {
+        // TODO: Implementar validação real do Apple ID token
+        // Apple usa JWT assinado com chave pública da Apple
+        return new OAuth2UserInfo(
+            &quot;dev-user-&quot; + System.currentTimeMillis() + &quot;@apple.local&quot;,
+            &quot;apple_&quot; + System.currentTimeMillis(),
+            &quot;Apple User&quot;
+        );
+    }
+
+    private OAuth2UserInfo validateMicrosoftToken(String idToken) {
+        // TODO: Implementar validação real do Microsoft Azure AD token
+        // Microsoft usa JWT assinado com chave pública do Azure AD
+        return new OAuth2UserInfo(
+            &quot;dev-user-&quot; + System.currentTimeMillis() + &quot;@microsoft.local&quot;,
+            &quot;microsoft_&quot; + System.currentTimeMillis(),
+            &quot;Microsoft User&quot;
+        );
+    }
+
+    public record OAuth2UserInfo(
+        String email,
+        String providerId,
+        String name
+    ) {}
+}
+</code></pre>
+<h3>AuthController Social Login</h3>
+<pre><code class="language-java">@PostMapping(&quot;/social&quot;)
+public TokenResponse socialLogin(@Valid @RequestBody SocialLoginRequest req) {
+    // Validar token OAuth2 com o provedor
+    OAuth2Service.OAuth2UserInfo userInfo = oauth2Service.validateToken(
+        req.idToken(), 
+        req.provider()
+    );
+    
+    // Verificar se usuário já existe pelo provider
+    String provider = req.provider().toUpperCase();
+    var existingUser = users.findByProviderIdAndAuthProvider(
+        userInfo.providerId(), 
+        provider
+    )
+    .orElseGet(() -&gt; {
+        // Verificar se email já existe (usuário pode ter se registrado com email/password)
+        var userByEmail = users.findByEmail(userInfo.email()).orElse(null);
+        
+        if (userByEmail != null) {
+            // Vincular OAuth2 a conta existente
+            userByEmail.setProviderId(userInfo.providerId());
+            userByEmail.setAuthProvider(provider);
+            if (userByEmail.getEmail() == null) {
+                userByEmail.setEmail(userInfo.email());
+            }
+            users.save(userByEmail);
+            return userByEmail;
+        }
+        
+        // Criar novo usuário
+        String username = generateUniqueUsername(provider, userInfo.email());
+        var u = new AppUser();
+        u.setUsername(username);
+        u.setEmail(userInfo.email());
+        u.setProviderId(userInfo.providerId());
+        u.setAuthProvider(provider);
+        u.setRoles(Set.of(&quot;USER&quot;));
+        u.setEnabled(true);
+        users.save(u);
+        return u;
+    });
+    
+    // Verificar se MFA está habilitado (mesmo para login social)
+    boolean mfaRequired = mfaService.isMfaEnabled(existingUser.getId());
+    if (mfaRequired) {
+        throw new IllegalStateException(
+            &quot;MFA verification required. Please use /auth/login/mfa endpoint.&quot;
+        );
+    }
+    
+    return new TokenResponse(
+        jwt.generateToken(existingUser.getUsername(), existingUser.getRoles())
+    );
+}
+
+private String generateUniqueUsername(String provider, String email) {
+    // Usar email como base, removendo @ e domínio
+    String base = email.split(&quot;@&quot;)[0].toLowerCase().replaceAll(&quot;[^a-z0-9]&quot;, &quot;&quot;);
+    String username = base + &quot;_&quot; + provider.toLowerCase();
+    
+    // Garantir unicidade
+    int counter = 0;
+    String finalUsername = username;
+    while (users.existsByUsername(finalUsername)) {
+        counter++;
+        finalUsername = username + counter;
+    }
+    
+    return finalUsername;
+}
+</code></pre>
+<h3>Configuration (application.yml)</h3>
+<pre><code class="language-yaml">app:
+  oauth2:
+    google:
+      client-id: ${GOOGLE_CLIENT_ID:}
+      # client-secret não necessário para ID token validation
+</code></pre>
+<h2>📈 Fluxo de Uso</h2>
+<h3>1. Google Sign-In (Frontend)</h3>
+<pre><code class="language-javascript">// Frontend: Google Sign-In
+async function handleGoogleSignIn() {
+  const response = await google.accounts.oauth2.initTokenClient({
+    client_id: &#39;YOUR_GOOGLE_CLIENT_ID&#39;,
+    scope: &#39;email profile&#39;,
+    callback: async (tokenResponse) =&gt; {
+      // Obter ID token
+      const idToken = tokenResponse.access_token;
+      
+      // Enviar para backend
+      const result = await fetch(&#39;/auth/social&#39;, {
+        method: &#39;POST&#39;,
+        headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },
+        body: JSON.stringify({
+          idToken: idToken,
+          provider: &#39;GOOGLE&#39;
+        })
+      });
+      
+      const data = await result.json();
+      // Salvar JWT token
+      localStorage.setItem(&#39;auth_token&#39;, data.token);
+    }
+  });
+  
+  response.requestAccessToken();
+}
+</code></pre>
+<h3>2. Social Login Request</h3>
+<pre><code class="language-bash"># POST /auth/social
+curl -X POST http://localhost:8080/auth/social \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{
+    &quot;idToken&quot;: &quot;eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...&quot;,
+    &quot;provider&quot;: &quot;GOOGLE&quot;
+  }&#39;
+
+# Resposta (novo usuário):
+{
+  &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;
+}
+
+# Resposta (usuário existente):
+{
+  &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;
+}
+</code></pre>
+<h3>3. Account Linking</h3>
+<p>Se um usuário já tem conta com email <code>user@example.com</code> e faz login social com o mesmo email, a conta é automaticamente vinculada:</p>
+<pre><code class="language-sql">-- Antes do login social
+SELECT * FROM users WHERE email = &#39;user@example.com&#39;;
+-- id: 1, username: &#39;user&#39;, provider_id: NULL, auth_provider: NULL
+
+-- Após login social com Google
+SELECT * FROM users WHERE email = &#39;user@example.com&#39;;
+-- id: 1, username: &#39;user&#39;, provider_id: &#39;google_123456&#39;, auth_provider: &#39;GOOGLE&#39;
+</code></pre>
+<h2>🎓 Lições Aprendidas</h2>
+<h3>✅ O que funcionou bem</h3>
+<ul>
+<li><strong>Google token validation</strong>: Google API Client facilita validação de tokens</li>
+<li><strong>Account linking</strong>: Vinculação automática por email reduz duplicação de contas</li>
+<li><strong>Unique username generation</strong>: Geração automática de usernames evita conflitos</li>
+<li><strong>MFA integration</strong>: Login social também respeita MFA quando habilitado</li>
+</ul>
+<h3>⚠️ Desafios e soluções</h3>
+<ul>
+<li><strong>Apple/Microsoft validation</strong>: Ainda não implementado. Requer validação de JWT com chaves públicas dos provedores.</li>
+<li><strong>Token expiration</strong>: Tokens OAuth2 expiram. Frontend deve lidar com refresh tokens.</li>
+<li><strong>Development mode</strong>: Em desenvolvimento, aceitamos tokens sem validação real. Em produção, sempre validar.</li>
+</ul>
+<h2>📚 Recursos</h2>
+<ul>
+<li>Spring OAuth2 Client: <a href="https://docs.spring.io/spring-security/reference/servlet/oauth2/client/index.html">https://docs.spring.io/spring-security/reference/servlet/oauth2/client/index.html</a></li>
+<li>Google Sign-In: <a href="https://developers.google.com/identity/sign-in/web">https://developers.google.com/identity/sign-in/web</a></li>
+<li>Apple Sign-In: <a href="https://developer.apple.com/sign-in-with-apple/">https://developer.apple.com/sign-in-with-apple/</a></li>
+<li>Microsoft Azure AD: <a href="https://docs.microsoft.com/en-us/azure/active-directory/develop/">https://docs.microsoft.com/en-us/azure/active-directory/develop/</a></li>
+</ul>
+<h2>🔗 Links</h2>
+<ul>
+<li>Repositório: <a href="https://github.com/adelmonsouza/30DiasJava-Day19-OAuth2">https://github.com/adelmonsouza/30DiasJava-Day19-OAuth2</a></li>
+</ul>
+<p><strong>Next episode</strong> → Day 20/30 — Rate Limiting com Redis</p>
+
+        </div>
+        <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
+          <a href="https://github.com/adelmonsouza/30DiasJava-Day19-OAuth2" target="_blank" rel="noopener noreferrer nofollow">Código no GitHub</a>
+        </footer>
+      </article>
+    
+  </div>
+  <footer class="site-footer">
+  © 2025 E-Nouveau — The Java Place. Sem fluff, apenas engenharia de verdade.
+</footer>
+</body>
+</html>

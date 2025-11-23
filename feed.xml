@@ -5,11 +5,32 @@
     <description>Deep-dives semanais em Java e Spring Boot</description>
     <link>https://enouveau.io/blog/</link>
     <item>
-  <title>Day 17/30 — Resilience Patterns &amp; Circuit Breakers</title>
-  <link>https://enouveau.io/blog/2025/11/2025-11-17-resilience-patterns-circuit-breakers.html</link>
-  <guid>https://enouveau.io/blog/2025/11/2025-11-17-resilience-patterns-circuit-breakers.html</guid>
-  <pubDate>Mon, 17 Nov 2025 00:00:00 GMT</pubDate>
-  <description>Day 17 do #30DiasJava: Resilience patterns com Resilience4j, circuit breakers, retry, timeout, rate limiting e bulkhead para sistemas resilientes.</description>
+  <title>Day 21/30 — OpenAPI/Swagger Documentation</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-21-openapi-swagger-documentation.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-21-openapi-swagger-documentation.html</guid>
+  <pubDate>Fri, 21 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 21 do #30DiasJava: Documentação automática de APIs com OpenAPI/Swagger, integração com Spring Security JWT, UI interativa e geração de client SDKs.</description>
+</item>
+<item>
+  <title>Day 20/30 — Rate Limiting com Redis</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-20-rate-limiting-redis.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-20-rate-limiting-redis.html</guid>
+  <pubDate>Thu, 20 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 20 do #30DiasJava: Rate limiting por IP usando Redis, prevenção de abuso de API, headers de rate limit e integração com Spring Security Filter Chain.</description>
+</item>
+<item>
+  <title>Day 19/30 — OAuth2 Social Login</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-19-oauth2-social-login.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-19-oauth2-social-login.html</guid>
+  <pubDate>Wed, 19 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 19 do #30DiasJava: OAuth2 social login com Google, Apple e Microsoft, validação de tokens, criação automática de contas e vinculação com contas existentes.</description>
+</item>
+<item>
+  <title>Day 18/30 — Multi-Factor Authentication (MFA)</title>
+  <link>https://enouveau.io/blog/2025/11/2025-11-18-multi-factor-authentication-mfa.html</link>
+  <guid>https://enouveau.io/blog/2025/11/2025-11-18-multi-factor-authentication-mfa.html</guid>
+  <pubDate>Tue, 18 Nov 2025 00:00:00 GMT</pubDate>
+  <description>Day 18 do #30DiasJava: Multi-Factor Authentication com TOTP, geração de QR codes, verificação de códigos e integração com fluxo de login.</description>
 </item>
 <item>
   <title>Day 16/30 — Config Service &amp; Centralized Configuration</title>
