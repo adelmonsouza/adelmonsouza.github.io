@@ -11,135 +11,42 @@
   <meta property="og:description" content="Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html" />
-  <meta property="og:site_name" content="The Java Place" />
   <meta property="article:published_time" content="2025-11-06T00:00:00.000Z" />
-  <meta property="article:author" content="Adelmon Silva" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Day 6/30 — Docker Professional Stack in 7 Steps" />
-  <meta name="twitter:description" content="Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção." />
-  <meta name="twitter:creator" content="@adelmon" />
   <meta property="article:tag" content="DevOps" />
   <meta property="article:tag" content="Docker" />
   <meta property="article:tag" content="SRE" />
   <meta property="article:tag" content="Observability" />
   <meta property="article:tag" content="Remote Workspace" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Day 6/30 — Docker Professional Stack in 7 Steps",
-  "description": "Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção.",
-  "author": {
-    "@type": "Person",
-    "name": "Adelmon Silva",
-    "url": "https://github.com/adelmonsouza"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "The Java Place",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://enouveau.io/logo.png"
-    }
-  },
-  "datePublished": "2025-11-06T00:00:00.000Z",
-  "dateModified": "2025-11-06T00:00:00.000Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html"
-  },
-  "articleSection": "30DaysOfJava",
-  "keywords": "DevOps, Docker, SRE, Observability, Remote Workspace"
-}
-</script>
 </head>
 <body>
   <div class="background-glow"></div>
   <div class="app-shell">
     <header class="masthead">
   <div class="brand">
-    <a href="/" style="display: inline-flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.5rem; color: var(--text-primary); letter-spacing: 0.02em; text-decoration: none;">
-      <span>🚀</span>
-      <span>The Java Place</span>
-    </a>
+    <span>🚀</span>
+    <span>The Java Place</span>
   </div>
   <nav class="main-nav">
     <a href="/">Home</a>
     <a href="/blog/">Blog</a>
-    <a href="/blog/about.html">Sobre</a>
     <a href="/start-line/season-1-becoming-developer.html">Start Line</a>
     <a href="/resources/">Resources</a>
   </nav>
 </header>
     
-      
-      <div id="reading-progress" style="position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #8b5cf6, #a855f7, #c084fc); z-index: 9999; transition: width 0.1s ease-out; box-shadow: 0 2px 8px rgba(139, 92, 246, 0.5);"></div>
-      <script>
-        (function() {
-          const progressBar = document.getElementById('reading-progress');
-          const article = document.querySelector('.article');
-          if (!article || !progressBar) return;
-          
-          function updateProgress() {
-            const articleTop = article.offsetTop;
-            const articleHeight = article.offsetHeight;
-            const windowHeight = window.innerHeight;
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            const articleBottom = articleTop + articleHeight;
-            const windowBottom = scrollTop + windowHeight;
-            
-            if (scrollTop < articleTop) {
-              progressBar.style.width = '0%';
-            } else if (windowBottom > articleBottom) {
-              progressBar.style.width = '100%';
-            } else {
-              const scrolled = scrollTop - articleTop;
-              const total = articleHeight - windowHeight;
-              const percentage = Math.min(100, Math.max(0, (scrolled / total) * 100));
-              progressBar.style.width = percentage + '%';
-            }
-          }
-          
-          window.addEventListener('scroll', updateProgress);
-          window.addEventListener('resize', updateProgress);
-          updateProgress();
-        })();
-      </script>
-    
-      
-      <nav class="breadcrumbs" style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
-        <a href="/">Home</a>
-        <span> / </span>
-        <a href="/blog/">Blog</a>
-        <span> / </span>
-        <span>Day 6/30 — Docker Professional Stack in 7 Steps</span>
-      </nav>
-    
       <a class="back-link" href="/blog/">&larr; Voltar para o blog</a>
-      
-      <div class="audio-player-placeholder" style="margin: 2rem 0; padding: 1.5rem; background: rgba(139, 92, 246, 0.05); border-radius: 16px; border: 1px dashed rgba(139, 92, 246, 0.3); text-align: center;">
-        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem;">
-          <span style="font-size: 1.5rem;">🎙️</span>
-          <h3 style="margin: 0; font-size: 1.1rem; color: var(--text-secondary);">Versão em áudio em breve</h3>
-        </div>
-        <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary);">O podcast deste post será disponibilizado em breve. Por enquanto, aproveite a leitura! 📖</p>
-      </div>
-    
-      <article class="article" itemscope itemtype="https://schema.org/BlogPosting">
+      <article class="article">
         <header>
           <span class="pill">30DaysOfJava</span>
-          <h1 itemprop="headline">Day 6/30 — Docker Professional Stack in 7 Steps</h1>
-          <p itemprop="description">Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção.</p>
+          <h1>Day 6/30 — Docker Professional Stack in 7 Steps</h1>
+          <p>Day 6 do #30DiasJava transformou o stack Docker em padrão corporativo: imagens nomeadas, health checks reais, hardening de segurança e workspace remoto pronto para produção.</p>
           <div class="meta-line">
-            <span>📅 <time itemprop="datePublished" datetime="2025-11-06T00:00:00.000Z">06 de novembro de 2025</time></span>
+            <span>📅 06 de novembro de 2025</span>
             <span>⏱️ 1 min read</span>
             <span>🗂️ 30DaysOfJava</span>
           </div>
-          <meta itemprop="author" content="Adelmon Silva">
-          <meta itemprop="publisher" content="The Java Place">
         </header>
-        <div class="article-body" itemprop="articleBody">
+        <div class="article-body">
           <blockquote>
 <p>“Infra só escala quando ser previsível vira cultura.” — <em>#30DiasJava Runbook</em></p>
 </blockquote>
@@ -169,80 +76,10 @@
 
         </div>
         <footer class="meta-line">
+          <span>Compartilhe no LinkedIn e marque @adelmon</span>
           
         </footer>
       </article>
-      
-      <div class="social-sharing" style="margin: 3rem 0; padding: 2rem; background: rgba(139, 92, 246, 0.05); border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.2);">
-        <h3 style="margin: 0 0 1.5rem 0; font-size: 1.1rem; color: var(--text-primary);">Compartilhe este post</h3>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fenouveau.io%2Fblog%2F2025%2F11%2F2025-11-06-docker-professional-stack.html" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="social-btn linkedin"
-             style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: #0077b5; color: white; border-radius: 8px; text-decoration: none; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0, 119, 181, 0.4)';"
-             onmouseout="this.style.transform=''; this.style.boxShadow='';">
-            <span>💼</span>
-            <span>LinkedIn</span>
-          </a>
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fenouveau.io%2Fblog%2F2025%2F11%2F2025-11-06-docker-professional-stack.html&text=Day%206%2F30%20%E2%80%94%20Docker%20Professional%20Stack%20in%207%20Steps" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="social-btn twitter"
-             style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: #1da1f2; color: white; border-radius: 8px; text-decoration: none; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(29, 161, 242, 0.4)';"
-             onmouseout="this.style.transform=''; this.style.boxShadow='';">
-            <span>🐦</span>
-            <span>Twitter</span>
-          </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fenouveau.io%2Fblog%2F2025%2F11%2F2025-11-06-docker-professional-stack.html" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="social-btn facebook"
-             style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: #1877f2; color: white; border-radius: 8px; text-decoration: none; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(24, 119, 242, 0.4)';"
-             onmouseout="this.style.transform=''; this.style.boxShadow='';">
-            <span>📘</span>
-            <span>Facebook</span>
-          </a>
-          <a href="https://wa.me/?text=Day%206%2F30%20%E2%80%94%20Docker%20Professional%20Stack%20in%207%20Steps%20https%3A%2F%2Fenouveau.io%2Fblog%2F2025%2F11%2F2025-11-06-docker-professional-stack.html" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="social-btn whatsapp"
-             style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: #25d366; color: white; border-radius: 8px; text-decoration: none; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(37, 211, 102, 0.4)';"
-             onmouseout="this.style.transform=''; this.style.boxShadow='';">
-            <span>💬</span>
-            <span>WhatsApp</span>
-          </a>
-          <button onclick="navigator.clipboard.writeText('https://enouveau.io/blog/2025/11/2025-11-06-docker-professional-stack.html'); this.textContent='✓ Copiado!'; setTimeout(() => this.textContent='📋 Copiar Link', 2000);" 
-                  class="social-btn copy"
-                  style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: rgba(139, 92, 246, 0.2); color: var(--text-primary); border: 1px solid rgba(139, 92, 246, 0.5); border-radius: 8px; cursor: pointer; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s; font-family: inherit;"
-                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(139, 92, 246, 0.3)';"
-                  onmouseout="this.style.transform=''; this.style.boxShadow='';">
-            <span>📋</span>
-            <span>Copiar Link</span>
-          </button>
-        </div>
-      </div>
-    
-      
-      <nav class="post-navigation" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 2rem;">
-        
-          <div style="flex: 1;">
-            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">← Post anterior</div>
-            <a href="/blog/2025/11/2025-11-05-notification-service-event-driven.html" style="color: var(--link); font-weight: 600; text-decoration: none;">Day 5/30 — Notification Service with Event-Driven Architecture</a>
-          </div>
-        
-        
-          <div style="flex: 1; text-align: right;">
-            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Próximo post →</div>
-            <a href="/blog/2025/11/2025-11-07-intelligent-assistants-real-time.html" style="color: var(--link); font-weight: 600; text-decoration: none;">Day 7/30 — Intelligent Assistants Powered by Real-Time Events</a>
-          </div>
-        
-      </nav>
-    
     
   </div>
   <footer class="site-footer">
